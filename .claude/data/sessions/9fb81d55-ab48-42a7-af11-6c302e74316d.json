@@ -1,0 +1,21 @@
+{
+  "session_id": "9fb81d55-ab48-42a7-af11-6c302e74316d",
+  "prompts": [
+    "/prime ",
+    "/test ",
+    "run the app",
+    "continue",
+    "git me step by step to run",
+    "update my .env.example to include any values that are referenced in code",
+    "what docker containers are running?",
+    "remove the version line from all docker files",
+    "how do we start the project since it runs docker containers?",
+    "push to git",
+    "how to we start the app",
+    "update the claude code command to install the dependencies for this app",
+    "the slash command is /install-deps does not exist yet, make it so.",
+    "do we need to restart claude code for the new slash command to work",
+    "the /install-deps command in not auto-completing or running from claude code but the file exists in the `.claude/commands` folder"
+  ],
+  "agent_name": "Nexus"
+}

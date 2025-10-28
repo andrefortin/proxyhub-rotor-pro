@@ -1,0 +1,12 @@
+{
+  "session_id": "ff41948c-8090-4131-8a17-9d1bf5234476",
+  "prompts": [
+    "/install-deps ",
+    "so it",
+    "make it happen and install the dependencies",
+    "The install for the admin package which was started by the slash command /install-deps did not install any files, if so, there would be a node_modules folder for that project since it is a nodejs project. Let's fix this.",
+    "do it",
+    "stop the install"
+  ],
+  "agent_name": "Vortex"
+}

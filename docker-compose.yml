@@ -1,36 +1,33 @@
-version: '3.8'
 services:
   api:
-    build:
-      context: .
-      dockerfile: packages/api/Dockerfile
+    build: ./apps/packages/api
     env_file: .env
     ports: ["8080:8080"]
     depends_on: [db, redis]
     volumes:
       - ./geoip:/geoip
   worker-health:
-    build: ./packages/workers/health
+    build: ./apps/packages/workers/health
     env_file: .env
     depends_on: [db, redis]
     volumes:
       - ./geoip:/geoip
   worker-importer:
-    build: ./packages/workers/importer
+    build: ./apps/packages/workers/importer
     env_file: .env
     depends_on: [db]
   worker-aggregator:
-    build: ./packages/workers/aggregator
+    build: ./apps/packages/workers/aggregator
     env_file: .env
     depends_on: [db]
   worker-alerts:
-    build: ./packages/workers/alerts
+    build: ./apps/packages/workers/alerts
     env_file: .env
     depends_on: [db]
   admin:
-    build: ./packages/admin
+    build: ./apps/packages/admin
     env_file: .env
-    ports: ["4173:4173"]
+    ports: ["4173:80"]
     depends_on: [api]
   db:
     image: postgres:15

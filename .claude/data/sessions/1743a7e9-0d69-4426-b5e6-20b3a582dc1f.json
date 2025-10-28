@@ -1,0 +1,7 @@
+{
+  "session_id": "1743a7e9-0d69-4426-b5e6-20b3a582dc1f",
+  "prompts": [
+    "git ls-files"
+  ],
+  "agent_name": "Catalyst"
+}

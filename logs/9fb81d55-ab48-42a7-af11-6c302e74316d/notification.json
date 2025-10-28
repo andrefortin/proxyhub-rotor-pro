@@ -1,0 +1,51 @@
+[
+  {
+    "session_id": "9fb81d55-ab48-42a7-af11-6c302e74316d",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/9fb81d55-ab48-42a7-af11-6c302e74316d.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "hook_event_name": "Notification",
+    "message": "Claude needs your permission to use Bash"
+  },
+  {
+    "session_id": "9fb81d55-ab48-42a7-af11-6c302e74316d",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/9fb81d55-ab48-42a7-af11-6c302e74316d.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "hook_event_name": "Notification",
+    "message": "Claude needs your permission to use Bash"
+  },
+  {
+    "session_id": "9fb81d55-ab48-42a7-af11-6c302e74316d",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/9fb81d55-ab48-42a7-af11-6c302e74316d.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "hook_event_name": "Notification",
+    "message": "Claude needs your permission to use Update"
+  },
+  {
+    "session_id": "9fb81d55-ab48-42a7-af11-6c302e74316d",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/9fb81d55-ab48-42a7-af11-6c302e74316d.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "hook_event_name": "Notification",
+    "message": "Claude needs your permission to use Bash"
+  },
+  {
+    "session_id": "9fb81d55-ab48-42a7-af11-6c302e74316d",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/9fb81d55-ab48-42a7-af11-6c302e74316d.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "hook_event_name": "Notification",
+    "message": "Claude needs your permission to use Bash"
+  },
+  {
+    "session_id": "9fb81d55-ab48-42a7-af11-6c302e74316d",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/9fb81d55-ab48-42a7-af11-6c302e74316d.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "hook_event_name": "Notification",
+    "message": "Claude is waiting for your input"
+  },
+  {
+    "session_id": "9fb81d55-ab48-42a7-af11-6c302e74316d",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/9fb81d55-ab48-42a7-af11-6c302e74316d.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "hook_event_name": "Notification",
+    "message": "Claude needs your permission to use Bash"
+  }
+]

@@ -1,0 +1,66 @@
+[
+  {
+    "session_id": "839647ec-bd11-40d6-bd18-8a66f37e659b",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/839647ec-bd11-40d6-bd18-8a66f37e659b.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "default",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "/prime "
+  },
+  {
+    "session_id": "839647ec-bd11-40d6-bd18-8a66f37e659b",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/839647ec-bd11-40d6-bd18-8a66f37e659b.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "default",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "update our slash command /install-deps to install the dependencies for the modules in the apps/packages folders."
+  },
+  {
+    "session_id": "839647ec-bd11-40d6-bd18-8a66f37e659b",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/839647ec-bd11-40d6-bd18-8a66f37e659b.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "update our slash command /install-deps to install the dependencies for the modules in the apps/packages folders."
+  },
+  {
+    "session_id": "839647ec-bd11-40d6-bd18-8a66f37e659b",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/839647ec-bd11-40d6-bd18-8a66f37e659b.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "/install-deps "
+  },
+  {
+    "session_id": "839647ec-bd11-40d6-bd18-8a66f37e659b",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/839647ec-bd11-40d6-bd18-8a66f37e659b.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "/install-deps "
+  },
+  {
+    "session_id": "839647ec-bd11-40d6-bd18-8a66f37e659b",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/839647ec-bd11-40d6-bd18-8a66f37e659b.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "docker compose up --build -d"
+  },
+  {
+    "session_id": "839647ec-bd11-40d6-bd18-8a66f37e659b",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/839647ec-bd11-40d6-bd18-8a66f37e659b.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "git add .claude"
+  },
+  {
+    "session_id": "839647ec-bd11-40d6-bd18-8a66f37e659b",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/839647ec-bd11-40d6-bd18-8a66f37e659b.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "git push"
+  }
+]

@@ -1,0 +1,14 @@
+{
+  "session_id": "839647ec-bd11-40d6-bd18-8a66f37e659b",
+  "prompts": [
+    "/prime ",
+    "update our slash command /install-deps to install the dependencies for the modules in the apps/packages folders.",
+    "update our slash command /install-deps to install the dependencies for the modules in the apps/packages folders.",
+    "/install-deps ",
+    "/install-deps ",
+    "docker compose up --build -d",
+    "git add .claude",
+    "git push"
+  ],
+  "agent_name": "Flux"
+}
