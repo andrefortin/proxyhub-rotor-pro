@@ -1,26 +1,32 @@
 services:
   api:
-    build: ./apps/packages/api
+    build:
+      context: .
+      dockerfile: apps/packages/api/Dockerfile
     env_file: .env
     ports: ["8080:8080"]
     depends_on: [db, redis]
     volumes:
       - ./geoip:/geoip
   worker-health:
+    container_name: worker-health
     build: ./apps/packages/workers/health
     env_file: .env
     depends_on: [db, redis]
     volumes:
       - ./geoip:/geoip
   worker-importer:
+    container_name: worker-importer
     build: ./apps/packages/workers/importer
     env_file: .env
     depends_on: [db]
   worker-aggregator:
+    container_name: worker-aggregator
     build: ./apps/packages/workers/aggregator
     env_file: .env
     depends_on: [db]
   worker-alerts:
+    container_name: worker-alerts
     build: ./apps/packages/workers/alerts
     env_file: .env
     depends_on: [db]
@@ -40,5 +46,6 @@ services:
   redis:
     image: redis:7
     ports: ["6379:6379"]
+    command: redis-server --logfile ""
 volumes:
   pgdata:

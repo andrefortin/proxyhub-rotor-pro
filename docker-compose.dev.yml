@@ -1,0 +1,157 @@
+services:
+  api:
+    image: node:20-alpine
+    working_dir: /app/api
+    volumes:
+      - ./apps/packages/api/package.json:/app/api/package.json:ro
+      - ./apps/packages/api/package-lock.json:/app/api/package-lock.json:ro
+      - ./apps/packages/api/src:/app/api/src
+      - ./apps/packages/api/tsconfig.json:/app/api/tsconfig.json:ro
+      - ./prisma:/app/api/prisma
+      # No host node_modules; container runs npm ci for clean dev install
+    command: sh -c "apt-get update -qq && apt-get install -y -qq build-essential python3 postgresql-client && rm -rf /var/lib/apt/lists/* && if [ ! -d node_modules/.bin ]; then rm -rf node_modules && npm ci --include=dev; fi && export PATH=\"/app/api/node_modules/.bin:\$PATH\" && until pg_isready -h db -p 5432; do echo 'Waiting for DB...'; sleep 2; done && npx prisma generate && npm run dev"
+    environment:
+      - NODE_ENV=development
+      - DEBUG=nest:* ,*
+      - LOG_LEVEL=debug
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/proxyhub
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+
+  admin:
+    image: node:20-alpine
+    working_dir: /app
+    volumes:
+      - ./apps/packages/admin/package.json:/app/package.json:ro
+      - ./apps/packages/admin/package-lock.json:/app/package-lock.json:ro
+      - ./apps/packages/admin/src:/app/src
+      - ./apps/packages/admin/vite.config.ts:/app/vite.config.ts:ro
+      - ./apps/packages/admin/index.html:/app/index.html:ro
+      # No node_modules mount; npm ci installs in container for consistency
+    command: sh -c "apt-get update -qq && apt-get install -y -qq build-essential python3 && rm -rf /var/lib/apt/lists/* && rm -rf node_modules && npm ci --include=dev && export PATH=\"/app/node_modules/.bin:\$PATH\" && npm run dev"
+    environment:
+      - NODE_ENV=development
+      - VITE_LOG_LEVEL=debug
+      - VITE_API_URL=http://api:8080  # Internal container name for API
+    ports: ["5173:5173"]
+    restart: unless-stopped
+
+  worker-aggregator:
+    image: node:20-alpine
+    working_dir: /app
+    volumes:
+      - ./apps/packages/workers/aggregator/package.json:/app/package.json:ro
+      - ./apps/packages/workers/aggregator/package-lock.json:/app/package-lock.json:ro
+      - ./apps/packages/workers/aggregator/src:/app/src
+      # No node_modules mount; npm ci installs in container for consistency
+    command: sh -c "apt-get update -qq && apt-get install -y -qq build-essential python3 && rm -rf /var/lib/apt/lists/* && if [ ! -d node_modules/.bin ]; then rm -rf node_modules && npm ci --include=dev; fi && export PATH=\"/app/node_modules/.bin:\$PATH\" && nodemon -L src/index.js"
+    environment:
+      - NODE_ENV=development
+      - LOG_LEVEL=debug
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/proxyhub
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  worker-alerts:
+    image: node:20-alpine
+    working_dir: /app
+    volumes:
+      - ./apps/packages/workers/alerts/package.json:/app/package.json:ro
+      - ./apps/packages/workers/alerts/package-lock.json:/app/package-lock.json:ro
+      - ./apps/packages/workers/alerts/src:/app/src
+      # No node_modules mount; npm ci installs in container for consistency
+    command: sh -c "apt-get update -qq && apt-get install -y -qq build-essential python3 && rm -rf /var/lib/apt/lists/* && if [ ! -d node_modules/.bin ]; then rm -rf node_modules && npm ci --include=dev; fi && export PATH=\"/app/node_modules/.bin:\$PATH\" && nodemon -L src/index.js"
+    environment:
+      - NODE_ENV=development
+      - LOG_LEVEL=debug
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/proxyhub
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  worker-health:
+    image: node:20-alpine
+    working_dir: /app
+    volumes:
+      - ./apps/packages/workers/health/package.json:/app/package.json:ro
+      - ./apps/packages/workers/health/package-lock.json:/app/package-lock.json:ro
+      - ./apps/packages/workers/health/src:/app/src
+      # No node_modules mount; npm ci installs in container for consistency
+    command: sh -c "apt-get update -qq && apt-get install -y -qq build-essential python3 && rm -rf /var/lib/apt/lists/* && if [ ! -d node_modules/.bin ]; then rm -rf node_modules && npm ci --include=dev; fi && export PATH=\"/app/node_modules/.bin:\$PATH\" && nodemon -L src/index.js"
+    environment:
+      - NODE_ENV=development
+      - LOG_LEVEL=debug
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/proxyhub
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  worker-importer:
+    image: node:20-alpine
+    working_dir: /app
+    volumes:
+      - ./apps/packages/workers/importer/package.json:/app/package.json:ro
+      - ./apps/packages/workers/importer/package-lock.json:/app/package-lock.json:ro
+      - ./apps/packages/workers/importer/src:/app/src
+      # No node_modules mount; npm ci installs in container for consistency
+    command: sh -c "apt-get update -qq && apt-get install -y -qq build-essential python3 && rm -rf /var/lib/apt/lists/* && if [ ! -d node_modules/.bin ]; then rm -rf node_modules && npm ci --include=dev; fi && export PATH=\"/app/node_modules/.bin:\$PATH\" && nodemon -L src/index.js"
+    environment:
+      - NODE_ENV=development
+      - LOG_LEVEL=debug
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/proxyhub
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  db:
+    image: postgres:15
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./postgres.conf:/etc/postgresql/postgresql.conf:ro
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    command: postgres -c log_statement=all -c log_min_duration_statement=0 -c log_error_verbosity=verbose -c logging_collector=on
+    environment:
+      - POSTGRES_DB=proxyhub
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_LOG_MIN_DURATION_STATEMENT=0
+      - POSTGRES_LOG_STATEMENT=all
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:7
+    volumes:
+      - redisdata:/data
+    command: redis-server --appendonly yes --loglevel verbose
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+
+volumes:
+  pgdata:
+  redisdata:

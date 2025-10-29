@@ -1,0 +1,58 @@
+[
+  {
+    "session_id": "b3a6fe2d-0f01-49b2-8037-dde002e7e527",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/b3a6fe2d-0f01-49b2-8037-dde002e7e527.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "continue implementation of the spec"
+  },
+  {
+    "session_id": "b3a6fe2d-0f01-49b2-8037-dde002e7e527",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/b3a6fe2d-0f01-49b2-8037-dde002e7e527.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "/feature `refactor the dashboard page to include industry standard content`"
+  },
+  {
+    "session_id": "b3a6fe2d-0f01-49b2-8037-dde002e7e527",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/b3a6fe2d-0f01-49b2-8037-dde002e7e527.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "/feature `create page routes for the admin portal for the proxies, providers, etc... and include them in the side nav bar`"
+  },
+  {
+    "session_id": "b3a6fe2d-0f01-49b2-8037-dde002e7e527",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/b3a6fe2d-0f01-49b2-8037-dde002e7e527.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "/feature `implement this type of look and feel to the admin app '/home/andre/Pictures/Screenshots/Screenshot from 2025-10-29 18-07-53.png'`"
+  },
+  {
+    "session_id": "b3a6fe2d-0f01-49b2-8037-dde002e7e527",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/b3a6fe2d-0f01-49b2-8037-dde002e7e527.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "/implement issue 1"
+  },
+  {
+    "session_id": "b3a6fe2d-0f01-49b2-8037-dde002e7e527",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/b3a6fe2d-0f01-49b2-8037-dde002e7e527.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "push to git"
+  },
+  {
+    "session_id": "b3a6fe2d-0f01-49b2-8037-dde002e7e527",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/b3a6fe2d-0f01-49b2-8037-dde002e7e527.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "git add .vscode"
+  }
+]

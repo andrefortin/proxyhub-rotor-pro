@@ -1,0 +1,162 @@
+[
+  {
+    "session_id": "5775fbd6-a189-4786-a7da-398f416e2b5f",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/5775fbd6-a189-4786-a7da-398f416e2b5f.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "default",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "/docker-start "
+  },
+  {
+    "session_id": "5775fbd6-a189-4786-a7da-398f416e2b5f",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/5775fbd6-a189-4786-a7da-398f416e2b5f.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "only the postres:15 container is running. When we start up the containers we also need to verify it they started without error and are actually running."
+  },
+  {
+    "session_id": "5775fbd6-a189-4786-a7da-398f416e2b5f",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/5775fbd6-a189-4786-a7da-398f416e2b5f.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "ps"
+  },
+  {
+    "session_id": "5775fbd6-a189-4786-a7da-398f416e2b5f",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/5775fbd6-a189-4786-a7da-398f416e2b5f.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "docker compose logs api"
+  },
+  {
+    "session_id": "5775fbd6-a189-4786-a7da-398f416e2b5f",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/5775fbd6-a189-4786-a7da-398f416e2b5f.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "docker compose logs admin"
+  },
+  {
+    "session_id": "5775fbd6-a189-4786-a7da-398f416e2b5f",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/5775fbd6-a189-4786-a7da-398f416e2b5f.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "docker compose logs health"
+  },
+  {
+    "session_id": "5775fbd6-a189-4786-a7da-398f416e2b5f",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/5775fbd6-a189-4786-a7da-398f416e2b5f.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "docker compose logs alerts"
+  },
+  {
+    "session_id": "5775fbd6-a189-4786-a7da-398f416e2b5f",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/5775fbd6-a189-4786-a7da-398f416e2b5f.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "docker compose logs importer"
+  },
+  {
+    "session_id": "5775fbd6-a189-4786-a7da-398f416e2b5f",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/5775fbd6-a189-4786-a7da-398f416e2b5f.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "docker compose logs aggregator"
+  },
+  {
+    "session_id": "5775fbd6-a189-4786-a7da-398f416e2b5f",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/5775fbd6-a189-4786-a7da-398f416e2b5f.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "docker ps"
+  },
+  {
+    "session_id": "5775fbd6-a189-4786-a7da-398f416e2b5f",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/5775fbd6-a189-4786-a7da-398f416e2b5f.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "yes, apply the edits and run the migrations. make sure to update the claude command as well if needed."
+  },
+  {
+    "session_id": "5775fbd6-a189-4786-a7da-398f416e2b5f",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/5775fbd6-a189-4786-a7da-398f416e2b5f.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "do it"
+  },
+  {
+    "session_id": "5775fbd6-a189-4786-a7da-398f416e2b5f",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/5775fbd6-a189-4786-a7da-398f416e2b5f.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "only the postgres container is running. Rebuild and restart our dev version of the app."
+  },
+  {
+    "session_id": "5775fbd6-a189-4786-a7da-398f416e2b5f",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/5775fbd6-a189-4786-a7da-398f416e2b5f.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "only the postgres container is running. Rebuild and restart our dev version of the app."
+  },
+  {
+    "session_id": "5775fbd6-a189-4786-a7da-398f416e2b5f",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/5775fbd6-a189-4786-a7da-398f416e2b5f.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "all those docker containers are stop, check docker ps to see it."
+  },
+  {
+    "session_id": "5775fbd6-a189-4786-a7da-398f416e2b5f",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/5775fbd6-a189-4786-a7da-398f416e2b5f.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "do it"
+  },
+  {
+    "session_id": "5775fbd6-a189-4786-a7da-398f416e2b5f",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/5775fbd6-a189-4786-a7da-398f416e2b5f.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "continue"
+  },
+  {
+    "session_id": "5775fbd6-a189-4786-a7da-398f416e2b5f",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/5775fbd6-a189-4786-a7da-398f416e2b5f.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "docker ps"
+  },
+  {
+    "session_id": "5775fbd6-a189-4786-a7da-398f416e2b5f",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/5775fbd6-a189-4786-a7da-398f416e2b5f.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "only the postgres and api docker containers are running and the app is not running on port 8080 or 5173"
+  },
+  {
+    "session_id": "5775fbd6-a189-4786-a7da-398f416e2b5f",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/5775fbd6-a189-4786-a7da-398f416e2b5f.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "the admin, alerts, health, importer, and aggregator containers are not staying up once started."
+  }
+]

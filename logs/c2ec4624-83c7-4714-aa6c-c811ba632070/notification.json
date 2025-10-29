@@ -1,0 +1,37 @@
+[
+  {
+    "session_id": "c2ec4624-83c7-4714-aa6c-c811ba632070",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/c2ec4624-83c7-4714-aa6c-c811ba632070.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "hook_event_name": "Notification",
+    "message": "Claude needs your permission to use Update"
+  },
+  {
+    "session_id": "c2ec4624-83c7-4714-aa6c-c811ba632070",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/c2ec4624-83c7-4714-aa6c-c811ba632070.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "hook_event_name": "Notification",
+    "message": "Claude is waiting for your input"
+  },
+  {
+    "session_id": "c2ec4624-83c7-4714-aa6c-c811ba632070",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/c2ec4624-83c7-4714-aa6c-c811ba632070.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "hook_event_name": "Notification",
+    "message": "Claude is waiting for your input"
+  },
+  {
+    "session_id": "c2ec4624-83c7-4714-aa6c-c811ba632070",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/c2ec4624-83c7-4714-aa6c-c811ba632070.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "hook_event_name": "Notification",
+    "message": "Claude Code needs your attention"
+  },
+  {
+    "session_id": "c2ec4624-83c7-4714-aa6c-c811ba632070",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/c2ec4624-83c7-4714-aa6c-c811ba632070.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "hook_event_name": "Notification",
+    "message": "Claude is waiting for your input"
+  }
+]

@@ -1,0 +1,49 @@
+[
+  {
+    "session_id": "0a90e0cb-92e1-479c-8a2a-2fb165ff6f66",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/0a90e0cb-92e1-479c-8a2a-2fb165ff6f66.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Read",
+    "tool_input": {
+      "file_path": "/home/andre/batcave/proxyhub-rotor-pro/apps/packages/workers/alerts/package.json"
+    }
+  },
+  {
+    "session_id": "0a90e0cb-92e1-479c-8a2a-2fb165ff6f66",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/0a90e0cb-92e1-479c-8a2a-2fb165ff6f66.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Write",
+    "tool_input": {
+      "file_path": "/home/andre/batcave/proxyhub-rotor-pro/docker-compose.dev.yml",
+      "content": "services:\n  api:\n    image: node:20\n    working_dir: /app/api\n    volumes:\n      - ./apps/packages/api/package.json:/app/api/package.json:ro\n      - ./apps/packages/api/package-lock.json:/app/api/package-lock.json:ro\n      - ./apps/packages/api/src:/app/api/src\n      - ./prisma:/app/api/prisma\n      - /app/api/node_modules\n    command: sh -c \"apt-get update -qq && apt-get install -y -qq build-essential python3 postgresql-client && rm -rf /var/lib/apt/lists/* && if [ ! -d node_modules/.bin ]; then rm -rf node_modules && npm ci --include=dev; fi && export PATH=\\\"/app/api/node_modules/.bin:\\$PATH\\\" && until pg_isready -h db -p 5432; do echo 'Waiting for DB...'; sleep 2; done && npx prisma generate && npm run dev\"\n    environment:\n      - NODE_ENV=development\n      - DEBUG=nest:* ,*\n      - LOG_LEVEL=debug\n      - DATABASE_URL=postgresql://postgres:postgres@db:5432/proxyhub\n      - REDIS_URL=redis://redis:6379\n    depends_on:\n      db:\n        condition: service_healthy\n    ports:\n      - \"8080:8080\"\n    restart: unless-stopped\n\n  admin:\n    image: node:20\n    working_dir: /app\n    volumes:\n      - ./apps/packages/admin/package.json:/app/package.json:ro\n      - ./apps/packages/admin/package-lock.json:/app/package-lock.json:ro\n      - ./apps/packages/admin/src:/app/src\n      - /app/node_modules\n    command: sh -c \"apt-get update -qq && apt-get install -y -qq build-essential python3 && rm -rf /var/lib/apt/lists/* && if [ ! -d node_modules/.bin ]; then rm -rf node_modules && npm ci --include=dev; fi && export PATH=\\\"/app/node_modules/.bin:\\$PATH\\\" && npm run dev\"\n    environment:\n      - NODE_ENV=development\n      - VITE_LOG_LEVEL=debug\n      - API_URL=http://localhost:8080\n    ports:\n      - \"5173:5173\"\n      - \"24678:24678\"\n    restart: unless-stopped\n\n  worker-aggregator:\n    image: node:20\n    working_dir: /app\n    volumes:\n      - ./apps/packages/workers/aggregator/package.json:/app/package.json:ro\n      - ./apps/packages/workers/aggregator/package-lock.json:/app/package-lock.json:ro\n      - ./apps/packages/workers/aggregator/src:/app/src\n      - /app/node_modules\n    command: sh -c \"apt-get update -qq && apt-get install -y -qq build-essential python3 && rm -rf /var/lib/apt/lists/* && if [ ! -d node_modules/.bin ]; then rm -rf node_modules && npm ci --include=dev; fi && export PATH=\\\"/app/node_modules/.bin:\\$PATH\\\" && nodemon -L src/index.js\"\n    environment:\n      - NODE_ENV=development\n      - LOG_LEVEL=debug\n      - DATABASE_URL=postgresql://postgres:postgres@db:5432/proxyhub\n      - REDIS_URL=redis://redis:6379\n    depends_on:\n      db:\n        condition: service_healthy\n    restart: unless-stopped\n\n  worker-alerts:\n    image: node:20\n    working_dir: /app\n    volumes:\n      - ./apps/packages/workers/alerts/package.json:/app/package.json:ro\n      - ./apps/packages/workers/alerts/package-lock.json:/app/package-lock.json:ro\n      - ./apps/packages/workers/alerts/src:/app/src\n      - /app/node_modules\n    command: sh -c \"apt-get update -qq && apt-get install -y -qq build-essential python3 && rm -rf /var/lib/apt/lists/* && if [ ! -d node_modules/.bin ]; then rm -rf node_modules && npm ci --include=dev; fi && export PATH=\\\"/app/node_modules/.bin:\\$PATH\\\" && nodemon -L src/index.js\"\n    environment:\n      - NODE_ENV=development\n      - LOG_LEVEL=debug\n      - DATABASE_URL=postgresql://postgres:postgres@db:5432/proxyhub\n      - REDIS_URL=redis://redis:6379\n    depends_on:\n      db:\n        condition: service_healthy\n    restart: unless-stopped\n\n  worker-health:\n    image: node:20\n    working_dir: /app\n    volumes:\n      - ./apps/packages/workers/health/package.json:/app/package.json:ro\n      - ./apps/packages/workers/health/package-lock.json:/app/package-lock.json:ro\n      - ./apps/packages/workers/health/src:/app/src\n      - /app/node_modules\n    command: sh -c \"apt-get update -qq && apt-get install -y -qq build-essential python3 && rm -rf /var/lib/apt/lists/* && if [ ! -d node_modules/.bin ]; then rm -rf node_modules && npm ci --include=dev; fi && export PATH=\\\"/app/node_modules/.bin:\\$PATH\\\" && nodemon -L src/index.js\"\n    environment:\n      - NODE_ENV=development\n      - LOG_LEVEL=debug\n      - DATABASE_URL=postgresql://postgres:postgres@db:5432/proxyhub\n      - REDIS_URL=redis://redis:6379\n    depends_on:\n      db:\n        condition: service_healthy\n    restart: unless-stopped\n\n  worker-importer:\n    image: node:20\n    working_dir: /app\n    volumes:\n      - ./apps/packages/workers/importer/package.json:/app/package.json:ro\n      - ./apps/packages/workers/importer/package-lock.json:/app/package-lock.json:ro\n      - ./apps/packages/workers/importer/src:/app/src\n      - /app/node_modules\n    command: sh -c \"apt-get update -qq && apt-get install -y -qq build-essential python3 && rm -rf /var/lib/apt/lists/* && if [ ! -d node_modules/.bin ]; then rm -rf node_modules && npm ci --include=dev; fi && export PATH=\\\"/app/node_modules/.bin:\\$PATH\\\" && nodemon -L src/index.js\"\n    environment:\n      - NODE_ENV=development\n      - LOG_LEVEL=debug\n      - DATABASE_URL=postgresql://postgres:postgres@db:5432/proxyhub\n      - REDIS_URL=redis://redis:6379\n    depends_on:\n      db:\n        condition: service_healthy\n    restart: unless-stopped\n\n  db:\n    image: postgres:15\n    volumes:\n      - pgdata:/var/lib/postgresql/data\n      - ./postgres.conf:/etc/postgresql/postgresql.conf:ro\n    healthcheck:\n      test: [\"CMD\", \"pg_isready\", \"-U\", \"postgres\"]\n      interval: 10s\n      timeout: 5s\n      retries: 5\n    command: postgres -c log_statement=all -c log_min_duration_statement=0 -c log_error_verbosity=verbose -c logging_collector=on\n    environment:\n      - POSTGRES_DB=proxyhub\n      - POSTGRES_USER=postgres\n      - POSTGRES_PASSWORD=postgres\n      - POSTGRES_LOG_MIN_DURATION_STATEMENT=0\n      - POSTGRES_LOG_STATEMENT=all\n    restart: unless-stopped\n    ports:\n      - \"5432:5432\"\n\n  redis:\n    image: redis:7\n    volumes:\n      - redisdata:/data\n    command: redis-server --appendonly yes --loglevel verbose\n    healthcheck:\n      test: [\"CMD\", \"redis-cli\", \"ping\"]\n      interval: 10s\n      timeout: 5s\n      retries: 3\n    restart: unless-stopped\n    ports:\n      - \"6379:6379\"\n\nvolumes:\n  pgdata:\n  redisdata:\n"
+    }
+  },
+  {
+    "session_id": "0a90e0cb-92e1-479c-8a2a-2fb165ff6f66",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/0a90e0cb-92e1-479c-8a2a-2fb165ff6f66.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "docker compose -f docker-compose.yml -f docker-compose.dev.yml down",
+      "description": "Stop containers to apply fixes"
+    }
+  },
+  {
+    "session_id": "0a90e0cb-92e1-479c-8a2a-2fb165ff6f66",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/0a90e0cb-92e1-479c-8a2a-2fb165ff6f66.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d",
+      "description": "Restart with conditional deps install to fix busy rm"
+    }
+  }
+]

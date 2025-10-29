@@ -1,50 +1,149 @@
-generator client { provider = "prisma-client-js" }
-datasource db { provider = "postgresql"; url = env("DATABASE_URL") }
+generator client {
+  provider = "prisma-client-js"
+}
 
-model Provider { id String @id @default(uuid()) name String @unique type ProviderType config Json active Boolean @default(true) createdAt DateTime @default(now()) updatedAt DateTime @updatedAt imports ProviderImport[] proxies Proxy[] }
-enum ProviderType { api file manual }
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Provider {
+  id        String           @id @default(uuid())
+  name      String           @unique
+  type      ProviderType
+  config    Json
+  logoUrl   String?
+  active    Boolean          @default(true)
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+  imports   ProviderImport[]
+  proxies   Proxy[]
+}
+
+enum ProviderType {
+  api
+  file
+  manual
+}
 
 model Proxy {
-  id String @id @default(uuid())
-  provider   Provider? @relation(fields: [providerId], references: [id])
-  providerId String?
-  pool String
-  host String
-  port Int
-  username String?
-  password String?
-  protocol String @default("http")
-  country String?
-  region String?
-  city String?
-  latitude Float?
-  longitude Float?
-  asn Int?
-  org String?
+  id          String    @id @default(uuid())
+  provider    Provider? @relation(fields: [providerId], references: [id])
+  providerId  String?
+  pool        String
+  host        String
+  port        Int
+  username    String?
+  password    String?
+  protocol    String    @default("http")
+  country     String?
+  region      String?
+  city        String?
+  latitude    Float?
+  longitude   Float?
+  asn         Int?
+  org         String?
   lastChecked DateTime?
-  lastUsed DateTime?
-  failedCount Int @default(0)
-  score Float @default(100)
-  tags String[]
-  meta Json?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  lastUsed    DateTime?
+  failedCount Int       @default(0)
+  score       Float     @default(100)
+  tags        String[]
+  meta        Json?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  leases      Lease[]
+
   @@index([pool])
   @@index([providerId])
   @@index([score])
 }
 
-model PoolPolicy { id String @id @default(uuid()) pool String @unique reuseTtlSeconds Int @default(86400) maxFailures Int @default(5) allowFreeProxies Boolean @default(false) createdAt DateTime @default(now()) updatedAt DateTime @updatedAt }
+model PoolPolicy {
+  id               String   @id @default(uuid())
+  pool             String   @unique
+  reuseTtlSeconds  Int      @default(86400)
+  maxFailures      Int      @default(5)
+  allowFreeProxies Boolean  @default(false)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
 
-model Lease { id String @id @default(uuid()) proxy Proxy @relation(fields: [proxyId], references: [id]) proxyId String project String apiKeyId String? sticky Boolean @default(false) issuedAt DateTime @default(now()) expiresAt DateTime releasedAt DateTime? status LeaseStatus @default(active) }
-enum LeaseStatus { active ok failed expired }
+model Lease {
+  id         String      @id @default(uuid())
+  proxy      Proxy       @relation(fields: [proxyId], references: [id])
+  proxyId    String
+  project    String
+  apiKeyId   String?
+  sticky     Boolean     @default(false)
+  issuedAt   DateTime    @default(now())
+  expiresAt  DateTime
+  releasedAt DateTime?
+  status     LeaseStatus @default(active)
+}
 
-model UsageEvent { id String @id @default(uuid()) time DateTime @default(now()) project String pool String apiKeyId String? proxyId String? outcome UsageOutcome latencyMs Int? status Int? error String? }
-enum UsageOutcome { success failure }
+enum LeaseStatus {
+  active
+  ok
+  failed
+  expired
+}
 
-model UsageDaily { id String @id @default(uuid()) day DateTime project String pool String apiKeyId String? success Int @default(0) failure Int @default(0) @@unique([day, project, pool, apiKeyId]) }
+model UsageEvent {
+  id        String       @id @default(uuid())
+  time      DateTime     @default(now())
+  project   String
+  pool      String
+  apiKeyId  String?
+  proxyId   String?
+  outcome   UsageOutcome
+  latencyMs Int?
+  status    Int?
+  error     String?
+}
 
-model ProviderImport { id String @id @default(uuid()) provider Provider @relation(fields: [providerId], references: [id]) providerId String importType ProviderType sourceUri String? rowsAdded Int @default(0) rowsTotal Int @default(0) startedAt DateTime @default(now()) completedAt DateTime? status ImportStatus @default(pending) meta Json? }
-enum ImportStatus { pending running done failed }
+enum UsageOutcome {
+  success
+  failure
+}
 
-model ApiKey { id String @id @default(uuid()) name String secret String @unique project String disabled Boolean @default(false) createdAt DateTime @default(now()) }
+model UsageDaily {
+  id       String   @id @default(uuid())
+  day      DateTime
+  project  String
+  pool     String
+  apiKeyId String?
+  success  Int      @default(0)
+  failure  Int      @default(0)
+
+  @@unique([day, project, pool, apiKeyId])
+}
+
+model ProviderImport {
+  id          String       @id @default(uuid())
+  provider    Provider     @relation(fields: [providerId], references: [id])
+  providerId  String
+  importType  ProviderType
+  sourceUri   String?
+  rowsAdded   Int          @default(0)
+  rowsTotal   Int          @default(0)
+  startedAt   DateTime     @default(now())
+  completedAt DateTime?
+  status      ImportStatus @default(pending)
+  meta        Json?
+}
+
+enum ImportStatus {
+  pending
+  running
+  done
+  failed
+}
+
+model ApiKey {
+  id        String   @id @default(uuid())
+  name      String
+  secret    String   @unique
+  project   String
+  disabled  Boolean  @default(false)
+  createdAt DateTime @default(now())
+}

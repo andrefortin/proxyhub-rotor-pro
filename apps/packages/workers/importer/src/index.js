@@ -35,7 +35,57 @@ async function insertMany(client, rows) {
 async function run() {
   const client = new Client({ connectionString: process.env.DATABASE_URL });
   await client.connect();
+  const { rows: imports } = await client.query('SELECT "providerId" FROM "ProviderImport" WHERE status = $1', ['running']);
+for (const imp of imports) {
+  const provider = await client.query('SELECT id, name, type, config FROM "Provider" WHERE id = $1', [imp.providerId]);
+  if (!provider.rows[0]) continue;
+  const p = provider.rows[0];
+  try {
+    // Run import logic for this provider
+    if (p.type === 'api' && p.config?.kind === 'iproyal' && p.config?.list_endpoint && p.config?.access_token) {
+      const resp = await axios.get(p.config.list_endpoint, { headers: { 'X-Access-Token': p.config.access_token } });
+      let lines = [];
+      if (Array.isArray(resp.data)) lines = resp.data.map(String);
+      else if (Array.isArray(resp.data?.proxies)) lines = resp.data.proxies.map(String);
+      else if (typeof resp.data === 'string') lines = resp.data.split('\n').filter(Boolean);
+      const normalized = lines.map(l => normalize(l, p.id, p.config.default_pool || 'default')).filter(Boolean);
+      await insertMany(client, normalized);
+      await client.query(`UPDATE "ProviderImport" SET status = 'done', "rowsAdded" = $2, "rowsTotal" = $3, "completedAt" = now() WHERE "providerId" = $1`, [p.id, normalized.length, lines.length]);
+      console.log('Completed import', normalized.length, 'from', p.name);
+    } else if (p.type === 'api' && p.config?.list_endpoint && !p.config?.kind) {
+      // generic API
+      const resp = await axios.get(p.config.list_endpoint, { headers: p.config.headers || {} });
+      let lines = [];
+      if (Array.isArray(resp.data)) lines = resp.data.map(String);
+      else if (Array.isArray(resp.data?.proxies)) lines = resp.data.proxies.map(String);
+      else if (typeof resp.data === 'string') lines = resp.data.split('\n').filter(Boolean);
+      const normalized = lines.map(l => normalize(l, p.id, p.config.default_pool || 'default')).filter(Boolean);
+      await insertMany(client, normalized);
+      await client.query(`UPDATE "ProviderImport" SET status = 'done', "rowsAdded" = $2, "rowsTotal" = $3, "completedAt" = now() WHERE "providerId" = $1`, [p.id, normalized.length, lines.length]);
+      console.log('Completed generic import', normalized.length, 'from', p.name);
+    } else if (p.type === 'file' && p.config?.export_url) {
+      const resp = await axios.get(p.config.export_url);
+      const lines = String(resp.data).split('\n').filter(Boolean);
+      const normalized = lines.map(l => normalize(l, p.id, p.config.default_pool || 'default')).filter(Boolean);
+      await insertMany(client, normalized);
+      await client.query(`UPDATE "ProviderImport" SET status = 'done', "rowsAdded" = $2, "rowsTotal" = $3, "completedAt" = now() WHERE "providerId" = $1`, [p.id, normalized.length, lines.length]);
+      console.log('Completed file import', normalized.length, 'from', p.name);
+    } else {
+      console.log('Skipping import for', p.type, 'provider', p.id);
+    }
+  } catch (e) {
+    await client.query(`UPDATE "ProviderImport" SET status = 'failed', meta = $1 WHERE "providerId" = $2`, [JSON.stringify({ error: String(e) }), p.id]);
+    console.error('Import failed for', p.name, String(e));
+  }
+}
+
+// Fallback to old behavior for active providers if no pending imports
+if (imports.length === 0) {
   const { rows: providers } = await client.query('SELECT id, name, type, config FROM "Provider" WHERE active = true');
+  for (const p of providers) {
+    // old import logic here...
+  }
+}
   for (const p of providers) {
     try {
       // file list

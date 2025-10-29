@@ -1,0 +1,16 @@
+[
+  {
+    "session_id": "5c6afc73-00a4-4823-a5ad-7a068c43e70c",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/5c6afc73-00a4-4823-a5ad-7a068c43e70c.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "hook_event_name": "Notification",
+    "message": "Claude Code needs your attention"
+  },
+  {
+    "session_id": "5c6afc73-00a4-4823-a5ad-7a068c43e70c",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/5c6afc73-00a4-4823-a5ad-7a068c43e70c.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "hook_event_name": "Notification",
+    "message": "Claude is waiting for your input"
+  }
+]

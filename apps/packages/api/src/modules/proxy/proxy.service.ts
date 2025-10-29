@@ -21,8 +21,9 @@ export class ProxyService {
   private stickyKey(project: string, pool: string) { return `sticky:${project}:${pool}`; }
 
   private async reserveKey(proxyId: string, ttlSec: number) {
-    if (!this.reserveSha) this.reserveSha = await this.redis.script('load', LUA_RESERVE);
+    if (!this.reserveSha) this.reserveSha = await this.redis.script('LOAD', LUA_RESERVE) as string;
     const key = `proxy:inuse:${proxyId}`;
+    // cSpell:ignore evalsha setex
     const ok: any = await this.redis.evalsha(this.reserveSha!, 1, key, ttlSec.toString());
     return ok === 1 || ok === '1';
   }

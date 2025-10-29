@@ -1,0 +1,146 @@
+[
+  {
+    "session_id": "c2ec4624-83c7-4714-aa6c-c811ba632070",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/c2ec4624-83c7-4714-aa6c-c811ba632070.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "default",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "/docker-start "
+  },
+  {
+    "session_id": "c2ec4624-83c7-4714-aa6c-c811ba632070",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/c2ec4624-83c7-4714-aa6c-c811ba632070.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "not all the docker containers are running in dev. let starting with the health, and alerts"
+  },
+  {
+    "session_id": "c2ec4624-83c7-4714-aa6c-c811ba632070",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/c2ec4624-83c7-4714-aa6c-c811ba632070.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "continue"
+  },
+  {
+    "session_id": "c2ec4624-83c7-4714-aa6c-c811ba632070",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/c2ec4624-83c7-4714-aa6c-c811ba632070.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "when using the dev docker file we want the changes to the code for debugging and coding to be live"
+  },
+  {
+    "session_id": "c2ec4624-83c7-4714-aa6c-c811ba632070",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/c2ec4624-83c7-4714-aa6c-c811ba632070.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "continue"
+  },
+  {
+    "session_id": "c2ec4624-83c7-4714-aa6c-c811ba632070",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/c2ec4624-83c7-4714-aa6c-c811ba632070.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "continue"
+  },
+  {
+    "session_id": "c2ec4624-83c7-4714-aa6c-c811ba632070",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/c2ec4624-83c7-4714-aa6c-c811ba632070.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "/docker-start "
+  },
+  {
+    "session_id": "c2ec4624-83c7-4714-aa6c-c811ba632070",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/c2ec4624-83c7-4714-aa6c-c811ba632070.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "/docker-start "
+  },
+  {
+    "session_id": "c2ec4624-83c7-4714-aa6c-c811ba632070",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/c2ec4624-83c7-4714-aa6c-c811ba632070.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "/docker-start "
+  },
+  {
+    "session_id": "c2ec4624-83c7-4714-aa6c-c811ba632070",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/c2ec4624-83c7-4714-aa6c-c811ba632070.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "/docker-start "
+  },
+  {
+    "session_id": "c2ec4624-83c7-4714-aa6c-c811ba632070",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/c2ec4624-83c7-4714-aa6c-c811ba632070.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "make sure our claude command to start docker in development mode is in synch with recent changes"
+  },
+  {
+    "session_id": "c2ec4624-83c7-4714-aa6c-c811ba632070",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/c2ec4624-83c7-4714-aa6c-c811ba632070.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "make sure our claude command to start docker in development mode is in synch with recent changes"
+  },
+  {
+    "session_id": "c2ec4624-83c7-4714-aa6c-c811ba632070",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/c2ec4624-83c7-4714-aa6c-c811ba632070.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "/docker-start "
+  },
+  {
+    "session_id": "c2ec4624-83c7-4714-aa6c-c811ba632070",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/c2ec4624-83c7-4714-aa6c-c811ba632070.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "docker ps"
+  },
+  {
+    "session_id": "c2ec4624-83c7-4714-aa6c-c811ba632070",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/c2ec4624-83c7-4714-aa6c-c811ba632070.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "check the logs for docker yourself and come up with a plan"
+  },
+  {
+    "session_id": "c2ec4624-83c7-4714-aa6c-c811ba632070",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/c2ec4624-83c7-4714-aa6c-c811ba632070.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "only the postgres and api containers are staying up, redis and the rest are not, check the logs and debug this dev mode issue."
+  },
+  {
+    "session_id": "c2ec4624-83c7-4714-aa6c-c811ba632070",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/c2ec4624-83c7-4714-aa6c-c811ba632070.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "dev mode is not stable only the posgres and api containers are staying up, check the logs."
+  },
+  {
+    "session_id": "c2ec4624-83c7-4714-aa6c-c811ba632070",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/c2ec4624-83c7-4714-aa6c-c811ba632070.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "continue"
+  }
+]
