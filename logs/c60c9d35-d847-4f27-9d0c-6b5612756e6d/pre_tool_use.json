@@ -113,5 +113,158 @@
       "command": "git add .",
       "description": "Stage changes for commit"
     }
+  },
+  {
+    "session_id": "c60c9d35-d847-4f27-9d0c-6b5612756e6d",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/c60c9d35-d847-4f27-9d0c-6b5612756e6d.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "git diff --stat",
+      "description": "Show file changes summary"
+    }
+  },
+  {
+    "session_id": "c60c9d35-d847-4f27-9d0c-6b5612756e6d",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/c60c9d35-d847-4f27-9d0c-6b5612756e6d.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Write",
+    "tool_input": {
+      "file_path": "apps/packages/admin/src/components/DeleteConfirmModal.tsx",
+      "content": "import React from 'react';\nimport { Button } from './ui/button';\nimport { Card, CardContent, CardHeader, CardTitle } from './ui/card';\n\ninterface DeleteConfirmModalProps {\n  isOpen: boolean;\n  onClose: () => void;\n  onConfirm: () => void;\n  itemType: 'provider' | 'proxy';\n  itemName?: string;\n  rememberChoice: boolean;\n  onRememberChange: (checked: boolean) => void;\n}\n\nexport const DeleteConfirmModal: React.FC<DeleteConfirmModalProps> = ({\n  isOpen,\n  onClose,\n  onConfirm,\n  itemType,\n  itemName = itemType,\n  rememberChoice,\n  onRememberChange,\n}) => {\n  if (!isOpen) return null;\n\n  const message = itemType === 'proxy'\n    ? `Are you sure you want to delete this ${itemType}? This is irreversible.`\n    : `Are you sure you want to delete this ${itemType}? This action cannot be undone.`;\n\n  return (\n    <div className=\"fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50\" onClick={onClose}>\n      <div\n        className=\"bg-background rounded-lg shadow-xl max-w-md w-full\"\n        onClick={(e) => e.stopPropagation()}\n      >\n        <Card>\n          <CardHeader>\n            <CardTitle>Confirm Delete</CardTitle>\n          </CardHeader>\n          <CardContent className=\"p-6\">\n            <p className=\"text-sm text-foreground mb-4\">{message}</p>\n            {itemName && <p className=\"text-sm font-medium mb-4\">Item: {itemName}</p>}\n            <label className=\"flex items-center gap-2 text-sm mb-4\">\n              <input\n                type=\"checkbox\"\n                checked={rememberChoice}\n                onChange={(e) => onRememberChange(e.target.checked)}\n                className=\"rounded\"\n              />\n              <span>Remember this choice for this session (don't ask again)</span>\n            </label>\n            <div className=\"flex justify-end gap-2\">\n              <Button type=\"button\" variant=\"outline\" onClick={onClose}>\n                Cancel\n              </Button>\n              <Button\n                type=\"button\"\n                variant=\"destructive\"\n                onClick={onConfirm}\n              >\n                Delete\n              </Button>\n            </div>\n          </CardContent>\n        </Card>\n      </div>\n    </div>\n  );\n};"
+    }
+  },
+  {
+    "session_id": "c60c9d35-d847-4f27-9d0c-6b5612756e6d",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/c60c9d35-d847-4f27-9d0c-6b5612756e6d.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Edit",
+    "tool_input": {
+      "file_path": "apps/packages/admin/src/pages/Providers.tsx",
+      "old_string": "  const [togglingId, setTogglingId] = useState<string | null>(null);",
+      "new_string": "  const [togglingId, setTogglingId] = useState<string | null>(null);\n  const [showDeleteModal, setShowDeleteModal] = useState(false);\n  const [pendingDeleteId, setPendingDeleteId] = useState<string | null>(null);\n  const [rememberChoice, setRememberChoice] = useState(false);"
+    }
+  },
+  {
+    "session_id": "c60c9d35-d847-4f27-9d0c-6b5612756e6d",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/c60c9d35-d847-4f27-9d0c-6b5612756e6d.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Edit",
+    "tool_input": {
+      "file_path": "apps/packages/admin/src/pages/Providers.tsx",
+      "old_string": "import { getProviders, createProvider, updateProvider, deleteProvider, getProvider, type Provider } from '../lib/api';\nimport { useDeleteConfirmation } from '../hooks/useDeleteConfirmation';",
+      "new_string": "import { getProviders, createProvider, updateProvider, deleteProvider, getProvider, type Provider } from '../lib/api';\nimport { DeleteConfirmModal } from '../components/DeleteConfirmModal';"
+    }
+  },
+  {
+    "session_id": "c60c9d35-d847-4f27-9d0c-6b5612756e6d",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/c60c9d35-d847-4f27-9d0c-6b5612756e6d.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Edit",
+    "tool_input": {
+      "file_path": "apps/packages/admin/src/pages/Providers.tsx",
+      "old_string": "  const handleDelete = async (id: string) => {\n    const proceed = confirmDelete('provider', async () => {\n      try {\n        await deleteProvider(id);\n        fetchProviders();\n      } catch (err) {\n        setError(err instanceof Error ? err.message : 'Failed to delete provider');\n      }\n    });\n    if (!proceed) return;\n  };",
+      "new_string": "  const handleDelete = async (id: string) => {\n    setPendingDeleteId(id);\n    setShowDeleteModal(true);\n  };\n\n  const handleConfirmDelete = async () => {\n    if (!pendingDeleteId) return;\n    try {\n      await deleteProvider(pendingDeleteId);\n      fetchProviders();\n      if (rememberChoice) {\n        sessionStorage.setItem('deleteConfirmed', 'true');\n      }\n    } catch (err) {\n      setError(err instanceof Error ? err.message : 'Failed to delete provider');\n    } finally {\n      setShowDeleteModal(false);\n      setPendingDeleteId(null);\n      setRememberChoice(false);\n    }\n  };\n\n  const handleRememberChange = (checked: boolean) => {\n    setRememberChoice(checked);\n  };"
+    }
+  },
+  {
+    "session_id": "c60c9d35-d847-4f27-9d0c-6b5612756e6d",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/c60c9d35-d847-4f27-9d0c-6b5612756e6d.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Edit",
+    "tool_input": {
+      "file_path": "apps/packages/admin/src/pages/Proxies.tsx",
+      "old_string": "  const [togglingId, setTogglingId] = useState<string | null>(null);\n  const [providers, setProviders] = useState<Provider[]>([]);\n  const [fetchingProviders, setFetchingProviders] = useState(false);",
+      "new_string": "  const [togglingId, setTogglingId] = useState<string | null>(null);\n  const [providers, setProviders] = useState<Provider[]>([]);\n  const [fetchingProviders, setFetchingProviders] = useState(false);\n  const [showDeleteModal, setShowDeleteModal] = useState(false);\n  const [pendingDeleteId, setPendingDeleteId] = useState<string | null>(null);\n  const [rememberChoice, setRememberChoice] = useState(false);"
+    }
+  },
+  {
+    "session_id": "c60c9d35-d847-4f27-9d0c-6b5612756e6d",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/c60c9d35-d847-4f27-9d0c-6b5612756e6d.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Edit",
+    "tool_input": {
+      "file_path": "apps/packages/admin/src/pages/Proxies.tsx",
+      "old_string": "import { getProxies, createProxy, updateProxy, deleteProxy, issueLease, getProviders, type Proxy, type CreateProxy, type UpdateProxy, type Provider } from '../lib/api';\nimport { useDeleteConfirmation } from '../hooks/useDeleteConfirmation';",
+      "new_string": "import { getProxies, createProxy, updateProxy, deleteProxy, issueLease, getProviders, type Proxy, type CreateProxy, type UpdateProxy, type Provider } from '../lib/api';\nimport { DeleteConfirmModal } from '../components/DeleteConfirmModal';"
+    }
+  },
+  {
+    "session_id": "c60c9d35-d847-4f27-9d0c-6b5612756e6d",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/c60c9d35-d847-4f27-9d0c-6b5612756e6d.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Edit",
+    "tool_input": {
+      "file_path": "apps/packages/admin/src/pages/Proxies.tsx",
+      "old_string": "  const handleDelete = async (id: string) => {\n    const proceed = confirmDelete('proxy', async () => {\n      try {\n        await deleteProxy(id);\n        fetchProxies();\n      } catch (err) {\n        setError(err instanceof Error ? err.message : 'Failed to delete proxy');\n      }\n    });\n    if (!proceed) return;\n  };",
+      "new_string": "  const handleDelete = async (id: string) => {\n    setPendingDeleteId(id);\n    setShowDeleteModal(true);\n  };\n\n  const handleConfirmDelete = async () => {\n    if (!pendingDeleteId) return;\n    try {\n      await deleteProxy(pendingDeleteId);\n      fetchProxies();\n      if (rememberChoice) {\n        sessionStorage.setItem('deleteConfirmed', 'true');\n      }\n    } catch (err) {\n      setError(err instanceof Error ? err.message : 'Failed to delete proxy');\n    } finally {\n      setShowDeleteModal(false);\n      setPendingDeleteId(null);\n      setRememberChoice(false);\n    }\n  };\n\n  const handleRememberChange = (checked: boolean) => {\n    setRememberChoice(checked);\n  };"
+    }
+  },
+  {
+    "session_id": "c60c9d35-d847-4f27-9d0c-6b5612756e6d",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/c60c9d35-d847-4f27-9d0c-6b5612756e6d.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Edit",
+    "tool_input": {
+      "file_path": "apps/packages/admin/src/pages/Proxies.tsx",
+      "old_string": "    </div>\n  );\n}",
+      "new_string": "        </div>\n      </Card>\n\n      <DeleteConfirmModal\n        isOpen={showDeleteModal}\n        onClose={() => { setShowDeleteModal(false); setPendingDeleteId(null); setRememberChoice(false); }}\n        onConfirm={handleConfirmDelete}\n        itemType=\"proxy\"\n        rememberChoice={rememberChoice}\n        onRememberChange={handleRememberChange}\n      />\n    </div>\n  );\n}"
+    }
+  },
+  {
+    "session_id": "c60c9d35-d847-4f27-9d0c-6b5612756e6d",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/c60c9d35-d847-4f27-9d0c-6b5612756e6d.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Edit",
+    "tool_input": {
+      "file_path": "apps/packages/admin/src/pages/Providers.tsx",
+      "old_string": "  const { confirmDelete } = useDeleteConfirmation();",
+      "new_string": ""
+    }
+  },
+  {
+    "session_id": "c60c9d35-d847-4f27-9d0c-6b5612756e6d",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/c60c9d35-d847-4f27-9d0c-6b5612756e6d.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Edit",
+    "tool_input": {
+      "file_path": "apps/packages/admin/src/pages/Proxies.tsx",
+      "old_string": "  const { confirmDelete } = useDeleteConfirmation();",
+      "new_string": ""
+    }
+  },
+  {
+    "session_id": "c60c9d35-d847-4f27-9d0c-6b5612756e6d",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/c60c9d35-d847-4f27-9d0c-6b5612756e6d.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "git add .",
+      "description": "Stage the new and modified files"
+    }
   }
 ]

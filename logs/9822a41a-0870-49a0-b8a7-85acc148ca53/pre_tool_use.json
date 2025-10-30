@@ -7,7 +7,7 @@
     "hook_event_name": "PreToolUse",
     "tool_name": "Read",
     "tool_input": {
-      "file_path": "/home/andre/batcave/proxyhub-rotor-pro/apps/packages/admin/src/pages/Providers.tsx"
+      "file_path": "/home/andre/batcave/proxyhub-rotor-pro/apps/packages/admin/tailwind.config.js"
     }
   },
   {
@@ -18,46 +18,7 @@
     "hook_event_name": "PreToolUse",
     "tool_name": "Read",
     "tool_input": {
-      "file_path": "/home/andre/batcave/proxyhub-rotor-pro/.claude/commands/test_e2e.md"
-    }
-  },
-  {
-    "session_id": "9822a41a-0870-49a0-b8a7-85acc148ca53",
-    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/9822a41a-0870-49a0-b8a7-85acc148ca53.jsonl",
-    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
-    "permission_mode": "bypassPermissions",
-    "hook_event_name": "PreToolUse",
-    "tool_name": "Edit",
-    "tool_input": {
-      "file_path": "/home/andre/batcave/proxyhub-rotor-pro/apps/packages/admin/src/components/ui/switch.tsx",
-      "old_string": "React.forwardRef<\n  React.ElementRef<typeof React.Component>,\n  React.ComponentPropsWithoutRef<typeof React.Component> & {\n    checked?: boolean\n    onCheckedChange?: (checked: boolean) => void\n    disabled?: boolean\n  }\n>(({ className, checked, onCheckedChange, disabled, ...props }, ref) => {",
-      "new_string": "React.forwardRef<\n  React.ElementRef<\"div\">,\n  React.HTMLAttributes<HTMLDivElement> & {\n    checked?: boolean\n    onCheckedChange?: (checked: boolean) => void\n    disabled?: boolean\n  }\n>(({ className, checked, onCheckedChange, disabled, ...props }, ref) => {"
-    }
-  },
-  {
-    "session_id": "9822a41a-0870-49a0-b8a7-85acc148ca53",
-    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/9822a41a-0870-49a0-b8a7-85acc148ca53.jsonl",
-    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
-    "permission_mode": "bypassPermissions",
-    "hook_event_name": "PreToolUse",
-    "tool_name": "Edit",
-    "tool_input": {
-      "file_path": "/home/andre/batcave/proxyhub-rotor-pro/apps/packages/admin/src/components/ui/switch.tsx",
-      "old_string": "    <div\n      ref={ref}\n      className={cn(\n        \"peer inline-flex h-[20px] w-[36px] shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=unchecked]:bg-input\",\n        className\n      )}\n      {...props}\n      role=\"switch\"\n      aria-checked={checked}\n      data-state={checked ? \"checked\" : \"unchecked\"}\n    >",
-      "new_string": "    <div\n      ref={ref}\n      className={cn(\n        \"peer inline-flex h-[20px] w-[36px] shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=unchecked]:bg-input\",\n        className\n      )}\n      {...props}\n      role=\"switch\"\n      aria-checked={checked}\n      data-state={checked ? \"checked\" : \"unchecked\"}\n    >\n      {/* Component docs: Supports className for custom styling merged with defaults via cn utility. Ensure no override of core classes like 'peer'. */}\n"
-    }
-  },
-  {
-    "session_id": "9822a41a-0870-49a0-b8a7-85acc148ca53",
-    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/9822a41a-0870-49a0-b8a7-85acc148ca53.jsonl",
-    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
-    "permission_mode": "bypassPermissions",
-    "hook_event_name": "PreToolUse",
-    "tool_name": "Edit",
-    "tool_input": {
-      "file_path": "/home/andre/batcave/proxyhub-rotor-pro/apps/packages/admin/src/components/ThemeToggle.tsx",
-      "old_string": "      <Switch\n        checked={darkMode}\n        onCheckedChange={(checked) => setDarkMode(!!checked)}\n        aria-label=\"Toggle theme\"\n      />",
-      "new_string": "      <Switch\n        checked={darkMode}\n        onCheckedChange={(checked) => setDarkMode(!!checked)}\n        className=\"w-8 h-4 mx-1\"\n        aria-label=\"Toggle theme\"\n      />"
+      "file_path": "/home/andre/batcave/proxyhub-rotor-pro/.claude/commands/e2e/test_basic_query.md"
     }
   },
   {
@@ -68,44 +29,8 @@
     "hook_event_name": "PreToolUse",
     "tool_name": "Write",
     "tool_input": {
-      "file_path": "/home/andre/batcave/proxyhub-rotor-pro/.claude/commands/e2e/test_switch-classname.md",
-      "content": "# E2E Test: Switch className Support\n\n## User Story\n\nAs a developer\nI want to apply custom className to the Switch component\nSo that I can style it for different UI contexts without breaking functionality\n\n## Test Steps\n\n1. Navigate to the Admin UI at Application URL (default http://localhost:4173)\n2. Go to /providers page\n3. Take a screenshot of the providers table with Switch elements\n4. Locate a Switch in the table (first row if available)\n5. Inspect the Switch element (root div) and verify it has the 'mr-2' class in its class attribute\n6. Toggle the Switch and verify it works (state changes, no errors)\n7. Take a screenshot of the toggled Switch showing applied styles (e.g., margin-right)\n8. Navigate to theme toggle in sidebar or header\n9. Inspect the ThemeToggle Switch and verify it has 'w-8 h-4 mx-1' classes applied\n10. Toggle theme and take screenshot showing custom sizing and margins\n11. Verify no layout breaks or console errors\n\n## Success Criteria\n\n- Switch root div includes custom className (e.g., 'mr-2', 'w-8 h-4 mx-1') merged with defaults\n- Functionality unchanged: Toggles correctly\n- Styles applied: Visible margin/sizing changes\n- 3 screenshots: Initial table, toggled provider Switch, theme Switch\n- No errors in console or failed assertions\n\n## Output Format\n\n```json\n{\n  \"test_name\": \"Switch className Support\",\n  \"status\": \"passed|failed\",\n  \"screenshots\": [\n    \"<absolute path>/agents/<adw_id>/<agent_name>/img/switch-classname/01_initial-table.png\",\n    \"<absolute path>/agents/<adw_id>/<agent_name>/img/switch-classname/02_toggled-provider.png\",\n    \"<absolute path>/agents/<adw_id>/<agent_name>/img/switch-classname/03_theme-toggle.png\"\n  ],\n  \"error\": null\n}\n```\n"
-    }
-  },
-  {
-    "session_id": "9822a41a-0870-49a0-b8a7-85acc148ca53",
-    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/9822a41a-0870-49a0-b8a7-85acc148ca53.jsonl",
-    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
-    "permission_mode": "bypassPermissions",
-    "hook_event_name": "PreToolUse",
-    "tool_name": "Bash",
-    "tool_input": {
-      "command": "cd apps/packages/admin && bun run build",
-      "description": "Build the admin UI to validate changes"
-    }
-  },
-  {
-    "session_id": "9822a41a-0870-49a0-b8a7-85acc148ca53",
-    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/9822a41a-0870-49a0-b8a7-85acc148ca53.jsonl",
-    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
-    "permission_mode": "bypassPermissions",
-    "hook_event_name": "PreToolUse",
-    "tool_name": "Bash",
-    "tool_input": {
-      "command": "git add .",
-      "description": "Stage changes"
-    }
-  },
-  {
-    "session_id": "9822a41a-0870-49a0-b8a7-85acc148ca53",
-    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/9822a41a-0870-49a0-b8a7-85acc148ca53.jsonl",
-    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
-    "permission_mode": "bypassPermissions",
-    "hook_event_name": "PreToolUse",
-    "tool_name": "Bash",
-    "tool_input": {
-      "command": "git diff --stat",
-      "description": "Get file changes summary"
+      "file_path": "/home/andre/batcave/proxyhub-rotor-pro/specs/issue-21-adw-bug21-sdlc_planner-fix-sidebar-nav-hover-text.md",
+      "content": "# Bug: Fix Sidebar Nav Hover Text Color\n\n## Metadata\n\nissue_number: `21`\nadw_id: `bug21`\nissue_json: `{\"title\":\"fix the side-panel nav item hover color text in light and dark theme. The dark theme text color should be a light color but it isn't.\",\"body\":\"fix the side-panel nav item hover color text in light and dark theme. The dark theme text color should be a light color but it isn't.\"}`\n\n## Bug Description\n\nIn the Admin UI's sidebar, when hovering over nav items in dark theme, the text color does not become sufficiently light (e.g., white or gray-100), causing poor readability against the dark hover background (bg-gray-800). In light theme, it may be fine, but consistency is needed across themes.\n\nExpected: Hover text is light/white in dark mode for contrast with dark hover bg; dark text in light mode.\n\nActual: In dark mode, hover text remains too dark or inherits incorrectly, blending with bg-gray-800.\n\n## Problem Statement\n\nSidebar nav item hover lacks explicit text color overrides, leading to low contrast in dark theme where light text is required against dark background.\n\n## Solution Statement\n\nAdd explicit hover text colors to Link in Sidebar.tsx: \"hover:text-gray-50\" for light text in dark mode, using dark: prefix if needed (dark:hover:text-white). Leverage CSS vars like --side-panel-text for consistency without hardcoding.\n\n## Steps to Reproduce\n\n1. docker compose up --build -d\n2. Go to http://localhost:4173, toggle to dark theme.\n3. Hover over a sidebar nav item (e.g., \"Providers\").\n4. Observe text color not light enough (inspect: color should be ~#fff but appears ~#888 or darker).\n5. In light theme: Hover; text visible (dark), but fix ensures no regression.\n\n## Root Cause Analysis\n\nSidebar.tsx uses \"hover:bg-gray-800\" without \"hover:text-[color]\" on Link. In dark mode, base --side-panel-text is white (100%), but hover bg override doesn't change text; inheritance or Tailwind specificity may cause text to darken or stay muted. .side-panel CSS sets color: hsl(var(--card-foreground)) which in dark is white, but hover might interfere without explicit text class.\n\n## Relevant Files\n\nUse these files to fix the bug:\n\n- `apps/packages/admin/src/components/Sidebar.tsx`: Nav Links with \"hover:bg-gray-800\". Relevant to append \"hover:text-gray-50 dark:hover:text-white\" for contrast.\n- `apps/packages/admin/src/index.css`: Defines --side-panel-text: 0 0% 100% in dark (white). Relevant to ensure .side-panel a:hover { color: hsl(var(--side-panel-text)); } if needed.\n- `apps/packages/admin/tailwind.config.js`: darkMode: 'class', extends colors. Relevant for theme var usage.\n- `README.md`: Admin UI at :4173. Relevant for testing instructions.\n- Read `.claude/commands/test_e2e.md` and `.claude/commands/e2e/test_basic_query.md` to understand how to create an E2E test file for UI validation.\n\n### New Files\n\n- `.claude/commands/e2e/test_sidebar-nav-hover.md`: E2E test for hover text colors in themes.\n\n## Step by Step Tasks\n\nIMPORTANT: Execute every step in order, top to bottom.\n\n### Update Sidebar Styles\n\n- Read `apps/packages/admin/src/components/Sidebar.tsx`; modify Link className to \"flex items-center space-x-2 p-2 rounded hover:bg-gray-800 hover:text-gray-50 dark:hover:text-white\".\n- Ensure <span> and icons inherit (add to span if needed).\n\n### Enhance CSS if Necessary\n\n- Read `apps/packages/admin/src/index.css`; add .side-panel nav a:hover { color: hsl(var(--side-panel-text)); } to reinforce var usage.\n\n### Verify Config\n\n- Read `apps/packages/admin/tailwind.config.js`; confirm darkMode and vars; no changes.\n\n### Add E2E Test\n\n- Read `.claude/commands/e2e/test_basic_query.md` and `.claude/commands/test_e2e.md` and create a new E2E test file in `.claude/commands/e2e/test_sidebar-nav-hover.md` that validates the bug is fixed, be specific with the steps to prove the bug is fixed. We want the minimal set of steps to validate the bug is fixed and screen shots to prove it if possible.\n  - Steps: Load in light/dark, hover nav item, screenshot hover state, inspect text color (e.g., getComputedStyle === 'rgb(255,255,255)' in dark), verify contrast.\n\n### Build Validation\n\n- cd apps/packages/admin && bun run build; check for errors.\n\n### Final Validation\n\n- Execute the Validation Commands to validate the bug is fixed with zero regressions.\n\n## Validation Commands\n\nExecute every command to validate the bug is fixed with zero regressions.\n\n- `docker compose down && docker compose up --build -d` - Reload UI.\n- In dark mode, hover sidebar item; inspect .classList or getComputedStyle on text; confirm color ~#fff; screenshot.\n- Before: Dark text on hover; after: Light text.\n- `cd apps/packages/admin && bun tsc --noEmit` - Type check.\n- `cd apps/packages/admin && bun run build` - Build clean.\n- Read .claude/commands/test_e2e.md, then read and execute new E2E .claude/commands/e2e/test_sidebar-nav-hover.md to validate.\n\n## Notes\n\n- Use Tailwind dark: for precision to avoid global CSS bloat.\n- Test contrast ratio >4.5:1 (white on gray-800 ok).\n- No libs; use existing setup."
     }
   }
 ]

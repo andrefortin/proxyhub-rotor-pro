@@ -8,7 +8,7 @@ import { Button } from '../components/ui/button';
 import { Globe, Zap, Plus, Edit, Trash2, Filter, Search } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { getProxies, createProxy, updateProxy, deleteProxy, issueLease, getProviders, type Proxy, type CreateProxy, type UpdateProxy, type Provider } from '../lib/api';
-import { useDeleteConfirmation } from '../hooks/useDeleteConfirmation';
+import { DeleteConfirmModal } from '../components/DeleteConfirmModal';
 
 const LIMIT = 10;
 
@@ -50,6 +50,9 @@ export default function Proxies() {
   const [togglingId, setTogglingId] = useState<string | null>(null);
   const [providers, setProviders] = useState<Provider[]>([]);
   const [fetchingProviders, setFetchingProviders] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [pendingDeleteId, setPendingDeleteId] = useState<string | null>(null);
+  const [rememberChoice, setRememberChoice] = useState(false);
 
   // Fetch providers for filter dropdown
   useEffect(() => {
@@ -140,18 +143,31 @@ export default function Proxies() {
     }
   }, [togglingId]);
 
-  const { confirmDelete } = useDeleteConfirmation();
 
   const handleDelete = async (id: string) => {
-    const proceed = confirmDelete('proxy', async () => {
-      try {
-        await deleteProxy(id);
-        fetchProxies();
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to delete proxy');
+    setPendingDeleteId(id);
+    setShowDeleteModal(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!pendingDeleteId) return;
+    try {
+      await deleteProxy(pendingDeleteId);
+      fetchProxies();
+      if (rememberChoice) {
+        sessionStorage.setItem('deleteConfirmed', 'true');
       }
-    });
-    if (!proceed) return;
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to delete proxy');
+    } finally {
+      setShowDeleteModal(false);
+      setPendingDeleteId(null);
+      setRememberChoice(false);
+    }
+  };
+
+  const handleRememberChange = (checked: boolean) => {
+    setRememberChoice(checked);
   };
 
   const openEdit = async (id: string) => {
@@ -660,6 +676,15 @@ export default function Proxies() {
           </div>
         </div>
       )}
+
+      <DeleteConfirmModal
+        isOpen={showDeleteModal}
+        onClose={() => { setShowDeleteModal(false); setPendingDeleteId(null); setRememberChoice(false); }}
+        onConfirm={handleConfirmDelete}
+        itemType="proxy"
+        rememberChoice={rememberChoice}
+        onRememberChange={handleRememberChange}
+      />
     </div>
   );
 }

@@ -5,7 +5,7 @@ import { Users2, Plus, Edit, Trash2 } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { Switch } from '../components/ui/switch';
 import { getProviders, createProvider, updateProvider, deleteProvider, getProvider, type Provider } from '../lib/api';
-import { useDeleteConfirmation } from '../hooks/useDeleteConfirmation';
+import { DeleteConfirmModal } from '../components/DeleteConfirmModal';
 
 const LIMIT = 10; // Fixed limit per Swagger (max 100)
 
@@ -22,6 +22,9 @@ export default function Providers() {
   const [editData, setEditData] = useState<Partial<Provider>>({});
   const [mock, setMock] = useState(searchParams.get('mock') === 'true');
   const [togglingId, setTogglingId] = useState<string | null>(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [pendingDeleteId, setPendingDeleteId] = useState<string | null>(null);
+  const [rememberChoice, setRememberChoice] = useState(false);
 
   const fetchProviders = useCallback(async () => {
     try {
@@ -100,18 +103,31 @@ export default function Providers() {
     }
   }, [providers, togglingId, updateProvider, fetchProviders]);
 
-  const { confirmDelete } = useDeleteConfirmation();
 
   const handleDelete = async (id: string) => {
-    const proceed = confirmDelete('provider', async () => {
-      try {
-        await deleteProvider(id);
-        fetchProviders();
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to delete provider');
+    setPendingDeleteId(id);
+    setShowDeleteModal(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!pendingDeleteId) return;
+    try {
+      await deleteProvider(pendingDeleteId);
+      fetchProviders();
+      if (rememberChoice) {
+        sessionStorage.setItem('deleteConfirmed', 'true');
       }
-    });
-    if (!proceed) return;
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to delete provider');
+    } finally {
+      setShowDeleteModal(false);
+      setPendingDeleteId(null);
+      setRememberChoice(false);
+    }
+  };
+
+  const handleRememberChange = (checked: boolean) => {
+    setRememberChoice(checked);
   };
 
   const openEdit = async (id: string) => {
