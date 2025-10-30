@@ -8,6 +8,11 @@
     "/implement feature 9",
     "continue todos",
     "continue with todos",
+    "push to git",
+    "/feature `Create openapi documentation for all endpoints and make this api easily consumable for MCP`",
+    "/feature `Create openapi documentation for all endpoints and make this api easily consumable for MCP`",
+    "/implement feature 10",
+    "continue implementing todos",
     "push to git"
   ],
   "agent_name": "Nexus"

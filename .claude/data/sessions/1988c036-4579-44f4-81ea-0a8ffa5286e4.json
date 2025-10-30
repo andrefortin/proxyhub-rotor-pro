@@ -1,0 +1,9 @@
+{
+  "session_id": "1988c036-4579-44f4-81ea-0a8ffa5286e4",
+  "prompts": [
+    "rebuild and restart all the images and containers using docker-compose.dev.yml",
+    "/feature `update the api calls to the proxy api in our admin panel to use the api docs as reference`",
+    "/feature `refer to our new swagger api documentation and update all the api calls in our admin dashboard using the swagger docs as a reference`"
+  ],
+  "agent_name": "Sage"
+}

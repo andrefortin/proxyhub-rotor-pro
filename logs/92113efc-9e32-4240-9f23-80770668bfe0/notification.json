@@ -5,5 +5,19 @@
     "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
     "hook_event_name": "Notification",
     "message": "Claude is waiting for your input"
+  },
+  {
+    "session_id": "92113efc-9e32-4240-9f23-80770668bfe0",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/92113efc-9e32-4240-9f23-80770668bfe0.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "hook_event_name": "Notification",
+    "message": "Claude is waiting for your input"
+  },
+  {
+    "session_id": "92113efc-9e32-4240-9f23-80770668bfe0",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/92113efc-9e32-4240-9f23-80770668bfe0.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "hook_event_name": "Notification",
+    "message": "Claude is waiting for your input"
   }
 ]

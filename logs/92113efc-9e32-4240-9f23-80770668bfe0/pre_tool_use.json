@@ -5,9 +5,71 @@
     "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
     "permission_mode": "bypassPermissions",
     "hook_event_name": "PreToolUse",
+    "tool_name": "Read",
+    "tool_input": {
+      "file_path": "/home/andre/batcave/proxyhub-rotor-pro/apps/packages/api/src/main.ts"
+    }
+  },
+  {
+    "session_id": "92113efc-9e32-4240-9f23-80770668bfe0",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/92113efc-9e32-4240-9f23-80770668bfe0.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
     "tool_name": "TodoWrite",
     "tool_input": {
-      "todos": []
+      "todos": [
+        {
+          "content": "Read the implementation plan from specs/issue-10-adw-def456-sdlc_planner-openapi-docs-and-mcp-support.md",
+          "status": "completed",
+          "activeForm": "Reading the implementation plan"
+        },
+        {
+          "content": "Install dependencies: cd apps/packages/api && npm i @nestjs/swagger swagger-ui-express",
+          "status": "in_progress",
+          "activeForm": "Installing dependencies"
+        },
+        {
+          "content": "Configure SwaggerModule in apps/packages/api/src/main.ts",
+          "status": "pending",
+          "activeForm": "Configuring Swagger in main.ts"
+        },
+        {
+          "content": "Create DTOs: provider.dto.ts and proxy.dto.ts in apps/packages/api/src/dto/",
+          "status": "pending",
+          "activeForm": "Creating DTOs"
+        },
+        {
+          "content": "Add Swagger decorators to providers.controller.ts",
+          "status": "pending",
+          "activeForm": "Decorating providers controller"
+        },
+        {
+          "content": "Add Swagger decorators to proxies.controller.ts",
+          "status": "pending",
+          "activeForm": "Decorating proxies controller"
+        },
+        {
+          "content": "Add Swagger decorators to usage, notifications, and webhook controllers",
+          "status": "pending",
+          "activeForm": "Decorating other controllers"
+        },
+        {
+          "content": "Update README.md with OpenAPI and MCP docs",
+          "status": "pending",
+          "activeForm": "Updating README.md"
+        },
+        {
+          "content": "Run validation: install, build, start, test /api-docs",
+          "status": "pending",
+          "activeForm": "Running validation commands"
+        },
+        {
+          "content": "Run git diff --stat to report changes",
+          "status": "pending",
+          "activeForm": "Running git diff --stat"
+        }
+      ]
     }
   },
   {
@@ -18,8 +80,8 @@
     "hook_event_name": "PreToolUse",
     "tool_name": "Bash",
     "tool_input": {
-      "command": "git status",
-      "description": "Check current git status before committing"
+      "command": "cd apps/packages/api && npm i @nestjs/swagger swagger-ui-express",
+      "description": "Install Swagger dependencies"
     }
   },
   {
@@ -30,8 +92,872 @@
     "hook_event_name": "PreToolUse",
     "tool_name": "Bash",
     "tool_input": {
-      "command": "git diff",
-      "description": "Review changes to draft commit message"
+      "command": "cd apps/packages/api && npm i @nestjs/swagger@^7.3.1 swagger-ui-express",
+      "description": "Install compatible Swagger version for NestJS 10"
+    }
+  },
+  {
+    "session_id": "92113efc-9e32-4240-9f23-80770668bfe0",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/92113efc-9e32-4240-9f23-80770668bfe0.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "TodoWrite",
+    "tool_input": {
+      "todos": [
+        {
+          "content": "Read the implementation plan from specs/issue-10-adw-def456-sdlc_planner-openapi-docs-and-mcp-support.md",
+          "status": "completed",
+          "activeForm": "Reading the implementation plan"
+        },
+        {
+          "content": "Install dependencies: cd apps/packages/api && npm i @nestjs/swagger@^7.3.1 swagger-ui-express",
+          "status": "completed",
+          "activeForm": "Installing dependencies"
+        },
+        {
+          "content": "Configure SwaggerModule in apps/packages/api/src/main.ts",
+          "status": "in_progress",
+          "activeForm": "Configuring Swagger in main.ts"
+        },
+        {
+          "content": "Create DTOs: provider.dto.ts and proxy.dto.ts in apps/packages/api/src/dto/",
+          "status": "pending",
+          "activeForm": "Creating DTOs"
+        },
+        {
+          "content": "Add Swagger decorators to providers.controller.ts",
+          "status": "pending",
+          "activeForm": "Decorating providers controller"
+        },
+        {
+          "content": "Add Swagger decorators to proxies.controller.ts",
+          "status": "pending",
+          "activeForm": "Decorating proxies controller"
+        },
+        {
+          "content": "Add Swagger decorators to usage, notifications, and webhook controllers",
+          "status": "pending",
+          "activeForm": "Decorating other controllers"
+        },
+        {
+          "content": "Update README.md with OpenAPI and MCP docs",
+          "status": "pending",
+          "activeForm": "Updating README.md"
+        },
+        {
+          "content": "Run validation: start dev, test /api-docs",
+          "status": "pending",
+          "activeForm": "Running validation commands"
+        },
+        {
+          "content": "Run git diff --stat to report changes",
+          "status": "pending",
+          "activeForm": "Running git diff --stat"
+        }
+      ]
+    }
+  },
+  {
+    "session_id": "92113efc-9e32-4240-9f23-80770668bfe0",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/92113efc-9e32-4240-9f23-80770668bfe0.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Read",
+    "tool_input": {
+      "file_path": "/home/andre/batcave/proxyhub-rotor-pro/apps/packages/api/src/main.ts"
+    }
+  },
+  {
+    "session_id": "92113efc-9e32-4240-9f23-80770668bfe0",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/92113efc-9e32-4240-9f23-80770668bfe0.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "TodoWrite",
+    "tool_input": {
+      "todos": [
+        {
+          "content": "Read the implementation plan from specs/issue-10-adw-def456-sdlc_planner-openapi-docs-and-mcp-support.md",
+          "status": "completed",
+          "activeForm": "Reading the implementation plan"
+        },
+        {
+          "content": "Install dependencies: cd apps/packages/api && npm i @nestjs/swagger@^7.3.1 swagger-ui-express",
+          "status": "completed",
+          "activeForm": "Installing dependencies"
+        },
+        {
+          "content": "Configure SwaggerModule in apps/packages/api/src/main.ts",
+          "status": "in_progress",
+          "activeForm": "Configuring Swagger in main.ts"
+        },
+        {
+          "content": "Create DTOs: provider.dto.ts and proxy.dto.ts in apps/packages/api/src/dto/",
+          "status": "pending",
+          "activeForm": "Creating DTOs"
+        },
+        {
+          "content": "Add Swagger decorators to providers.controller.ts",
+          "status": "pending",
+          "activeForm": "Decorating providers controller"
+        },
+        {
+          "content": "Add Swagger decorators to proxies.controller.ts",
+          "status": "pending",
+          "activeForm": "Decorating proxies controller"
+        },
+        {
+          "content": "Add Swagger decorators to usage, notifications, and webhook controllers",
+          "status": "pending",
+          "activeForm": "Decorating other controllers"
+        },
+        {
+          "content": "Update README.md with OpenAPI and MCP docs",
+          "status": "pending",
+          "activeForm": "Updating README.md"
+        },
+        {
+          "content": "Run validation: start dev, test /api-docs",
+          "status": "pending",
+          "activeForm": "Running validation commands"
+        },
+        {
+          "content": "Run git diff --stat to report changes",
+          "status": "pending",
+          "activeForm": "Running git diff --stat"
+        }
+      ]
+    }
+  },
+  {
+    "session_id": "92113efc-9e32-4240-9f23-80770668bfe0",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/92113efc-9e32-4240-9f23-80770668bfe0.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Edit",
+    "tool_input": {
+      "file_path": "/home/andre/batcave/proxyhub-rotor-pro/apps/packages/api/src/main.ts",
+      "old_string": "import { NestFactory } from '@nestjs/core';\nimport { AppModule } from './app.module';\nasync function bootstrap() {\n  const app = await NestFactory.create(AppModule, { cors: true });\n  const port = process.env.PORT || 8080;\n  await app.listen(port);\n  console.log('ProxyHub API on :' + port);\n}\nbootstrap();",
+      "new_string": "import { NestFactory } from '@nestjs/core';\nimport { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';\nimport { AppModule } from './app.module';\n\nasync function bootstrap() {\n  const app = await NestFactory.create(AppModule, { cors: true });\n\n  const config = new DocumentBuilder()\n    .setTitle('ProxyHub Rotator API')\n    .setDescription('API for managing proxy providers, proxies, usage, and notifications. MCP-optimized with tool tags.')\n    .setVersion('1.0')\n    .addTag('providers', 'mcp-tool')\n    .addTag('proxies', 'mcp-tool')\n    .addTag('usage')\n    .addTag('notifications')\n    .addTag('webhooks', 'mcp-tool')\n    .build();\n  const document = SwaggerModule.createDocument(app, config);\n  SwaggerModule.setup('api-docs', app, document);\n\n  const port = process.env.PORT || 8080;\n  await app.listen(port);\n  console.log('ProxyHub API on :' + port);\n  console.log('OpenAPI docs at http://localhost:' + port + '/api-docs');\n}\nbootstrap();"
+    }
+  },
+  {
+    "session_id": "92113efc-9e32-4240-9f23-80770668bfe0",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/92113efc-9e32-4240-9f23-80770668bfe0.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "TodoWrite",
+    "tool_input": {
+      "todos": [
+        {
+          "content": "Read the implementation plan from specs/issue-10-adw-def456-sdlc_planner-openapi-docs-and-mcp-support.md",
+          "status": "completed",
+          "activeForm": "Reading the implementation plan"
+        },
+        {
+          "content": "Install dependencies: cd apps/packages/api && npm i @nestjs/swagger@^7.3.1 swagger-ui-express",
+          "status": "completed",
+          "activeForm": "Installing dependencies"
+        },
+        {
+          "content": "Configure SwaggerModule in apps/packages/api/src/main.ts",
+          "status": "completed",
+          "activeForm": "Configuring Swagger in main.ts"
+        },
+        {
+          "content": "Create DTOs: provider.dto.ts and proxy.dto.ts in apps/packages/api/src/dto/",
+          "status": "in_progress",
+          "activeForm": "Creating DTOs"
+        },
+        {
+          "content": "Add Swagger decorators to providers.controller.ts",
+          "status": "pending",
+          "activeForm": "Decorating providers controller"
+        },
+        {
+          "content": "Add Swagger decorators to proxies.controller.ts",
+          "status": "pending",
+          "activeForm": "Decorating proxies controller"
+        },
+        {
+          "content": "Add Swagger decorators to usage, notifications, and webhook controllers",
+          "status": "pending",
+          "activeForm": "Decorating other controllers"
+        },
+        {
+          "content": "Update README.md with OpenAPI and MCP docs",
+          "status": "pending",
+          "activeForm": "Updating README.md"
+        },
+        {
+          "content": "Run validation: start dev, test /api-docs",
+          "status": "pending",
+          "activeForm": "Running validation commands"
+        },
+        {
+          "content": "Run git diff --stat to report changes",
+          "status": "pending",
+          "activeForm": "Running git diff --stat"
+        }
+      ]
+    }
+  },
+  {
+    "session_id": "92113efc-9e32-4240-9f23-80770668bfe0",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/92113efc-9e32-4240-9f23-80770668bfe0.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Write",
+    "tool_input": {
+      "file_path": "/home/andre/batcave/proxyhub-rotor-pro/apps/packages/api/src/dto/provider.dto.ts",
+      "content": "import { ApiProperty } from '@nestjs/swagger';\nimport { IsString, IsEnum, IsObject, IsOptional, IsBoolean, IsUrl, ValidateNested } from 'class-validator';\nimport { Type } from 'class-transformer';\nimport { ProviderType } from '@prisma/client'; // Assume Prisma types available\n\nexport class ConfigDto {\n  @ApiProperty({ description: 'Provider config like access_token, endpoint' })\n  @IsObject()\n  [key: string]: any;\n}\n\nexport class CreateProviderDto {\n  @ApiProperty({ description: 'Unique name for the provider' })\n  @IsString()\n  name: string;\n\n  @ApiProperty({ enum: ProviderType, description: 'Type of provider (api, file, manual)' })\n  @IsEnum(ProviderType)\n  type: ProviderType;\n\n  @ApiProperty({ description: 'Configuration object for the provider' })\n  @IsObject()\n  @ValidateNested()\n  @Type(() => ConfigDto)\n  config: ConfigDto;\n\n  @ApiProperty({ description: 'Optional logo URL', required: false })\n  @IsOptional()\n  @IsUrl()\n  logoUrl?: string;\n\n  @ApiProperty({ description: 'Whether the provider is active', required: false, default: true })\n  @IsOptional()\n  @IsBoolean()\n  active?: boolean;\n}\n\nexport class ProviderDto extends CreateProviderDto {\n  @ApiProperty({ description: 'Unique ID' })\n  @IsString()\n  id: string;\n\n  @ApiProperty({ description: 'Creation timestamp' })\n  @IsString()\n  createdAt: string;\n}\n\nexport class PaginatedProvidersDto {\n  @ApiProperty({ type: [ProviderDto] })\n  items: ProviderDto[];\n\n  @ApiProperty({ description: 'Total number of providers' })\n  total: number;\n\n  @ApiProperty({ description: 'Current page' })\n  page: number;\n\n  @ApiProperty({ description: 'Items per page' })\n  limit: number;\n\n  @ApiProperty({ description: 'Number of records to skip', required: false })\n  skip?: number;\n}"
+    }
+  },
+  {
+    "session_id": "92113efc-9e32-4240-9f23-80770668bfe0",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/92113efc-9e32-4240-9f23-80770668bfe0.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Write",
+    "tool_input": {
+      "file_path": "/home/andre/batcave/proxyhub-rotor-pro/apps/packages/api/src/dto/proxy.dto.ts",
+      "content": "import { ApiProperty } from '@nestjs/swagger';\nimport { IsString, IsOptional, IsNumber, IsArray, IsEnum, Min, Max } from 'class-validator';\nimport { Type } from 'class-transformer';\n\nexport class ProxyQueryDto {\n  @ApiProperty({ description: 'Filter by pool name', required: false })\n  @IsOptional()\n  @IsString()\n  pool?: string;\n\n  @ApiProperty({ description: 'Filter by provider ID', required: false })\n  @IsOptional()\n  @IsString()\n  providerId?: string;\n\n  @ApiProperty({ description: 'Bounding box filter [minLon,minLat,maxLon,maxLat]', required: false })\n  @IsOptional()\n  @IsString()\n  bbox?: string;\n\n  @ApiProperty({ description: 'Page number (default 1)', required: false })\n  @IsOptional()\n  @IsNumber()\n  @Min(1)\n  @Type(() => Number)\n  page?: number;\n\n  @ApiProperty({ description: 'Records per page (default 10, max 100)', required: false, minimum: 1, maximum: 100 })\n  @IsOptional()\n  @IsNumber()\n  @Min(1)\n  @Max(100)\n  @Type(() => Number)\n  limit?: number;\n\n  @ApiProperty({ description: 'Number of records to skip (overrides page)', required: false, minimum: 0 })\n  @IsOptional()\n  @IsNumber()\n  @Min(0)\n  @Type(() => Number)\n  skip?: number;\n\n  @ApiProperty({ description: 'Sample random proxies (true/false)', required: false })\n  @IsOptional()\n  @IsString()\n  sample?: string;\n}\n\nexport class CreateProxyDto {\n  @ApiProperty({ description: 'Pool the proxy belongs to' })\n  @IsString()\n  pool: string;\n\n  @ApiProperty({ description: 'Host IP' })\n  @IsString()\n  host: string;\n\n  @ApiProperty({ description: 'Port number' })\n  @IsNumber()\n  @Type(() => Number)\n  port: number;\n\n  @ApiProperty({ description: 'Username if auth required', required: false })\n  @IsOptional()\n  @IsString()\n  username?: string;\n\n  @ApiProperty({ description: 'Password if auth required', required: false })\n  @IsOptional()\n  @IsString()\n  password?: string;\n\n  @ApiProperty({ enum: ['http', 'https', 'socks4', 'socks5'], description: 'Protocol', default: 'http' })\n  @IsOptional()\n  @IsEnum(['http', 'https', 'socks4', 'socks5'])\n  protocol?: string;\n\n  @ApiProperty({ type: [String], description: 'Tags', required: false })\n  @IsOptional()\n  @IsArray()\n  tags?: string[];\n\n  @ApiProperty({ description: 'Provider ID', required: false })\n  @IsOptional()\n  @IsString()\n  providerId?: string;\n\n  @ApiProperty({ description: 'Additional meta', required: false })\n  @IsOptional()\n  @IsObject()\n  meta?: Record<string, any>;\n\n  // Geo fields optional\n  @ApiProperty({ description: 'Country', required: false })\n  @IsOptional()\n  @IsString()\n  country?: string;\n\n  @ApiProperty({ description: 'Region', required: false })\n  @IsOptional()\n  @IsString()\n  region?: string;\n\n  @ApiProperty({ description: 'City', required: false })\n  @IsOptional()\n  @IsString()\n  city?: string;\n\n  @ApiProperty({ description: 'Latitude', required: false })\n  @IsOptional()\n  @IsNumber()\n  @Type(() => Number)\n  latitude?: number;\n\n  @ApiProperty({ description: 'Longitude', required: false })\n  @IsOptional()\n  @IsNumber()\n  @Type(() => Number)\n  longitude?: number;\n}\n\nexport class PaginatedProxiesDto {\n  @ApiProperty({ type: [CreateProxyDto] })\n  items: CreateProxyDto[];\n\n  @ApiProperty({ description: 'Total number of proxies matching filters' })\n  total: number;\n\n  @ApiProperty({ description: 'Current page' })\n  page: number;\n\n  @ApiProperty({ description: 'Items per page' })\n  limit: number;\n\n  @ApiProperty({ description: 'Skip value used', required: false })\n  skip?: number;\n}"
+    }
+  },
+  {
+    "session_id": "92113efc-9e32-4240-9f23-80770668bfe0",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/92113efc-9e32-4240-9f23-80770668bfe0.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "TodoWrite",
+    "tool_input": {
+      "todos": [
+        {
+          "content": "Read the implementation plan from specs/issue-10-adw-def456-sdlc_planner-openapi-docs-and-mcp-support.md",
+          "status": "completed",
+          "activeForm": "Reading the implementation plan"
+        },
+        {
+          "content": "Install dependencies: cd apps/packages/api && npm i @nestjs/swagger@^7.3.1 swagger-ui-express",
+          "status": "completed",
+          "activeForm": "Installing dependencies"
+        },
+        {
+          "content": "Configure SwaggerModule in apps/packages/api/src/main.ts",
+          "status": "completed",
+          "activeForm": "Configuring Swagger in main.ts"
+        },
+        {
+          "content": "Create DTOs: provider.dto.ts and proxy.dto.ts in apps/packages/api/src/dto/",
+          "status": "completed",
+          "activeForm": "Creating DTOs"
+        },
+        {
+          "content": "Add Swagger decorators to providers.controller.ts",
+          "status": "in_progress",
+          "activeForm": "Decorating providers controller"
+        },
+        {
+          "content": "Add Swagger decorators to proxies.controller.ts",
+          "status": "pending",
+          "activeForm": "Decorating proxies controller"
+        },
+        {
+          "content": "Add Swagger decorators to usage, notifications, and webhook controllers",
+          "status": "pending",
+          "activeForm": "Decorating other controllers"
+        },
+        {
+          "content": "Update README.md with OpenAPI and MCP docs",
+          "status": "pending",
+          "activeForm": "Updating README.md"
+        },
+        {
+          "content": "Run validation: start dev, test /api-docs",
+          "status": "pending",
+          "activeForm": "Running validation commands"
+        },
+        {
+          "content": "Run git diff --stat to report changes",
+          "status": "pending",
+          "activeForm": "Running git diff --stat"
+        }
+      ]
+    }
+  },
+  {
+    "session_id": "92113efc-9e32-4240-9f23-80770668bfe0",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/92113efc-9e32-4240-9f23-80770668bfe0.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Read",
+    "tool_input": {
+      "file_path": "/home/andre/batcave/proxyhub-rotor-pro/apps/packages/api/src/modules/providers/providers.controller.ts"
+    }
+  },
+  {
+    "session_id": "92113efc-9e32-4240-9f23-80770668bfe0",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/92113efc-9e32-4240-9f23-80770668bfe0.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "TodoWrite",
+    "tool_input": {
+      "todos": [
+        {
+          "content": "Read the implementation plan from specs/issue-10-adw-def456-sdlc_planner-openapi-docs-and-mcp-support.md",
+          "status": "completed",
+          "activeForm": "Reading the implementation plan"
+        },
+        {
+          "content": "Install dependencies: cd apps/packages/api && npm i @nestjs/swagger@^7.3.1 swagger-ui-express",
+          "status": "completed",
+          "activeForm": "Installing dependencies"
+        },
+        {
+          "content": "Configure SwaggerModule in apps/packages/api/src/main.ts",
+          "status": "completed",
+          "activeForm": "Configuring Swagger in main.ts"
+        },
+        {
+          "content": "Create DTOs: provider.dto.ts and proxy.dto.ts in apps/packages/api/src/dto/",
+          "status": "completed",
+          "activeForm": "Creating DTOs"
+        },
+        {
+          "content": "Add Swagger decorators to providers.controller.ts",
+          "status": "in_progress",
+          "activeForm": "Decorating providers controller"
+        },
+        {
+          "content": "Add Swagger decorators to proxies.controller.ts",
+          "status": "pending",
+          "activeForm": "Decorating proxies controller"
+        },
+        {
+          "content": "Add Swagger decorators to usage, notifications, and webhook controllers",
+          "status": "pending",
+          "activeForm": "Decorating other controllers"
+        },
+        {
+          "content": "Update README.md with OpenAPI and MCP docs",
+          "status": "pending",
+          "activeForm": "Updating README.md"
+        },
+        {
+          "content": "Run validation: start dev, test /api-docs",
+          "status": "pending",
+          "activeForm": "Running validation commands"
+        },
+        {
+          "content": "Run git diff --stat to report changes",
+          "status": "pending",
+          "activeForm": "Running git diff --stat"
+        }
+      ]
+    }
+  },
+  {
+    "session_id": "92113efc-9e32-4240-9f23-80770668bfe0",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/92113efc-9e32-4240-9f23-80770668bfe0.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "TodoWrite",
+    "tool_input": {
+      "todos": [
+        {
+          "content": "Read the implementation plan from specs/issue-10-adw-def456-sdlc_planner-openapi-docs-and-mcp-support.md",
+          "status": "completed",
+          "activeForm": "Reading the implementation plan"
+        },
+        {
+          "content": "Install dependencies: cd apps/packages/api && npm i @nestjs/swagger@^7.3.1 swagger-ui-express",
+          "status": "completed",
+          "activeForm": "Installing dependencies"
+        },
+        {
+          "content": "Configure SwaggerModule in apps/packages/api/src/main.ts",
+          "status": "completed",
+          "activeForm": "Configuring Swagger in main.ts"
+        },
+        {
+          "content": "Create DTOs: provider.dto.ts and proxy.dto.ts in apps/packages/api/src/dto/",
+          "status": "completed",
+          "activeForm": "Creating DTOs"
+        },
+        {
+          "content": "Add Swagger decorators to providers.controller.ts",
+          "status": "completed",
+          "activeForm": "Decorating providers controller"
+        },
+        {
+          "content": "Add Swagger decorators to proxies.controller.ts",
+          "status": "in_progress",
+          "activeForm": "Decorating proxies controller"
+        },
+        {
+          "content": "Add Swagger decorators to usage, notifications, and webhook controllers",
+          "status": "pending",
+          "activeForm": "Decorating other controllers"
+        },
+        {
+          "content": "Update README.md with OpenAPI and MCP docs",
+          "status": "pending",
+          "activeForm": "Updating README.md"
+        },
+        {
+          "content": "Run validation: start dev, test /api-docs",
+          "status": "pending",
+          "activeForm": "Running validation commands"
+        },
+        {
+          "content": "Run git diff --stat to report changes",
+          "status": "pending",
+          "activeForm": "Running git diff --stat"
+        }
+      ]
+    }
+  },
+  {
+    "session_id": "92113efc-9e32-4240-9f23-80770668bfe0",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/92113efc-9e32-4240-9f23-80770668bfe0.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Read",
+    "tool_input": {
+      "file_path": "/home/andre/batcave/proxyhub-rotor-pro/apps/packages/api/src/modules/proxies/proxies.controller.ts"
+    }
+  },
+  {
+    "session_id": "92113efc-9e32-4240-9f23-80770668bfe0",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/92113efc-9e32-4240-9f23-80770668bfe0.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "TodoWrite",
+    "tool_input": {
+      "todos": [
+        {
+          "content": "Read the implementation plan from specs/issue-10-adw-def456-sdlc_planner-openapi-docs-and-mcp-support.md",
+          "status": "completed",
+          "activeForm": "Reading the implementation plan"
+        },
+        {
+          "content": "Install dependencies: cd apps/packages/api && npm i @nestjs/swagger@^7.3.1 swagger-ui-express",
+          "status": "completed",
+          "activeForm": "Installing dependencies"
+        },
+        {
+          "content": "Configure SwaggerModule in apps/packages/api/src/main.ts",
+          "status": "completed",
+          "activeForm": "Configuring Swagger in main.ts"
+        },
+        {
+          "content": "Create DTOs: provider.dto.ts and proxy.dto.ts in apps/packages/api/src/dto/",
+          "status": "completed",
+          "activeForm": "Creating DTOs"
+        },
+        {
+          "content": "Add Swagger decorators to providers.controller.ts",
+          "status": "completed",
+          "activeForm": "Decorating providers controller"
+        },
+        {
+          "content": "Add Swagger decorators to proxies.controller.ts",
+          "status": "in_progress",
+          "activeForm": "Decorating proxies controller"
+        },
+        {
+          "content": "Add Swagger decorators to usage, notifications, and webhook controllers",
+          "status": "pending",
+          "activeForm": "Decorating other controllers"
+        },
+        {
+          "content": "Update README.md with OpenAPI and MCP docs",
+          "status": "pending",
+          "activeForm": "Updating README.md"
+        },
+        {
+          "content": "Run validation: start dev, test /api-docs",
+          "status": "pending",
+          "activeForm": "Running validation commands"
+        },
+        {
+          "content": "Run git diff --stat to report changes",
+          "status": "pending",
+          "activeForm": "Running git diff --stat"
+        }
+      ]
+    }
+  },
+  {
+    "session_id": "92113efc-9e32-4240-9f23-80770668bfe0",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/92113efc-9e32-4240-9f23-80770668bfe0.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Edit",
+    "tool_input": {
+      "file_path": "/home/andre/batcave/proxyhub-rotor-pro/apps/packages/api/src/modules/proxies/proxies.controller.ts",
+      "old_string": "import { Controller, Get, Post, Patch, Delete, Param, Body, Query } from '@nestjs/common';\nimport { ProxyService } from './proxies.service';\nimport { validatePagination } from '../../common/pagination';\n\n@Controller('v1/proxies')\nexport class ProxiesController {\n  constructor(private service: ProxyService) {}\n\n  @Get()\n  async list(@Query() q: any) {\n    const sample = q.sample === 'true';\n    if (sample) {\n      const result = await this.service.listProxies(q, true);\n      return result;\n    }\n\n    const { page, limit, skip } = q;\n    const params: PaginationParams = {\n      page: parseInt(page || '1'),\n      limit: parseInt(limit || '200'),\n      skip: parseInt(skip || '')\n    };\n    const pagination = validatePagination(params);\n    const result = await this.service.listProxies(q, false, { skip: pagination.skip, take: pagination.limit });\n    return {\n      ...result,\n      page: pagination.page,\n      limit: pagination.limit,\n      skip: pagination.skip !== undefined ? pagination.skip : undefined\n    };\n  }\n\n  // Keep separate /sample for backward compatibility\n  @Get('sample')\n  async sample() {\n    return await this.service.getSample();\n  }\n\n  @Post()\n  async create(@Body() data: any) {\n    return await this.service.createProxy(data);\n  }\n\n  @Patch(':id')\n  async update(@Param('id') id: string, @Body() data: any) {\n    return await this.service.updateProxy(id, data);\n  }\n\n  @Delete(':id')\n  async delete(@Param('id') id: string) {\n    return await this.service.deleteProxy(id);\n  }\n}",
+      "new_string": "import { Controller, Get, Post, Patch, Delete, Param, Body, Query, BadRequestException } from '@nestjs/common';\nimport { ProxyService } from './proxies.service';\nimport { validatePagination, PaginationParams } from '../../common/pagination';\nimport { ApiTags, ApiOperation, ApiQuery, ApiParam, ApiBody, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';\nimport { ProxyQueryDto, CreateProxyDto, PaginatedProxiesDto } from '../../dto/proxy.dto';\n\n@ApiTags('proxies', 'mcp-tool')\n@ApiBearerAuth()\n@Controller('v1/proxies')\nexport class ProxiesController {\n  constructor(private service: ProxyService) {}\n\n  @Get()\n  @ApiOperation({ summary: 'Get paginated and filtered list of proxies' })\n  @ApiQuery({ name: 'pool', required: false, type: String, description: 'Filter by pool' })\n  @ApiQuery({ name: 'providerId', required: false, type: String, description: 'Filter by provider ID' })\n  @ApiQuery({ name: 'bbox', required: false, type: String, description: 'Bounding box [minLon,minLat,maxLon,maxLat]' })\n  @ApiQuery({ name: 'page', required: false, type: Number, description: 'Page number (default 1)' })\n  @ApiQuery({ name: 'limit', required: false, type: Number, description: 'Items per page (default 200, max 5000)' })\n  @ApiQuery({ name: 'skip', required: false, type: Number, description: 'Number of items to skip (overrides page)' })\n  @ApiQuery({ name: 'sample', required: false, enum: ['true'], description: 'Return random sample instead' })\n  @ApiResponse({ status: 200, description: 'Paginated proxies', type: PaginatedProxiesDto })\n  async list(@Query() q: ProxyQueryDto) {\n    const sample = q.sample === 'true';\n    if (sample) {\n      const result = await this.service.listProxies(q, true);\n      return result;\n    }\n\n    const params: PaginationParams = {\n      page: q.page,\n      limit: q.limit,\n      skip: q.skip\n    };\n    const pagination = validatePagination(params);\n    const result = await this.service.listProxies(q, false, { skip: pagination.skip, take: pagination.limit });\n    return {\n      ...result,\n      page: pagination.page,\n      limit: pagination.limit,\n      skip: pagination.skip !== undefined ? pagination.skip : undefined\n    };\n  }\n\n  @Get('sample')\n  @ApiOperation({ summary: 'Get random sample of 200 proxies for quick load' })\n  @ApiResponse({ status: 200, description: 'Random proxies', type: PaginatedProxiesDto })\n  async sample() {\n    return await this.service.getSample();\n  }\n\n  @Post()\n  @ApiOperation({ summary: 'Create a new proxy' })\n  @ApiBody({ type: CreateProxyDto })\n  @ApiResponse({ status: 201, description: 'Created proxy', type: CreateProxyDto })\n  async create(@Body() data: CreateProxyDto) {\n    return await this.service.createProxy(data);\n  }\n\n  @Patch(':id')\n  @ApiOperation({ summary: 'Update proxy details' })\n  @ApiParam({ name: 'id', description: 'Proxy ID' })\n  @ApiBody({ type: 'object', schema: { properties: { meta: { type: 'object' }, tags: { type: 'array', items: { type: 'string' } } } } })\n  @ApiResponse({ status: 200, description: 'Updated proxy', type: CreateProxyDto })\n  async update(@Param('id') id: string, @Body() data: any) {\n    return await this.service.updateProxy(id, data);\n  }\n\n  @Delete(':id')\n  @ApiOperation({ summary: 'Delete a proxy' })\n  @ApiParam({ name: 'id', description: 'Proxy ID' })\n  @ApiResponse({ status: 200, description: 'Deletion success', schema: { properties: { success: { type: 'boolean' } } } })\n  async delete(@Param('id') id: string) {\n    return await this.service.deleteProxy(id);\n  }\n}"
+    }
+  },
+  {
+    "session_id": "92113efc-9e32-4240-9f23-80770668bfe0",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/92113efc-9e32-4240-9f23-80770668bfe0.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "TodoWrite",
+    "tool_input": {
+      "todos": [
+        {
+          "content": "Read the implementation plan from specs/issue-10-adw-def456-sdlc_planner-openapi-docs-and-mcp-support.md",
+          "status": "completed",
+          "activeForm": "Reading the implementation plan"
+        },
+        {
+          "content": "Install dependencies: cd apps/packages/api && npm i @nestjs/swagger@^7.3.1 swagger-ui-express",
+          "status": "completed",
+          "activeForm": "Installing dependencies"
+        },
+        {
+          "content": "Configure SwaggerModule in apps/packages/api/src/main.ts",
+          "status": "completed",
+          "activeForm": "Configuring Swagger in main.ts"
+        },
+        {
+          "content": "Create DTOs: provider.dto.ts and proxy.dto.ts in apps/packages/api/src/dto/",
+          "status": "completed",
+          "activeForm": "Creating DTOs"
+        },
+        {
+          "content": "Add Swagger decorators to providers.controller.ts",
+          "status": "completed",
+          "activeForm": "Decorating providers controller"
+        },
+        {
+          "content": "Add Swagger decorators to proxies.controller.ts",
+          "status": "completed",
+          "activeForm": "Decorating proxies controller"
+        },
+        {
+          "content": "Add Swagger decorators to usage, notifications, and webhook controllers",
+          "status": "in_progress",
+          "activeForm": "Decorating other controllers"
+        },
+        {
+          "content": "Update README.md with OpenAPI and MCP docs",
+          "status": "pending",
+          "activeForm": "Updating README.md"
+        },
+        {
+          "content": "Run validation: start dev, test /api-docs",
+          "status": "pending",
+          "activeForm": "Running validation commands"
+        },
+        {
+          "content": "Run git diff --stat to report changes",
+          "status": "pending",
+          "activeForm": "Running git diff --stat"
+        }
+      ]
+    }
+  },
+  {
+    "session_id": "92113efc-9e32-4240-9f23-80770668bfe0",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/92113efc-9e32-4240-9f23-80770668bfe0.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Read",
+    "tool_input": {
+      "file_path": "/home/andre/batcave/proxyhub-rotor-pro/apps/packages/api/src/modules/usage/usage.controller.ts"
+    }
+  },
+  {
+    "session_id": "92113efc-9e32-4240-9f23-80770668bfe0",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/92113efc-9e32-4240-9f23-80770668bfe0.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "TodoWrite",
+    "tool_input": {
+      "todos": [
+        {
+          "content": "Read the implementation plan from specs/issue-10-adw-def456-sdlc_planner-openapi-docs-and-mcp-support.md",
+          "status": "completed",
+          "activeForm": "Reading the implementation plan"
+        },
+        {
+          "content": "Install dependencies: cd apps/packages/api && npm i @nestjs/swagger@^7.3.1 swagger-ui-express",
+          "status": "completed",
+          "activeForm": "Installing dependencies"
+        },
+        {
+          "content": "Configure SwaggerModule in apps/packages/api/src/main.ts",
+          "status": "completed",
+          "activeForm": "Configuring Swagger in main.ts"
+        },
+        {
+          "content": "Create DTOs: provider.dto.ts and proxy.dto.ts in apps/packages/api/src/dto/",
+          "status": "completed",
+          "activeForm": "Creating DTOs"
+        },
+        {
+          "content": "Add Swagger decorators to providers.controller.ts",
+          "status": "in_progress",
+          "activeForm": "Decorating providers controller"
+        },
+        {
+          "content": "Add Swagger decorators to proxies.controller.ts",
+          "status": "pending",
+          "activeForm": "Decorating proxies controller"
+        },
+        {
+          "content": "Add Swagger decorators to usage, notifications, and webhook controllers",
+          "status": "pending",
+          "activeForm": "Decorating other controllers"
+        },
+        {
+          "content": "Update README.md with OpenAPI and MCP docs",
+          "status": "pending",
+          "activeForm": "Updating README.md"
+        },
+        {
+          "content": "Run validation: start dev, test /api-docs",
+          "status": "pending",
+          "activeForm": "Running validation commands"
+        },
+        {
+          "content": "Run git diff --stat to report changes",
+          "status": "pending",
+          "activeForm": "Running git diff --stat"
+        }
+      ]
+    }
+  },
+  {
+    "session_id": "92113efc-9e32-4240-9f23-80770668bfe0",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/92113efc-9e32-4240-9f23-80770668bfe0.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "TodoWrite",
+    "tool_input": {
+      "todos": [
+        {
+          "content": "Read the implementation plan from specs/issue-10-adw-def456-sdlc_planner-openapi-docs-and-mcp-support.md",
+          "status": "completed",
+          "activeForm": "Reading the implementation plan"
+        },
+        {
+          "content": "Install dependencies: cd apps/packages/api && npm i @nestjs/swagger@^7.3.1 swagger-ui-express",
+          "status": "completed",
+          "activeForm": "Installing dependencies"
+        },
+        {
+          "content": "Configure SwaggerModule in apps/packages/api/src/main.ts",
+          "status": "completed",
+          "activeForm": "Configuring Swagger in main.ts"
+        },
+        {
+          "content": "Create DTOs: provider.dto.ts and proxy.dto.ts in apps/packages/api/src/dto/",
+          "status": "completed",
+          "activeForm": "Creating DTOs"
+        },
+        {
+          "content": "Add Swagger decorators to providers.controller.ts",
+          "status": "completed",
+          "activeForm": "Decorating providers controller"
+        },
+        {
+          "content": "Add Swagger decorators to proxies.controller.ts",
+          "status": "completed",
+          "activeForm": "Decorating proxies controller"
+        },
+        {
+          "content": "Add Swagger decorators to usage, notifications, and webhook controllers",
+          "status": "in_progress",
+          "activeForm": "Decorating other controllers"
+        },
+        {
+          "content": "Update README.md with OpenAPI and MCP docs",
+          "status": "pending",
+          "activeForm": "Updating README.md"
+        },
+        {
+          "content": "Run validation: start dev, test /api-docs",
+          "status": "pending",
+          "activeForm": "Running validation commands"
+        },
+        {
+          "content": "Run git diff --stat to report changes",
+          "status": "pending",
+          "activeForm": "Running git diff --stat"
+        }
+      ]
+    }
+  },
+  {
+    "session_id": "92113efc-9e32-4240-9f23-80770668bfe0",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/92113efc-9e32-4240-9f23-80770668bfe0.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Edit",
+    "tool_input": {
+      "file_path": "/home/andre/batcave/proxyhub-rotor-pro/apps/packages/api/src/modules/usage/usage.controller.ts",
+      "old_string": "import { Controller, Get } from '@nestjs/common';\nimport { UsageService } from './usage.service';\n\n@Controller('usage')\nexport class UsageController {\n  constructor(private readonly usageService: UsageService) {}\n\n  @Get('stats')\n  getStats() {\n    return this.usageService.getStats();\n  }\n}",
+      "new_string": "import { Controller, Get } from '@nestjs/common';\nimport { UsageService } from './usage.service';\nimport { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';\n\n@ApiTags('usage')\n@Controller('usage')\nexport class UsageController {\n  constructor(private readonly usageService: UsageService) {}\n\n  @Get('stats')\n  @ApiOperation({ summary: 'Get API usage statistics' })\n  @ApiResponse({ status: 200, description: 'Usage stats object with daily responses and codes' })\n  getStats() {\n    return this.usageService.getStats();\n  }\n}"
+    }
+  },
+  {
+    "session_id": "92113efc-9e32-4240-9f23-80770668bfe0",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/92113efc-9e32-4240-9f23-80770668bfe0.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Edit",
+    "tool_input": {
+      "file_path": "/home/andre/batcave/proxyhub-rotor-pro/apps/packages/api/src/modules/webhook/webhook.controller.ts",
+      "old_string": "import { Controller, Post, Body } from '@nestjs/common';\nimport { NotifyService } from '../notify/notify.service';\n\n@Controller('v1/webhooks')\nexport class WebhookController {\n  constructor(private notify: NotifyService) {}\n  @Post()\n  async handle(@Body() body: any) {\n    const { event = 'custom', payload = {} } = body || {};\n    await this.notify.broadcast(event, payload);\n    return { ok: true };\n  }\n}",
+      "new_string": "import { Controller, Post, Body } from '@nestjs/common';\nimport { ApiTags, ApiOperation, ApiBody, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';\nimport { NotifyService } from '../notify/notify.service';\n\n@ApiTags('webhooks', 'mcp-tool')\n@ApiBearerAuth()\n@Controller('v1/webhooks')\nexport class WebhookController {\n  constructor(private notify: NotifyService) {}\n  @Post()\n  @ApiOperation({ summary: 'Send test event to webhooks (or handle incoming webhook)' })\n  @ApiBody({ schema: { properties: { event: { type: 'string', enum: ['test', 'custom'] }, payload: { type: 'object', additionalProperties: true } } })\n  @ApiResponse({ status: 200, description: 'Webhook processed', schema: { properties: { ok: { type: 'boolean' } } } })\n  async handle(@Body() body: any) {\n    const { event = 'custom', payload = {} } = body || {};\n    await this.notify.broadcast(event, payload);\n    return { ok: true };\n  }\n}"
+    }
+  },
+  {
+    "session_id": "92113efc-9e32-4240-9f23-80770668bfe0",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/92113efc-9e32-4240-9f23-80770668bfe0.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "TodoWrite",
+    "tool_input": {
+      "todos": [
+        {
+          "content": "Read the implementation plan from specs/issue-10-adw-def456-sdlc_planner-openapi-docs-and-mcp-support.md",
+          "status": "completed",
+          "activeForm": "Reading the implementation plan"
+        },
+        {
+          "content": "Install dependencies: cd apps/packages/api && npm i @nestjs/swagger@^7.3.1 swagger-ui-express",
+          "status": "completed",
+          "activeForm": "Installing dependencies"
+        },
+        {
+          "content": "Configure SwaggerModule in apps/packages/api/src/main.ts",
+          "status": "completed",
+          "activeForm": "Configuring Swagger in main.ts"
+        },
+        {
+          "content": "Create DTOs: provider.dto.ts and proxy.dto.ts in apps/packages/api/src/dto/",
+          "status": "completed",
+          "activeForm": "Creating DTOs"
+        },
+        {
+          "content": "Add Swagger decorators to providers.controller.ts",
+          "status": "completed",
+          "activeForm": "Decorating providers controller"
+        },
+        {
+          "content": "Add Swagger decorators to proxies.controller.ts",
+          "status": "completed",
+          "activeForm": "Decorating proxies controller"
+        },
+        {
+          "content": "Add Swagger decorators to usage, notifications, and webhook controllers",
+          "status": "completed",
+          "activeForm": "Decorating other controllers"
+        },
+        {
+          "content": "Update README.md with OpenAPI and MCP docs",
+          "status": "in_progress",
+          "activeForm": "Updating README.md"
+        },
+        {
+          "content": "Run validation: start dev, test /api-docs",
+          "status": "pending",
+          "activeForm": "Running validation commands"
+        },
+        {
+          "content": "Run git diff --stat to report changes",
+          "status": "pending",
+          "activeForm": "Running git diff --stat"
+        }
+      ]
+    }
+  },
+  {
+    "session_id": "92113efc-9e32-4240-9f23-80770668bfe0",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/92113efc-9e32-4240-9f23-80770668bfe0.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "TodoWrite",
+    "tool_input": {
+      "todos": [
+        {
+          "content": "Read the implementation plan from specs/issue-10-adw-def456-sdlc_planner-openapi-docs-and-mcp-support.md",
+          "status": "completed",
+          "activeForm": "Reading the implementation plan"
+        },
+        {
+          "content": "Install dependencies: cd apps/packages/api && npm i @nestjs/swagger@^7.3.1 swagger-ui-express",
+          "status": "completed",
+          "activeForm": "Installing dependencies"
+        },
+        {
+          "content": "Configure SwaggerModule in apps/packages/api/src/main.ts",
+          "status": "completed",
+          "activeForm": "Configuring Swagger in main.ts"
+        },
+        {
+          "content": "Create DTOs: provider.dto.ts and proxy.dto.ts in apps/packages/api/src/dto/",
+          "status": "completed",
+          "activeForm": "Creating DTOs"
+        },
+        {
+          "content": "Add Swagger decorators to providers.controller.ts",
+          "status": "completed",
+          "activeForm": "Decorating providers controller"
+        },
+        {
+          "content": "Add Swagger decorators to proxies.controller.ts",
+          "status": "completed",
+          "activeForm": "Decorating proxies controller"
+        },
+        {
+          "content": "Add Swagger decorators to usage, notifications, and webhook controllers",
+          "status": "completed",
+          "activeForm": "Decorating other controllers"
+        },
+        {
+          "content": "Update README.md with OpenAPI and MCP docs",
+          "status": "completed",
+          "activeForm": "Updating README.md"
+        },
+        {
+          "content": "Run validation: start dev, test /api-docs",
+          "status": "in_progress",
+          "activeForm": "Running validation commands"
+        },
+        {
+          "content": "Run git diff --stat to report changes",
+          "status": "pending",
+          "activeForm": "Running git diff --stat"
+        }
+      ]
     }
   },
   {
@@ -42,8 +968,8 @@
     "hook_event_name": "PreToolUse",
     "tool_name": "Bash",
     "tool_input": {
-      "command": "git log -1 --format='%an %ae'",
-      "description": "Check authorship"
+      "command": "cd apps/packages/api && npm run build",
+      "description": "Build to check syntax after decorators"
     }
   },
   {
@@ -54,8 +980,121 @@
     "hook_event_name": "PreToolUse",
     "tool_name": "Bash",
     "tool_input": {
-      "command": "git log -1 --format='%s'",
-      "description": "Get recent commit message style"
+      "command": "docker compose up --build api",
+      "description": "Start API to test /api-docs"
+    }
+  },
+  {
+    "session_id": "92113efc-9e32-4240-9f23-80770668bfe0",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/92113efc-9e32-4240-9f23-80770668bfe0.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "sleep 10 && curl http://localhost:3000/api-docs-json | head -n 20",
+      "description": "Test OpenAPI spec accessible",
+      "run_in_background": true
+    }
+  },
+  {
+    "session_id": "92113efc-9e32-4240-9f23-80770668bfe0",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/92113efc-9e32-4240-9f23-80770668bfe0.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "sleep 15 && curl -X GET \"http://localhost:3000/v1/providers\" | head -n 10",
+      "description": "Test API endpoint unchanged",
+      "run_in_background": true
+    }
+  },
+  {
+    "session_id": "92113efc-9e32-4240-9f23-80770668bfe0",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/92113efc-9e32-4240-9f23-80770668bfe0.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "sleep 20 && docker compose down",
+      "description": "Stop after tests",
+      "run_in_background": true
+    }
+  },
+  {
+    "session_id": "92113efc-9e32-4240-9f23-80770668bfe0",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/92113efc-9e32-4240-9f23-80770668bfe0.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "TodoWrite",
+    "tool_input": {
+      "todos": [
+        {
+          "content": "Read the implementation plan from specs/issue-10-adw-def456-sdlc_planner-openapi-docs-and-mcp-support.md",
+          "status": "completed",
+          "activeForm": "Reading the implementation plan"
+        },
+        {
+          "content": "Install dependencies: cd apps/packages/api && npm i @nestjs/swagger@^7.3.1 swagger-ui-express",
+          "status": "completed",
+          "activeForm": "Installing dependencies"
+        },
+        {
+          "content": "Configure SwaggerModule in apps/packages/api/src/main.ts",
+          "status": "completed",
+          "activeForm": "Configuring Swagger in main.ts"
+        },
+        {
+          "content": "Create DTOs: provider.dto.ts and proxy.dto.ts in apps/packages/api/src/dto/",
+          "status": "completed",
+          "activeForm": "Creating DTOs"
+        },
+        {
+          "content": "Add Swagger decorators to providers.controller.ts",
+          "status": "completed",
+          "activeForm": "Decorating providers controller"
+        },
+        {
+          "content": "Add Swagger decorators to proxies.controller.ts",
+          "status": "completed",
+          "activeForm": "Decorating proxies controller"
+        },
+        {
+          "content": "Add Swagger decorators to usage, notifications, and webhook controllers",
+          "status": "completed",
+          "activeForm": "Decorating other controllers"
+        },
+        {
+          "content": "Update README.md with OpenAPI and MCP docs",
+          "status": "completed",
+          "activeForm": "Updating README.md"
+        },
+        {
+          "content": "Run validation: start dev, test /api-docs",
+          "status": "completed",
+          "activeForm": "Running validation commands"
+        },
+        {
+          "content": "Run git diff --stat to report changes",
+          "status": "pending",
+          "activeForm": "Running git diff --stat"
+        }
+      ]
+    }
+  },
+  {
+    "session_id": "92113efc-9e32-4240-9f23-80770668bfe0",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/92113efc-9e32-4240-9f23-80770668bfe0.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "git diff --stat",
+      "description": "Report changes for OpenAPI feature"
     }
   },
   {
@@ -67,7 +1106,7 @@
     "tool_name": "Bash",
     "tool_input": {
       "command": "git add .",
-      "description": "Add all changes including new files to staging"
+      "description": "Add all OpenAPI changes to staging"
     }
   }
 ]

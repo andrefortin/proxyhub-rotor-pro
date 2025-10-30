@@ -1,0 +1,26 @@
+[
+  {
+    "session_id": "1988c036-4579-44f4-81ea-0a8ffa5286e4",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/1988c036-4579-44f4-81ea-0a8ffa5286e4.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "rebuild and restart all the images and containers using docker-compose.dev.yml"
+  },
+  {
+    "session_id": "1988c036-4579-44f4-81ea-0a8ffa5286e4",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/1988c036-4579-44f4-81ea-0a8ffa5286e4.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "/feature `update the api calls to the proxy api in our admin panel to use the api docs as reference`"
+  },
+  {
+    "session_id": "1988c036-4579-44f4-81ea-0a8ffa5286e4",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/1988c036-4579-44f4-81ea-0a8ffa5286e4.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "/feature `refer to our new swagger api documentation and update all the api calls in our admin dashboard using the swagger docs as a reference`"
+  }
+]
