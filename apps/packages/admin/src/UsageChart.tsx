@@ -1,38 +1,44 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BarChart, XAxis, YAxis, Bar, PieChart, Pie, Tooltip, ResponsiveContainer, Cell } from 'recharts';
+import { getUsageStats } from './lib/api';
+import type { UsageData, ResponseCodeData } from './types';
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
-interface UsageData {
-  date: string;
-  responses: number;
-}
-
-interface ResponseCodeData {
-  name: string;
-  value: number;
-}
-
 const UsageChart = () => {
-  const [data, setData] = useState<any>(null); // Replace with data fetching from /v1/usage/stats
-
-  // TODO: Fetch from API
-  // useEffect(() => {
-  //   fetch(`${API_BASE}/v1/usage/stats`).then(res => res.json()).then(setData);
-  // }, []);
-
-  // Hardcoded placeholder
-  const dailyResponses = [
-    { date: "2025-10-24", responses: 123 },
-    { date: "2025-10-25", responses: 456 },
-  ];
-
-  const responseCodes = [
+  const [usageData, setUsageData] = useState<UsageData[]>([]);
+  const [responseCodes, setResponseCodes] = useState<ResponseCodeData[]>([
     { name: '200', value: 800 },
     { name: '3xx', value: 100 },
     { name: '4xx', value: 50 },
     { name: '5xx', value: 20 }
+  ]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchUsageStats = async () => {
+      try {
+        const data = await getUsageStats();
+        setUsageData(data);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to fetch usage stats');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUsageStats();
+  }, []);
+
+  // Derive dailyResponses from usageData or fallback
+  const dailyResponses = usageData.length > 0 ? usageData : [
+    { date: "2025-10-24", responses: 123 },
+    { date: "2025-10-25", responses: 456 },
   ];
+
+  if (loading) return <div>Loading chart data...</div>;
+  if (error) return <div className="text-red-500">{error}</div>;
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md dark:shadow-blue-900">

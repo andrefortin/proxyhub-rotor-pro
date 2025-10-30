@@ -2,8 +2,7 @@ import { useEffect, useState } from 'react';
 import DashboardKPI from '../DashboardKPI'
 import UsageChart from '../UsageChart'
 import ActivityLog from '../ActivityLog'
-
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8080'
+import { getProxies } from '../lib/api';
 
 interface Proxy {
   id: string
@@ -12,6 +11,8 @@ interface Proxy {
   // Add more fields as needed
 }
 
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+
 export default function Dashboard() {
   const [proxies, setProxies] = useState<Proxy[]>([]);
   const [totalProxies, setTotalProxies] = useState(0);
@@ -19,20 +20,16 @@ export default function Dashboard() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch(`${API_BASE}/v1/proxies?page=1&limit=200`)
-      .then((res) => {
-        if (!res.ok) throw new Error('Failed to fetch proxies')
-        return res.json()
-      })
+    getProxies({ page: 1, limit: 200 })
       .then((data) => {
         setProxies(data.items || []);
-        setTotalProxies(data.total || data.items.length || 0);
+        setTotalProxies(data.total || 0);
         setLoading(false);
       })
       .catch((err) => {
-        setError(err.message)
-        setLoading(false)
-      })
+        setError(err.message);
+        setLoading(false);
+      });
   }, [])
 
   if (loading) return <div className="p-8">Loading...</div>

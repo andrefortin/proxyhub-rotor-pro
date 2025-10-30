@@ -11,7 +11,7 @@ export class ProxyService {
 
     if (sample) {
       // Use raw query for random sample
-      const rows = await this.prisma.$queryRawUnsafe(`SELECT id, host, pool, "providerId", country, city, region, latitude, longitude, asn, org, score FROM "Proxy" ORDER BY random() LIMIT 200`);
+      const rows: any[] = await this.prisma.$queryRawUnsafe(`SELECT id, host, pool, "providerId", country, city, region, latitude, longitude, asn, org, score FROM "Proxy" ORDER BY random() LIMIT 200`);
       return { items: rows, total: 200, page: 1, limit: 200 };
     }
 
@@ -92,7 +92,7 @@ export class ProxyService {
 
   // Sample method - standalone if needed, but integrated into list
   async getSample() {
-    const rows = await this.prisma.$queryRawUnsafe(`SELECT id, host, pool, "providerId", country, city, region, latitude, longitude, asn, org, score FROM "Proxy" ORDER BY random() LIMIT 200`);
+    const rows: any[] = await this.prisma.$queryRawUnsafe(`SELECT id, host, pool, "providerId", country, city, region, latitude, longitude, asn, org, score FROM "Proxy" ORDER BY random() LIMIT 200`);
     return { items: rows };
   }
 }

@@ -15,7 +15,7 @@ export interface PaginatedResponse<T> {
 }
 
 export function validatePagination(params?: PaginationParams): { skip: number; take: number; page: number; limit: number } {
-  const page = Math.max(1, params?.page || 1);
+  let page = Math.max(1, params?.page || 1);
   let limit = Math.min(100, Math.max(1, params?.limit || 10));
   let skip: number;
 

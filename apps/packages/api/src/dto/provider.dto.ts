@@ -1,11 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString, IsEnum, IsObject, IsOptional, IsBoolean, IsUrl, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
-import { ProviderType } from '@prisma/client'; // Assume Prisma types available
 
 export class ConfigDto {
-  @ApiProperty({ description: 'Provider config like access_token, endpoint' })
-  @IsObject()
   [key: string]: any;
 }
 
@@ -14,9 +11,9 @@ export class CreateProviderDto {
   @IsString()
   name: string;
 
-  @ApiProperty({ enum: ProviderType, description: 'Type of provider (api, file, manual)' })
-  @IsEnum(ProviderType)
-  type: ProviderType;
+  @ApiProperty({ enum: ['api', 'file', 'manual'], description: 'Type of provider (api, file, manual)' })
+  @IsEnum(['api', 'file', 'manual'])
+  type: string;
 
   @ApiProperty({ description: 'Configuration object for the provider' })
   @IsObject()

@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from './components/ui/card';
-
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+import { getPoolsStats, getUsageSummary, getProxiesCount, getProxiesStats } from './lib/api';
 
 export default function DashboardKPI() {
   const [poolsStats, setPoolsStats] = useState<any>(null);
@@ -15,18 +14,18 @@ export default function DashboardKPI() {
     const fetchData = async () => {
       try {
         const [pools, usage, count, stats] = await Promise.all([
-          fetch(`${API_BASE}/v1/pools/stats`).then(res => res.ok ? res.json() : Promise.reject('Pools stats failed')),
-          fetch(`${API_BASE}/v1/usage/summary`).then(res => res.ok ? res.json() : Promise.reject('Usage summary failed')),
-          fetch(`${API_BASE}/v1/proxies/count`).then(res => res.ok ? res.json() : ({ count: 0 })),
-          fetch(`${API_BASE}/v1/proxies/stats`).then(res => res.ok ? res.json() : ({ avgScore: 85 })),
+          getPoolsStats(),
+          getUsageSummary(),
+          getProxiesCount(),
+          getProxiesStats(),
         ]);
         setPoolsStats(pools);
         setUsageSummary(usage);
-        setProxiesCount(count.count);
+        setProxiesCount(count.count || 0);
         setProxiesStats(stats);
         setLoading(false);
       } catch (err) {
-        setError(err.message || 'Failed to fetch KPI data');
+        setError(err instanceof Error ? err.message : 'Failed to fetch KPI data');
         setLoading(false);
       }
     };

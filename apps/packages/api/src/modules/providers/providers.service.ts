@@ -1,4 +1,5 @@
 import { Injectable } from "@nestjs/common";
+import { Prisma } from "@prisma/client"
 import { PrismaClient } from "@prisma/client";
 import { validatePagination, PaginatedResponse, PaginationParams } from '../../common/pagination';
 
@@ -21,7 +22,7 @@ export class ProvidersService {
       return { items, total, page, limit };
     }
 
-    const where = search ? { name: { contains: search, mode: 'insensitive' } } : {};
+    const where = search ? { name: { contains: search, mode: Prisma.QueryMode.insensitive } } : {};
     const total = await this.prisma.provider.count({ where });
     const items = await this.prisma.provider.findMany({
       skip,

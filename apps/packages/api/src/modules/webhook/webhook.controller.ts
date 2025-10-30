@@ -11,7 +11,7 @@ export class WebhookController {
   @Post()
   @ApiOperation({ summary: 'Send test event to webhooks (or handle incoming webhook)' })
   @ApiBody({ schema: {
-    properties: { event: { type: 'string', enum: ['test', 'custom'] }, payload: { type: 'object', additionalProperties: true } }
+    type: 'object',properties: { event: { type: 'string', enum: ['test', 'custom'] }, payload: { type: 'object', additionalProperties: true } }
     }})
   @ApiResponse({ status: 200, description: 'Webhook processed', schema: { properties: { ok: { type: 'boolean' } } } })
   async handle(@Body() body: any) {

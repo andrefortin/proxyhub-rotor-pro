@@ -3,18 +3,9 @@ import { useSearchParams } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Users2, Plus, Edit, Trash2 } from 'lucide-react';
 import { cn } from '../lib/utils';
+import { getProviders, createProvider, updateProvider, deleteProvider, getProvider, type Provider } from '../lib/api';
 
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8080';
-
-interface Provider {
-  id: string;
-  name: string;
-  type: string;
-  active: boolean;
-  config: any;
-  logoUrl?: string;
-  createdAt: Date;
-}
+const LIMIT = 10; // Fixed limit per Swagger (max 100)
 
 export default function Providers() {
   const [searchParams] = useSearchParams();
@@ -22,76 +13,71 @@ export default function Providers() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [search, setSearch] = useState(searchParams.get('search') || '');
-  const [skip, setSkip] = useState(0);
-  const [take, setTake] = useState(10);
+  const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [showModal, setShowModal] = useState(false);
-  const [editData, setEditData] = useState<any>({});
+  const [editData, setEditData] = useState<Provider>({});
   const [mock, setMock] = useState(searchParams.get('mock') === 'true');
 
   useEffect(() => {
     fetchProviders();
-  }, [skip, take, search, mock]);
+  }, [page, search, mock]);
 
   const fetchProviders = async () => {
     try {
       setLoading(true);
-      const url = `${API_BASE}/v1/providers?skip=${skip}&take=${take}&search=${search}${mock ? '&mock=true' : ''}`;
-      const res = await fetch(url);
-      if (!res.ok) throw new Error('Failed to fetch providers');
-      const data = await res.json();
-      setProviders(data);
-      // Assume total from API or calculate
-      setTotal(data.length * 10); // Placeholder
+      const data = await getProviders({ page, limit: LIMIT, search: search || undefined });
+      setProviders(data.items);
+      setTotal(data.total);
     } catch (err) {
-      setError(err.message);
+      setError(err instanceof Error ? err.message : 'Failed to fetch providers');
     } finally {
       setLoading(false);
     }
   };
 
-  const handleCreate = async (data: any) => {
-    const url = `${API_BASE}/v1/providers${mock ? '?mock=true' : ''}`;
-    const res = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    });
-    if (res.ok) {
+  const handleCreate = async (data: Omit<Provider, 'id' | 'createdAt'>) => {
+    try {
+      await createProvider(data);
       fetchProviders();
       setShowModal(false);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to create provider');
     }
   };
 
-  const handleUpdate = async (data: any) => {
-    const url = `${API_BASE}/v1/providers/${editingId}${mock ? '?mock=true' : ''}`;
-    const res = await fetch(url, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    });
-    if (res.ok) {
+  const handleUpdate = async (data: Partial<Provider>) => {
+    if (!editingId) return;
+    try {
+      await updateProvider(editingId, data);
       fetchProviders();
       setEditingId(null);
       setShowModal(false);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to update provider');
     }
   };
 
   const handleDelete = async (id: string) => {
     if (!confirm('Delete provider?')) return;
-    const url = `${API_BASE}/v1/providers/${id}${mock ? '?mock=true' : ''}`;
-    const res = await fetch(url, { method: 'DELETE' });
-    if (res.ok) fetchProviders();
+    try {
+      await deleteProvider(id);
+      fetchProviders();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to delete provider');
+    }
   };
 
   const openEdit = async (id: string) => {
-    const url = `${API_BASE}/v1/providers/${id}${mock ? '?mock=true' : ''}`;
-    const res = await fetch(url);
-    const provider = await res.json();
-    setEditData(provider);
-    setEditingId(id);
-    setShowModal(true);
+    try {
+      const provider = await getProvider(id);
+      setEditData(provider);
+      setEditingId(id);
+      setShowModal(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to fetch provider');
+    }
   };
 
   if (loading) return <div className="p-8">Loading providers...</div>;
@@ -171,11 +157,11 @@ export default function Providers() {
             )}
           </div>
           <div className="flex justify-between mt-4">
-            <button onClick={() => setSkip(skip - take)} disabled={skip === 0} className="px-4 py-2 bg-primary text-primary-foreground rounded disabled:opacity-50">
+            <button onClick={() => setPage(page - 1)} disabled={page === 1} className="px-4 py-2 bg-primary text-primary-foreground rounded disabled:opacity-50">
               Previous
             </button>
-            <span>{skip / take + 1} of {Math.ceil(total / take)}</span>
-            <button onClick={() => setSkip(skip + take)} disabled={providers.length < take} className="px-4 py-2 bg-primary text-primary-foreground rounded disabled:opacity-50">
+            <span>{page} of {Math.ceil(total / LIMIT)}</span>
+            <button onClick={() => setPage(page + 1)} disabled={providers.length < LIMIT} className="px-4 py-2 bg-primary text-primary-foreground rounded disabled:opacity-50">
               Next
             </button>
           </div>
@@ -193,9 +179,10 @@ export default function Providers() {
                 e.preventDefault();
                 const formData = new FormData(e.currentTarget);
                 const data = {
-                  name: formData.get('name'),
-                  type: formData.get('type'),
+                  name: formData.get('name') as string,
+                  type: formData.get('type') as string,
                   config: formData.get('config') ? JSON.parse(formData.get('config') as string) : {},
+                  ...(editData.active !== undefined && { active: editData.active }),
                 };
                 editingId ? handleUpdate(data) : handleCreate(data);
               }}>
