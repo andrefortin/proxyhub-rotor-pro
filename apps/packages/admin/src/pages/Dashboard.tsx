@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 import DashboardKPI from '../DashboardKPI'
 import UsageChart from '../UsageChart'
 import ActivityLog from '../ActivityLog'
@@ -13,19 +13,21 @@ interface Proxy {
 }
 
 export default function Dashboard() {
-  const [proxies, setProxies] = useState<Proxy[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+  const [proxies, setProxies] = useState<Proxy[]>([]);
+  const [totalProxies, setTotalProxies] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch(`${API_BASE}/v1/proxies/sample`)
+    fetch(`${API_BASE}/v1/proxies?page=1&limit=200`)
       .then((res) => {
         if (!res.ok) throw new Error('Failed to fetch proxies')
         return res.json()
       })
       .then((data) => {
-        setProxies(data.items || [])
-        setLoading(false)
+        setProxies(data.items || []);
+        setTotalProxies(data.total || data.items.length || 0);
+        setLoading(false);
       })
       .catch((err) => {
         setError(err.message)
@@ -37,7 +39,7 @@ export default function Dashboard() {
   if (error) return <div className="p-8 text-red-500">{error}</div>
 
   const avgScore = proxies.reduce((sum, p) => sum + p.score, 0) / proxies.length || 0
-  const totalProxies = proxies.length
+  // totalProxies now from state
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
