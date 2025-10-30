@@ -1,0 +1,26 @@
+{
+  "session_id": "5775fbd6-a189-4786-a7da-398f416e2b5f",
+  "prompts": [
+    "/docker-start ",
+    "only the postres:15 container is running. When we start up the containers we also need to verify it they started without error and are actually running.",
+    "ps",
+    "docker compose logs api",
+    "docker compose logs admin",
+    "docker compose logs health",
+    "docker compose logs alerts",
+    "docker compose logs importer",
+    "docker compose logs aggregator",
+    "docker ps",
+    "yes, apply the edits and run the migrations. make sure to update the claude command as well if needed.",
+    "do it",
+    "only the postgres container is running. Rebuild and restart our dev version of the app.",
+    "only the postgres container is running. Rebuild and restart our dev version of the app.",
+    "all those docker containers are stop, check docker ps to see it.",
+    "do it",
+    "continue",
+    "docker ps",
+    "only the postgres and api docker containers are running and the app is not running on port 8080 or 5173",
+    "the admin, alerts, health, importer, and aggregator containers are not staying up once started."
+  ],
+  "agent_name": "Oracle"
+}

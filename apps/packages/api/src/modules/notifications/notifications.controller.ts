@@ -17,4 +17,9 @@ export class NotificationsController {
   ) {
     return await this.service.update(method, data);
   }
+
+  @Get('logs')
+  async getLogs() {
+    return { items: await this.service.getRecentLogs() };
+  }
 }

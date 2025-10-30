@@ -1,0 +1,9 @@
+{
+  "session_id": "baa90eee-b0c0-4e01-8473-82df9f1744eb",
+  "prompts": [
+    "/prime ",
+    "when creating the the containers from the docker files for worker-health, worker-importer, worker-alerts, worker-aggregator, we should use those name \"worker names\" for the container name and not some long sha value string. Let's fix that now.",
+    "ok, let's delete the containers and start up new ones to test"
+  ],
+  "agent_name": "Sage"
+}

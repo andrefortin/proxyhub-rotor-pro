@@ -31,4 +31,27 @@ export class ProvidersController {
   ) {
     return await this.service.update(id, body);
   }
+
+  @Post(':id/import')
+  async triggerImport(@Param('id') id: string) {
+    try {
+      // Validate provider exists
+      const provider = await this.service.findOne(id);
+      if (!provider) {
+        throw new Error('Provider not found');
+      }
+
+      // Trigger the import via service (handles API call, storage, etc.)
+      const result = await this.service.importProxies(id);
+      return {
+        success: true,
+        message: 'Import triggered successfully',
+        imported: result.count || 0,
+        provider: provider.name,
+      };
+    } catch (error) {
+      // Basic error handling
+      throw new Error(`Import failed: ${error.message}`);
+    }
+  }
 }

@@ -1,0 +1,58 @@
+[
+  {
+    "session_id": "6203d186-9aec-4b7e-bead-0ac8b6c1b8fa",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/6203d186-9aec-4b7e-bead-0ac8b6c1b8fa.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "what model am i"
+  },
+  {
+    "session_id": "6203d186-9aec-4b7e-bead-0ac8b6c1b8fa",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/6203d186-9aec-4b7e-bead-0ac8b6c1b8fa.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "we need to fix the prisma definition and the database for the proxy and the provider. we have the following message in the docker logs. once we have update this, rebuild the prisma cache or sync it to avoid future errors: src/modules/providers/providers.service.ts:61:17 - error TS2353: Object literal may only specify known properties, and 'disabled' does not exist in type '(Without<ProxyUpdateManyMutationInput, ProxyUncheckedUpdateManyInput> & ProxyUncheckedUpdateManyInput) | (Without<...> & ProxyUpdateManyMutationInput)'.\n\n61         data: { disabled: !active },"
+  },
+  {
+    "session_id": "6203d186-9aec-4b7e-bead-0ac8b6c1b8fa",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/6203d186-9aec-4b7e-bead-0ac8b6c1b8fa.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "rebuild and restart the api container with docker-compose.dev.yml"
+  },
+  {
+    "session_id": "6203d186-9aec-4b7e-bead-0ac8b6c1b8fa",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/6203d186-9aec-4b7e-bead-0ac8b6c1b8fa.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "we still have the issue in the api modules from nestjs about the disabled field : src/modules/providers/providers.service.ts:61:17 - error TS2353: Object literal may only specify known properties, and 'disabled' does not exist in type '(Without<ProxyUpdateManyMutationInput, ProxyUncheckedUpdateManyInput> & ProxyUncheckedUpdateManyInput) | (Without<...> & ProxyUpdateManyMutationInput)'.\n\n61         data: { disabled: !active },\n                   ~~~~~~~~\n"
+  },
+  {
+    "session_id": "6203d186-9aec-4b7e-bead-0ac8b6c1b8fa",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/6203d186-9aec-4b7e-bead-0ac8b6c1b8fa.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "todos all done"
+  },
+  {
+    "session_id": "6203d186-9aec-4b7e-bead-0ac8b6c1b8fa",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/6203d186-9aec-4b7e-bead-0ac8b6c1b8fa.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "well done"
+  },
+  {
+    "session_id": "6203d186-9aec-4b7e-bead-0ac8b6c1b8fa",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/6203d186-9aec-4b7e-bead-0ac8b6c1b8fa.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "/implement issue-2"
+  }
+]

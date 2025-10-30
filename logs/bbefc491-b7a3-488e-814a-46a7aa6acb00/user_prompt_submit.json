@@ -1,0 +1,18 @@
+[
+  {
+    "session_id": "bbefc491-b7a3-488e-814a-46a7aa6acb00",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/bbefc491-b7a3-488e-814a-46a7aa6acb00.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "the new sans-serif font in the index.css file is not getting applied to the admin project or it is getting overwritten."
+  },
+  {
+    "session_id": "bbefc491-b7a3-488e-814a-46a7aa6acb00",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/bbefc491-b7a3-488e-814a-46a7aa6acb00.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "it doesn't fix it : Navigated to http://localhost:5173/dashboard\nchunk-BVI7NZOO.js?v=12e05c0c:21551 Download the React DevTools for a better development experience: https://reactjs.org/link/react-devtools\nfavicon.ico:1  GET http://localhost:5173/favicon.ico 404 (Not Found)Understand this error\nApp.tsx:122 Failed to load data: SyntaxError: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON\nloadData @ App.tsx:122\nawait in loadData\n(anonymous) @ App.tsx:131\ncommitHookEffectListMount @ chunk-BVI7NZOO.js?v=12e05c0c:16915\ncommitPassiveMountOnFiber @ chunk-BVI7NZOO.js?v=12e05c0c:18161\ncommitPassiveMountEffects_complete @ chunk-BVI7NZOO.js?v=12e05c0c:18129\ncommitPassiveMountEffects_begin @ chunk-BVI7NZOO.js?v=12e05c0c:18119\ncommitPassiveMountEffects @ chunk-BVI7NZOO.js?v=12e05c0c:18109\nflushPassiveEffectsImpl @ chunk-BVI7NZOO.js?v=12e05c0c:19490\nflushPassiveEffects @ chunk-BVI7NZOO.js?v=12e05c0c:19447\n(anonymous) @ chunk-BVI7NZOO.js?v=12e05c0c:19328\nworkLoop @ chunk-BVI7NZOO.js?v=12e05c0c:197\nflushWork @ chunk-BVI7NZOO.js?v=12e05c0c:176\nperformWorkUntilDeadline @ chunk-BVI7NZOO.js?v=12e05c0c:384Understand this error\nApp.tsx:156 Failed to load points: SyntaxError: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON"
+  }
+]

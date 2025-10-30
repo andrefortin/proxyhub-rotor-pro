@@ -1,0 +1,7 @@
+{
+  "session_id": "4da0062d-fe70-4a38-8522-8244e69efc03",
+  "prompts": [
+    "fix the error with invalid character in the work-api module : src/modules/providers/providers.module.ts:4:66 - error TS1127: Invalid character.\n\n4 import { PrismaModule } from '../../common/prisma/prisma.module';\\n\n                                                                   "
+  ],
+  "agent_name": "Nexus"
+}

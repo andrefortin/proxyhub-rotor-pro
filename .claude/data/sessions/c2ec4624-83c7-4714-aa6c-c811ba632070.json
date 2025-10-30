@@ -1,0 +1,24 @@
+{
+  "session_id": "c2ec4624-83c7-4714-aa6c-c811ba632070",
+  "prompts": [
+    "/docker-start ",
+    "not all the docker containers are running in dev. let starting with the health, and alerts",
+    "continue",
+    "when using the dev docker file we want the changes to the code for debugging and coding to be live",
+    "continue",
+    "continue",
+    "/docker-start ",
+    "/docker-start ",
+    "/docker-start ",
+    "/docker-start ",
+    "make sure our claude command to start docker in development mode is in synch with recent changes",
+    "make sure our claude command to start docker in development mode is in synch with recent changes",
+    "/docker-start ",
+    "docker ps",
+    "check the logs for docker yourself and come up with a plan",
+    "only the postgres and api containers are staying up, redis and the rest are not, check the logs and debug this dev mode issue.",
+    "dev mode is not stable only the posgres and api containers are staying up, check the logs.",
+    "continue"
+  ],
+  "agent_name": "Nova"
+}

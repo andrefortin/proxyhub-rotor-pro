@@ -7,9 +7,10 @@ import { WebhookModule } from './modules/webhook/webhook.module';
 import { ProxiesModule } from './modules/proxies/proxies.module';
 import { ProvidersModule } from './modules/providers/providers.module';
 import { ProviderModule } from './modules/provider/provider.module';
+import { UsageModule } from './modules/usage/usage.module';
 
 @Module({
-  imports: [PrismaModule, RedisModule, ProxyModule, WebhookModule, ProxiesModule, ProvidersModule, ProviderModule],
+  imports: [PrismaModule, RedisModule, ProxyModule, WebhookModule, ProxiesModule, ProvidersModule, ProviderModule, UsageModule],
   controllers: [AppController],
  })
 export class AppModule {}

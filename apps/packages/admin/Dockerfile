@@ -1,8 +1,16 @@
-FROM node:20
+# Build stage
+FROM oven/bun:1 AS builder
+
 WORKDIR /app
-COPY package*.json ./
-RUN npm ci --include=dev && npm cache clean --force
-ENV PATH="/app/node_modules/.bin:${PATH}"
 COPY . .
-EXPOSE 5173 24678
-CMD ["npm", "run", "dev"]
+
+RUN bun install
+
+RUN bun run build
+
+# Production stage
+FROM nginx:alpine
+COPY --from=builder /app/dist /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]

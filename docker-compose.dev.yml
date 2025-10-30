@@ -1,4 +1,17 @@
 services:
+  admin:
+    image: oven/bun:1
+    working_dir: /app
+    volumes:
+      - ./apps/packages/admin:/app
+      - ./logs:/logs:ro
+    command: sh -c "bun install && bun run dev --host"
+    ports:
+      - "4173:4173"
+    environment:
+      - VITE_API_URL=http://api:8080
+    depends_on:
+      - api
   api:
     image: node:20-alpine
     working_dir: /app/api
@@ -7,7 +20,7 @@ services:
       - ./apps/packages/api/package-lock.json:/app/api/package-lock.json:ro
       - ./apps/packages/api/src:/app/api/src
       - ./apps/packages/api/tsconfig.json:/app/api/tsconfig.json:ro
-      - ./prisma:/app/api/prisma
+      - ./apps/packages/api/prisma:/app/api/prisma
       # No host node_modules; container runs npm ci for clean dev install
     command: sh -c "apt-get update -qq && apt-get install -y -qq build-essential python3 postgresql-client && rm -rf /var/lib/apt/lists/* && if [ ! -d node_modules/.bin ]; then rm -rf node_modules && npm ci --include=dev; fi && export PATH=\"/app/api/node_modules/.bin:\$PATH\" && until pg_isready -h db -p 5432; do echo 'Waiting for DB...'; sleep 2; done && npx prisma generate && npm run dev"
     environment:
@@ -21,24 +34,6 @@ services:
         condition: service_healthy
     ports:
       - "8080:8080"
-    restart: unless-stopped
-
-  admin:
-    image: node:20-alpine
-    working_dir: /app
-    volumes:
-      - ./apps/packages/admin/package.json:/app/package.json:ro
-      - ./apps/packages/admin/package-lock.json:/app/package-lock.json:ro
-      - ./apps/packages/admin/src:/app/src
-      - ./apps/packages/admin/vite.config.ts:/app/vite.config.ts:ro
-      - ./apps/packages/admin/index.html:/app/index.html:ro
-      # No node_modules mount; npm ci installs in container for consistency
-    command: sh -c "apt-get update -qq && apt-get install -y -qq build-essential python3 && rm -rf /var/lib/apt/lists/* && rm -rf node_modules && npm ci --include=dev && export PATH=\"/app/node_modules/.bin:\$PATH\" && npm run dev"
-    environment:
-      - NODE_ENV=development
-      - VITE_LOG_LEVEL=debug
-      - VITE_API_URL=http://api:8080  # Internal container name for API
-    ports: ["5173:5173"]
     restart: unless-stopped
 
   worker-aggregator:

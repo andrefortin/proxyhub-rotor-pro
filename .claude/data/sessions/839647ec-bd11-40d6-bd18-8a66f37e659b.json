@@ -8,7 +8,12 @@
     "/install-deps ",
     "docker compose up --build -d",
     "git add .claude",
-    "git push"
+    "git push",
+    "stop all the docker containers",
+    "how to we use docker containers but while we are developing work on the live code that so that edits are hot re-loaded.",
+    "ok, so we have both a dev mode and a production mode? if not, make it so.",
+    "we need lots of debug logging in dev mode",
+    "ok now let's create to claude slash command to either work in dev mode or production mode, even just a single claude command with the option to choose either one."
   ],
   "agent_name": "Flux"
 }

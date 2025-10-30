@@ -34,6 +34,20 @@ export class ProvidersService {
     });
   }
 
+  async findOne(id: string) {
+    return this.prisma.provider.findUnique({
+      where: { id },
+      select: {
+        id: true,
+        name: true,
+        type: true,
+        active: true,
+        config: true,
+        logoUrl: true,
+      },
+    });
+  }
+
   async update(id: string, data: { active: boolean }) {
     const { active } = data;
     return this.prisma.$transaction(async (tx) => {
@@ -49,5 +63,11 @@ export class ProvidersService {
 
       return provider;
     });
+  }
+
+  async importProxies(id: string) {
+    // Basic implementation - returns mock result
+    // In a real implementation, this would handle the actual import logic
+    return { count: 0 };
   }
 }

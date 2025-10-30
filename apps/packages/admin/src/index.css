@@ -2,170 +2,62 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+:root {
+  --background: 0 0% 100%;
+  --foreground: 240 10% 3.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 240 10% 3.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 240 10% 3.9%;
+  --primary: 240 5.3% 10%;
+  --primary-foreground: 0 0% 98%;
+  --secondary: 240 4.8% 95.9%;
+  --secondary-foreground: 240 5.9% 10%;
+  --muted: 240 4.8% 95.9%;
+  --muted-foreground: 240 3.8% 46.1%;
+  --accent: 240 4.8% 95.9%;
+  --accent-foreground: 240 5.9% 10%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 240 5.9% 90%;
+  --input: 240 5.9% 90%;
+  --ring: 240 5.9% 10%;
+  --radius: 0.5rem;
+}
 
-@layer base {
-  /* Light theme (default) */
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-
-    --primary: 145 70% 45%;
-    --primary-foreground: 0 0% 100%;
-    --primary-glow: 145 65% 55%;
-
-    --secondary: 25 95% 53%;
-    --secondary-foreground: 0 0% 100%;
-
-    --muted: 210 40% 96%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 145 70% 45%;
-    --accent-foreground: 0 0% 100%;
-    --accent-glow: 25 95% 63%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 145 70% 45%;
-
-    --radius: 0.75rem;
-
-    /* Custom gradients - Light theme */
-    --gradient-primary: linear-gradient(135deg, hsl(145 70% 35%), hsl(145 70% 55%));
-    --gradient-accent: linear-gradient(135deg, hsl(25 95% 48%), hsl(25 95% 63%));
-    --gradient-hero: linear-gradient(135deg, hsl(145 70% 98%), hsl(25 95% 98%));
-    
-    /* Shadows - Light theme */
-    --shadow-glow: 0 0 40px hsl(145 70% 45% / 0.2);
-    --shadow-accent: 0 0 30px hsl(25 95% 53% / 0.2);
-    --shadow-elevation: 0 10px 30px -10px hsl(0 0% 0% / 0.1);
-
-    /* Animation */
-    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 222.2 84% 4.9%;
-    --sidebar-primary: 145 70% 45%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 210 40% 96%;
-    --sidebar-accent-foreground: 222.2 47.4% 11.2%;
-    --sidebar-border: 214.3 31.8% 91.4%;
-    --sidebar-ring: 145 70% 45%;
-
-    /* Revealed contact highlight */
-    --revealed: 141 84% 88%;
-    --revealed-foreground: 0 0% 15%;
-  }
-
-  /* Dark theme */
-  .dark {
-    --background: 0 0% 3%;
-    --foreground: 210 40% 98%;
-
-    --card: 0 0% 12%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 0 0% 12%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 145 65% 50%;
-    --primary-foreground: 0 0% 100%;
-
-    --secondary: 25 90% 55%;
-    --secondary-foreground: 0 0% 100%;
-
-    --muted: 0 0% 18%;
-    --muted-foreground: 215 20% 75%;
-
-    --accent: 145 65% 50%;
-    --accent-foreground: 0 0% 100%;
-
-    --destructive: 0 63% 31%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 0 0% 25%;
-    --input: 0 0% 25%;
-    --ring: 145 65% 50%;
-
-    /* Custom gradients - Dark theme */
-    --gradient-primary: linear-gradient(135deg, hsl(145 65% 35%), hsl(145 65% 55%));
-    --gradient-accent: linear-gradient(135deg, hsl(25 90% 45%), hsl(25 90% 60%));
-    --gradient-hero: linear-gradient(135deg, hsl(0 0% 3%), hsl(0 0% 8%));
-    
-    /* Shadows - Dark theme */
-    --shadow-glow: 0 0 40px hsl(145 65% 50% / 0.3);
-    --shadow-accent: 0 0 30px hsl(25 90% 50% / 0.3);
-    --shadow-elevation: 0 10px 30px -10px hsl(0 0% 0% / 0.8);
-
-    --sidebar-background: 0 0% 0%;
-    --sidebar-foreground: 210 40% 98%;
-    --sidebar-primary: 145 65% 50%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 0 0% 8%;
-    --sidebar-accent-foreground: 210 40% 98%;
-    --sidebar-border: 0 0% 20%;
-    --sidebar-ring: 145 65% 50%;
-
-    /* Revealed contact highlight - dark mode */
-    --revealed: 141 40% 18%;
-    --revealed-foreground: 0 0% 90%;
-  }
+.dark {
+  --background: 240 10% 3.9%;
+  --foreground: 0 0% 98%;
+  --card: 240 10% 3.9%;
+  --card-foreground: 0 0% 98%;
+  --popover: 240 10% 3.9%;
+  --popover-foreground: 0 0% 98%;
+  --primary: 0 0% 98%;
+  --primary-foreground: 240 5.3% 10%;
+  --secondary: 240 3.7% 15.9%;
+  --secondary-foreground: 0 0% 98%;
+  --muted: 240 3.7% 15.9%;
+  --muted-foreground: 240 5% 64.9%;
+  --accent: 240 3.7% 15.9%;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 240 3.7% 15.9%;
+  --input: 240 3.7% 15.9%;
+  --ring: 240 4.9% 83.9%;
 }
 
 @layer base {
-  * {
-    @apply border-border;
+  :root {
+    color-scheme: light;
+  }
+
+  .dark {
+    color-scheme: dark;
   }
 
   body {
-    @apply bg-background text-foreground;
-    min-height: 100vh;
-  }
-}
-
-@layer components {
-  .gradient-primary {
-    background: var(--gradient-primary);
-  }
-  
-  .gradient-accent {
-    background: var(--gradient-accent);
-  }
-  
-  .shadow-glow {
-    box-shadow: var(--shadow-glow);
-  }
-  
-  .shadow-accent {
-    box-shadow: var(--shadow-accent);
-  }
-  
-  .shadow-elevation {
-    box-shadow: var(--shadow-elevation);
-  }
-  
-  .transition-smooth {
-    transition: var(--transition-smooth);
-  }
-
-  /* Ensure emoji fonts work properly */
-  .emoji-font {
-    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
-  }
-
-  /* Draggable item hover states */
-  .draggable-item {
-    @apply transition-colors hover:bg-accent/10 hover:border-primary/30;
+    background: hsl(var(--background));
+    color: hsl(var(--foreground));
   }
 }
