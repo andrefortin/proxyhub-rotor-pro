@@ -102,5 +102,13 @@
     "permission_mode": "bypassPermissions",
     "hook_event_name": "UserPromptSubmit",
     "prompt": "push to git"
+  },
+  {
+    "session_id": "92113efc-9e32-4240-9f23-80770668bfe0",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/92113efc-9e32-4240-9f23-80770668bfe0.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "/classify_issue "
   }
 ]

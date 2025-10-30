@@ -12,12 +12,24 @@ export interface Proxy {
   id: string;
   host: string;
   port: number;
-  score: number;
+  username?: string;
+  password?: string;
+  protocol?: string;
   pool?: string;
   providerId?: string;
   country?: string;
+  region?: string;
   city?: string;
-  // Add more fields as needed
+  asn?: string;
+  org?: string;
+  lastChecked?: string;
+  failedCount: number;
+  score: number;
+  tags?: string[];
+  meta?: any;
+  disabled: boolean;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface UsageData {

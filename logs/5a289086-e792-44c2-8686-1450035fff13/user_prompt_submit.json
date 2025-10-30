@@ -1,0 +1,18 @@
+[
+  {
+    "session_id": "5a289086-e792-44c2-8686-1450035fff13",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/5a289086-e792-44c2-8686-1450035fff13.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "/prime "
+  },
+  {
+    "session_id": "5a289086-e792-44c2-8686-1450035fff13",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/5a289086-e792-44c2-8686-1450035fff13.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "trying to build our nestjs project in the apps/packages/api is not emitting the js files into the dist folder"
+  }
+]

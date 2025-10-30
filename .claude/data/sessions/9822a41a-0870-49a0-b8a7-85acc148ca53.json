@@ -1,0 +1,10 @@
+{
+  "session_id": "9822a41a-0870-49a0-b8a7-85acc148ca53",
+  "prompts": [
+    "/prime ",
+    "/bug 14 `issue update the provider config json and user messaging to accept input like the following : {\"apiKey\":\"bc2a3c9d12118584a24c9157defbd8e634b5fbf4464765f7c1db37ac0077\",\"apiDocs\":[\n  \"https://docs.iproyal.com/proxies/datacenter/api/user\",\"https://docs.iproyal.com/proxies/datacenter/api/products\",\"https://docs\n  .iproyal.com/proxies/datacenter/api/orders\",\"https://docs.iproyal.com/proxies/datacenter/api/proxies\"],\"baseUrl\":\"https://api.p\n  rovider.com/v1/reseller\",\"authType\":\"header\",\"authHeader\":\"X-Access-Token\"}`",
+    "/bug 15 `Add support for \"className\" to the Switch UI component in the Admin module`",
+    "/implement bug 15"
+  ],
+  "agent_name": "Vortex"
+}

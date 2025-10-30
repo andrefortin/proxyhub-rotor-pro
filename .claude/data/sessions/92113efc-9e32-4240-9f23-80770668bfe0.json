@@ -13,7 +13,8 @@
     "/feature `Create openapi documentation for all endpoints and make this api easily consumable for MCP`",
     "/implement feature 10",
     "continue implementing todos",
-    "push to git"
+    "push to git",
+    "/classify_issue "
   ],
   "agent_name": "Nexus"
 }

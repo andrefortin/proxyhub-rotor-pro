@@ -1,4 +1,4 @@
-import { HandPlatter, LayoutDashboard, Settings, User2, Users } from 'lucide-react'
+import { HandPlatter, LayoutDashboard, Settings, HandPlatterIcon, Users } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
 const navItems = [
@@ -10,7 +10,7 @@ const navItems = [
 
 export default function Sidebar() {
   return (
-    <aside className="w-64 h-screen bg-gray-900 text-white p-4 flex flex-col space-y-4">
+    <aside className="w-64 h-screen bg-side-panel p-4 flex flex-col space-y-4">
       <h1 className="text-xl font-bold">ProxyHub Admin</h1>
       <nav className="flex-1">
         {navItems.map((item) => {
@@ -22,7 +22,7 @@ export default function Sidebar() {
               className="flex items-center space-x-2 p-2 rounded hover:bg-gray-800"
             >
               <Icon className="w-5 h-5" />
-              <span>{item.name}</span>
+              <span className="">{item.name}</span>
             </Link>
           )
         })}

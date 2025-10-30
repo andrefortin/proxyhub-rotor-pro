@@ -2,6 +2,7 @@ import { Routes, Route } from 'react-router-dom'
 import Layout from './components/Layout'
 import Dashboard from './pages/Dashboard'
 import Providers from './pages/Providers'
+import Proxies from './pages/Proxies'
 
 function App() {
   return (
@@ -9,7 +10,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Dashboard />} />
         <Route path="/providers" element={<Providers />} />
-        {/* Add more routes as needed */}
+        <Route path="/proxies" element={<Proxies />} />
       </Routes>
     </Layout>
   )

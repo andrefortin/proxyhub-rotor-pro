@@ -1,0 +1,42 @@
+[
+  {
+    "session_id": "0660f85c-7536-4972-b773-bbc7ab36927e",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/0660f85c-7536-4972-b773-bbc7ab36927e.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "/prime "
+  },
+  {
+    "session_id": "0660f85c-7536-4972-b773-bbc7ab36927e",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/0660f85c-7536-4972-b773-bbc7ab36927e.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "/feature 16 `Create the missing ui components for the Admin module: (Badge, Tooltip, Button) that are referenced in the code. Ensure we add the standard\n  properties and any specific property already referenced in the code.`\n  bash: command substitution: line 1: syntax error near unexpected token `('\n  bash: command substitution: line 1: `Create the missing ui components for the Admin module: (Badge, Tooltip, Button) that are referenced in the code. Ensure we\n  add the standard properties and any specific property already referenced in the code.`"
+  },
+  {
+    "session_id": "0660f85c-7536-4972-b773-bbc7ab36927e",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/0660f85c-7536-4972-b773-bbc7ab36927e.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "/implement issue 16"
+  },
+  {
+    "session_id": "0660f85c-7536-4972-b773-bbc7ab36927e",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/0660f85c-7536-4972-b773-bbc7ab36927e.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "continue implementing the todos"
+  },
+  {
+    "session_id": "0660f85c-7536-4972-b773-bbc7ab36927e",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/0660f85c-7536-4972-b773-bbc7ab36927e.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "continue implementing the todos"
+  }
+]

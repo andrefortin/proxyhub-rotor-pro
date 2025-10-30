@@ -1,0 +1,50 @@
+[
+  {
+    "session_id": "0dc59d82-cbf5-4ae0-b23f-2958cc9df7de",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/0dc59d82-cbf5-4ae0-b23f-2958cc9df7de.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "/feature 13 `build out the proxy page to help us manage the proxies that have been uploade/added from the different providers. include features that will make it useful to manage or test. Make the user interface helpful for non-technical people. include micro-interations and other ui elements like hover text. must also support the dark/light themes. if we need and api calls to the backend-api keep track of them and submit the list as a /feature request to the system. make the ui sexy`"
+  },
+  {
+    "session_id": "0dc59d82-cbf5-4ae0-b23f-2958cc9df7de",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/0dc59d82-cbf5-4ae0-b23f-2958cc9df7de.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "/implement feature 13"
+  },
+  {
+    "session_id": "0dc59d82-cbf5-4ae0-b23f-2958cc9df7de",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/0dc59d82-cbf5-4ae0-b23f-2958cc9df7de.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "are we done implmenting the feature?"
+  },
+  {
+    "session_id": "0dc59d82-cbf5-4ae0-b23f-2958cc9df7de",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/0dc59d82-cbf5-4ae0-b23f-2958cc9df7de.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "light/dark theme toggle does not work."
+  },
+  {
+    "session_id": "0dc59d82-cbf5-4ae0-b23f-2958cc9df7de",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/0dc59d82-cbf5-4ae0-b23f-2958cc9df7de.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "the theme toggle switch does not toggle"
+  },
+  {
+    "session_id": "0dc59d82-cbf5-4ae0-b23f-2958cc9df7de",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/0dc59d82-cbf5-4ae0-b23f-2958cc9df7de.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "push to git"
+  }
+]

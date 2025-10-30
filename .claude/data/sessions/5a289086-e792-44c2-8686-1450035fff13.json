@@ -1,0 +1,8 @@
+{
+  "session_id": "5a289086-e792-44c2-8686-1450035fff13",
+  "prompts": [
+    "/prime ",
+    "trying to build our nestjs project in the apps/packages/api is not emitting the js files into the dist folder"
+  ],
+  "agent_name": "Prism"
+}

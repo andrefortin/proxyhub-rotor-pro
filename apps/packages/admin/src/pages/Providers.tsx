@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Users2, Plus, Edit, Trash2 } from 'lucide-react';
 import { cn } from '../lib/utils';
+import { Switch } from '../components/ui/switch';
 import { getProviders, createProvider, updateProvider, deleteProvider, getProvider, type Provider } from '../lib/api';
 
 const LIMIT = 10; // Fixed limit per Swagger (max 100)
@@ -17,17 +18,22 @@ export default function Providers() {
   const [total, setTotal] = useState(0);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [showModal, setShowModal] = useState(false);
-  const [editData, setEditData] = useState<Provider>({});
+  const [editData, setEditData] = useState<Partial<Provider>>({});
   const [mock, setMock] = useState(searchParams.get('mock') === 'true');
+  const [togglingId, setTogglingId] = useState<string | null>(null);
 
-  useEffect(() => {
-    fetchProviders();
-  }, [page, search, mock]);
-
-  const fetchProviders = async () => {
+  const fetchProviders = useCallback(async () => {
     try {
       setLoading(true);
       const data = await getProviders({ page, limit: LIMIT, search: search || undefined });
+      console.log('Fetched data from API:', data); // Debug: Log full response
+      console.log('Setting providers to data.items:', data.items, 'Type:', typeof data.items, 'Is array:', Array.isArray(data.items)); // Debug: Log items specifically
+      if (!Array.isArray(data.items)) {
+        console.error('API response items is not an array:', data.items);
+        setProviders([]);
+        setTotal(0);
+        return;
+      }
       setProviders(data.items);
       setTotal(data.total);
     } catch (err) {
@@ -35,7 +41,11 @@ export default function Providers() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [page, search, mock]);
+
+  useEffect(() => {
+    fetchProviders();
+  }, [fetchProviders]);
 
   const handleCreate = async (data: Omit<Provider, 'id' | 'createdAt'>) => {
     try {
@@ -58,6 +68,36 @@ export default function Providers() {
       setError(err instanceof Error ? err.message : 'Failed to update provider');
     }
   };
+
+  const handleToggle = useCallback(async (id: string) => {
+    if (togglingId === id) return;
+
+    const provider = providers.find(p => p.id === id);
+    if (!provider) return;
+
+    const currentActive = provider.active;
+    const newActive = !currentActive;
+
+    console.log(`Toggling provider ${id} to ${newActive ? 'active' : 'inactive'}`); // Debug log
+
+    setTogglingId(id);
+
+    try {
+      // Optimistic update
+      setProviders(prev => prev.map(p => p.id === id ? { ...p, active: newActive } : p));
+
+      await updateProvider(id, { active: newActive });
+
+      // Refetch to sync
+      await fetchProviders();
+    } catch (err) {
+      // Revert on error
+      setProviders(prev => prev.map(p => p.id === id ? { ...p, active: currentActive } : p));
+      setError(err instanceof Error ? err.message : 'Failed to toggle provider status');
+    } finally {
+      setTogglingId(null);
+    }
+  }, [providers, togglingId, updateProvider, fetchProviders]);
 
   const handleDelete = async (id: string) => {
     if (!confirm('Delete provider?')) return;
@@ -108,7 +148,7 @@ export default function Providers() {
               className="flex-1 px-3 py-2 border border-input rounded-md bg-background text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:border-input"
             />
             <label className="flex items-center gap-2">
-              <input type="checkbox" checked={mock} onChange={(e) => setMock(e.target.checked)} />
+              <input type="checkbox" checked={mock} onChange={(e) => setMock((e.target as HTMLInputElement).checked)} />
               Mock Mode
             </label>
           </div>
@@ -117,6 +157,7 @@ export default function Providers() {
               <table className="w-full">
                 <thead>
                   <tr className="border-b border-border">
+                    <th className="text-left p-3 w-12">Logo</th>
                     <th className="text-left p-3">Name</th>
                     <th className="text-left p-3">Type</th>
                     <th className="text-left p-3">Status</th>
@@ -125,30 +166,65 @@ export default function Providers() {
                   </tr>
                 </thead>
                 <tbody>
-                  {providers.map((provider) => (
-                    <tr key={provider.id} className="border-b border-border hover:bg-accent">
-                      <td className="p-3">{provider.name}</td>
-                      <td className="p-3">
-                        <span className={cn('px-2 py-1 rounded text-xs', provider.active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800')}>
-                          {provider.type}
-                        </span>
-                      </td>
-                      <td className="p-3">
-                        <span className={cn('px-2 py-1 rounded text-xs', provider.active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800')}>
-                          {provider.active ? 'Active' : 'Inactive'}
-                        </span>
-                      </td>
-                      <td className="p-3">{new Date(provider.createdAt).toLocaleDateString()}</td>
-                      <td className="p-3 text-right">
-                        <button onClick={() => openEdit(provider.id)} className="mr-2 p-1 text-blue-600 hover:text-blue-800">
-                          <Edit className="w-4 h-4" />
-                        </button>
-                        <button onClick={() => handleDelete(provider.id)} className="p-1 text-red-600 hover:text-red-800">
-                          <Trash2 className="w-4 h-4" />
-                        </button>
+                  {!Array.isArray(providers) ? (
+                    <tr>
+                      <td colSpan={6} className="p-4 text-center text-red-500">
+                        Error: Providers data is not an array. Type: {typeof providers}, Value: {JSON.stringify(providers, null, 2)}
                       </td>
                     </tr>
-                  ))}
+                  ) : providers.length === 0 ? (
+                    <tr>
+                      <td colSpan={6} className="p-4 text-center text-muted-foreground">
+                        No providers found
+                      </td>
+                    </tr>
+                  ) : (
+                    providers.map((provider) => (
+                      <tr key={provider.id} className="border-b border-border hover:bg-accent">
+                        <td className="p-3 w-12">
+                          {provider.logoUrl ? (
+                            <img src={provider.logoUrl} alt={provider.name} className="w-8 h-8 rounded object-cover" onError={(e) => { e.currentTarget.src = '/placeholder-logo.png'; }} />
+                          ) : (
+                            <div className="w-8 h-8 bg-gray-200 rounded flex items-center justify-center">
+                              <span className="text-gray-500 text-xs">{provider.name.charAt(0).toUpperCase()}</span>
+                            </div>
+                          )}
+                        </td>
+                        <td className="p-3">{provider.name}</td>
+                        <td className="p-3">
+                          <span className={cn('px-2 py-1 rounded text-xs', provider.active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800')}>
+                            {provider.type}
+                          </span>
+                        </td>
+                        <td className="p-3">
+                          <span className={cn('px-2 py-1 rounded text-xs', provider.active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800')}>
+                            {provider.active ? 'Active' : 'Inactive'}
+                          </span>
+                        </td>
+                        <td className="p-3">{new Date(provider.createdAt).toLocaleDateString()}</td>
+                        <td className="p-3 text-right">
+                          <Switch
+                            checked={provider.active}
+                            onCheckedChange={(checked) => {
+                              console.log(`Switch clicked for ${provider.id}, checked: ${checked}`); // Debug log
+                              handleToggle(provider.id);
+                            }}
+                            disabled={togglingId === provider.id}
+                            className={cn(
+                              'data-[state=checked]:bg-green-600 data-[state=unchecked]:bg-red-600',
+                              'w-10 h-5 mr-2'
+                            )}
+                          />
+                          <button onClick={() => openEdit(provider.id)} className="p-1 text-blue-600 hover:text-blue-800" title="Edit provider details">
+                            <Edit className="w-4 h-4" />
+                          </button>
+                          <button onClick={() => handleDelete(provider.id)} className="p-1 text-red-600 hover:text-red-800" title="Delete provider">
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  )}
                 </tbody>
               </table>
             </div>
@@ -170,45 +246,152 @@ export default function Providers() {
 
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <Card className="w-full max-w-md">
-            <CardHeader>
-              <CardTitle>{editingId ? 'Edit Provider' : 'Add Provider'}</CardTitle>
-            </CardHeader>
-            <CardContent className="p-6">
-              <form onSubmit={(e) => {
-                e.preventDefault();
-                const formData = new FormData(e.currentTarget);
-                const data = {
-                  name: formData.get('name') as string,
-                  type: formData.get('type') as string,
-                  config: formData.get('config') ? JSON.parse(formData.get('config') as string) : {},
-                  ...(editData.active !== undefined && { active: editData.active }),
-                };
-                editingId ? handleUpdate(data) : handleCreate(data);
-              }}>
-                <div className="mb-4">
-                  <label className="block text-sm font-medium mb-1">Name</label>
-                  <input type="text" name="name" defaultValue={editData.name} required className="w-full px-3 py-2 border rounded-md" />
+          <div className="w-full max-w-2xl bg-white rounded-lg shadow-xl">
+            <div className="p-6 border-b">
+              <h2 className="text-xl font-semibold">{editingId ? 'Edit Provider' : 'Add New Provider'}</h2>
+              <p className="text-sm text-gray-600 mt-1">Set up a provider to import and manage your proxy sources. Choose a type that matches your setup. We'll guide you through the configuration.</p>
+            </div>
+            <form onSubmit={async (e) => {
+              e.preventDefault();
+              const formData = new FormData(e.currentTarget);
+              const data = {
+                name: formData.get('name') as string,
+                type: (formData.get('type') as 'api' | 'file' | 'manual'),
+                logoUrl: formData.get('logoUrl') as string,
+                config: formData.get('config') ? JSON.parse(formData.get('config') as string) : {},
+                active: formData.get('active') === 'on',
+              };
+              try {
+                editingId ? await handleUpdate(data) : await handleCreate(data);
+              } catch (err) {
+                setError(err instanceof Error ? err.message : 'Failed to save provider');
+              }
+            }} className="p-6 space-y-6">
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+                    Provider Name <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    id="name"
+                    type="text"
+                    name="name"
+                    defaultValue={editData.name}
+                    required
+                    placeholder="e.g., Bright Data"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                  />
                 </div>
-                <div className="mb-4">
-                  <label className="block text-sm font-medium mb-1">Type</label>
-                  <select name="type" defaultValue={editData.type} required className="w-full px-3 py-2 border rounded-md">
-                    <option value="api">API</option>
-                    <option value="file">File</option>
-                    <option value="manual">Manual</option>
-                  </select>
+                <div>
+                  <label htmlFor="logoUrl" className="block text-sm font-medium text-gray-700 mb-2">
+                    Logo URL (Optional)
+                  </label>
+                  <input
+                    id="logoUrl"
+                    type="url"
+                    name="logoUrl"
+                    defaultValue={editData.logoUrl || ''}
+                    placeholder="https://example.com/logo.png"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                  />
                 </div>
-                <div className="mb-6">
-                  <label className="block text-sm font-medium mb-1">Config (JSON)</label>
-                  <textarea name="config" defaultValue={JSON.stringify(editData.config, null, 2)} rows={6} className="w-full px-3 py-2 border rounded-md font-mono text-sm" />
+              </div>
+
+              <div>
+                <label htmlFor="type" className="block text-sm font-medium text-gray-700 mb-2">
+                  Provider Type <span className="text-red-500">*</span>
+                </label>
+                <select
+                  id="type"
+                  name="type"
+                  defaultValue={editData.type || 'api'}
+                  required
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                >
+                  <option value="api">
+                    API (Automated)
+                  </option>
+                  <option value="file">
+                    File Upload
+                  </option>
+                  <option value="manual">
+                    Manual Entry
+                  </option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-4">
+                  Configuration
+                </label>
+                <div className="space-y-2 mb-2">
+                  <div className="flex items-center gap-2 text-xs text-gray-500 bg-blue-50 p-3 rounded-md border border-blue-100">
+                    <svg className="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <div>
+                      <p>JSON Configuration</p>
+                      <p className="mb-0">Configure API keys, endpoints, file paths, or other settings for your provider type. See <a href="https://docs.proxyhub.com/providers/config" target="_blank" className="text-blue-600 hover:underline">documentation</a> for type-specific examples.</p>
+                    </div>
+                  </div>
                 </div>
-                <div className="flex justify-end gap-2">
-                  <button type="button" onClick={() => setShowModal(false)} className="px-4 py-2 border rounded-md">Cancel</button>
-                  <button type="submit" className="px-4 py-2 bg-primary text-primary-foreground rounded-md">Save</button>
+                <textarea
+                  name="config"
+                  defaultValue={JSON.stringify(editData.config, null, 2)}
+                  rows={8}
+                  placeholder='{
+  "apiKey": "your-api-key",
+  "endpoint": "https://api.example.com/proxies",
+  "authType": "bearer"
+}'
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md font-mono text-sm bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-vertical transition-colors"
+                  title="Enter JSON configuration. Use templates from documentation based on your provider type. Validate with a JSON linter if needed."
+                />
+                <div className="text-xs text-gray-500 mt-1">
+                  Tip: Start with the example config from your provider's documentation. Common fields: apiKey, endpoint, username, password, filePath.
                 </div>
-              </form>
-            </CardContent>
-          </Card>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <label className="flex items-center gap-2">
+                  <input type="checkbox" name="active" defaultChecked={editData.active !== false} className="rounded" />
+                  <span className="text-sm">Active</span>
+                </label>
+                <div className="ml-auto flex gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setShowModal(false)}
+                    className="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled={loading}
+                  >
+                    {loading ? (
+                      <span className="flex items-center gap-2">
+                        <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                        </svg>
+                        Saving...
+                      </span>
+                    ) : (
+                      'Save Provider'
+                    )}
+                  </button>
+                </div>
+              </div>
+
+              {error && (
+                <div className="p-4 bg-red-50 border border-red-200 rounded-md">
+                  <p className="text-sm text-red-800">{error}</p>
+                </div>
+              )}
+            </form>
+          </div>
         </div>
       )}
     </div>

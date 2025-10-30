@@ -1,5 +1,7 @@
 import type { Provider, Proxy } from '../types';
 
+export type { Provider, Proxy };
+
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 
 interface PaginationResponse<T> {
@@ -102,6 +104,73 @@ export async function getUsageSummary(): Promise<{ total: number }> {
 
 export async function getUsageStats(): Promise<UsageData[]> {
   return apiRequest('/v1/usage/stats');
+}
+
+export interface CreateProxy {
+  host: string;
+  port: number;
+  username?: string;
+  password?: string;
+  protocol?: string;
+  pool?: string;
+  providerId?: string;
+  tags?: string[];
+  meta?: any;
+  disabled?: boolean;
+}
+
+export interface UpdateProxy {
+  pool?: string;
+  providerId?: string;
+  tags?: string[];
+  meta?: any;
+  disabled?: boolean;
+}
+
+export interface Lease {
+  leaseId: string;
+  proxy: string; // http://user:pass@host:port
+  protocol: string;
+  expiresAt: string;
+  meta: {
+    providerId?: string;
+    score: number;
+    country?: string;
+    sticky: boolean;
+  };
+}
+
+export async function createProxy(proxy: CreateProxy): Promise<Proxy> {
+  return apiRequest('/v1/proxies', {
+    method: 'POST',
+    body: JSON.stringify(proxy),
+  });
+}
+
+export async function updateProxy(id: string, proxy: UpdateProxy): Promise<Proxy> {
+  return apiRequest(`/v1/proxies/${id}`, {
+    method: 'PATCH',
+    body: JSON.stringify(proxy),
+  });
+}
+
+export async function deleteProxy(id: string): Promise<void> {
+  await apiRequest(`/v1/proxies/${id}`, { method: 'DELETE' });
+}
+
+export async function issueLease(params: {
+  project: string;
+  pool?: string;
+  sticky?: boolean;
+  country?: string;
+}): Promise<Lease | { error: string }> {
+  const query = new URLSearchParams({
+    project: params.project,
+    ...(params.pool && { pool: params.pool }),
+    ...(params.sticky !== undefined && { sticky: params.sticky.toString() }),
+    ...(params.country && { country: params.country }),
+  });
+  return apiRequest(`/v1/proxy?${query}`);
 }
 
 // Add more as needed for other endpoints

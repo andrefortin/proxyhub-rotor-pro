@@ -1,0 +1,38 @@
+[
+  {
+    "session_id": "a6e02ea5-a69c-4bb9-9222-bab464a27660",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/a6e02ea5-a69c-4bb9-9222-bab464a27660.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "docker-compose -f docker-compose.dev.yml build admin",
+      "description": "Rebuild admin service from docker-compose.dev.yml"
+    }
+  },
+  {
+    "session_id": "a6e02ea5-a69c-4bb9-9222-bab464a27660",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/a6e02ea5-a69c-4bb9-9222-bab464a27660.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "docker compose -f docker-compose.dev.yml build admin",
+      "description": "Rebuild admin service using docker compose from dev yml"
+    }
+  },
+  {
+    "session_id": "a6e02ea5-a69c-4bb9-9222-bab464a27660",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/a6e02ea5-a69c-4bb9-9222-bab464a27660.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "docker compose -f docker-compose.dev.yml up -d admin",
+      "description": "Redeploy admin service in detached mode"
+    }
+  }
+]

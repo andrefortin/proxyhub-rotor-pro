@@ -3,6 +3,7 @@ import DashboardKPI from '../DashboardKPI'
 import UsageChart from '../UsageChart'
 import ActivityLog from '../ActivityLog'
 import { getProxies } from '../lib/api';
+import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 
 interface Proxy {
   id: string

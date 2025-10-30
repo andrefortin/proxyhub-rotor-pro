@@ -1,0 +1,9 @@
+{
+  "session_id": "df789756-004d-4297-8ad1-c4e2b560404a",
+  "prompts": [
+    "/prime ",
+    "/bug `missing a switch ui component for the admin module in the `components/ui` directory called `switch`. This component is to show a toggle swtich on the user interface.",
+    "/implement bug missing ui toggle switch"
+  ],
+  "agent_name": "Atlas"
+}

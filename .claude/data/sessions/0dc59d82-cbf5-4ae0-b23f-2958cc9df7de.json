@@ -1,0 +1,12 @@
+{
+  "session_id": "0dc59d82-cbf5-4ae0-b23f-2958cc9df7de",
+  "prompts": [
+    "/feature 13 `build out the proxy page to help us manage the proxies that have been uploade/added from the different providers. include features that will make it useful to manage or test. Make the user interface helpful for non-technical people. include micro-interations and other ui elements like hover text. must also support the dark/light themes. if we need and api calls to the backend-api keep track of them and submit the list as a /feature request to the system. make the ui sexy`",
+    "/implement feature 13",
+    "are we done implmenting the feature?",
+    "light/dark theme toggle does not work.",
+    "the theme toggle switch does not toggle",
+    "push to git"
+  ],
+  "agent_name": "Echo"
+}
