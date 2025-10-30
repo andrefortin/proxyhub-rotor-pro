@@ -5,30 +5,17 @@ import { cn } from "../../lib/utils"
 const Switch = React.forwardRef<
   React.ElementRef<"div">,
   React.HTMLAttributes<HTMLDivElement> & { dynamicThumb?: boolean; // Add prop for dynamic offset
-  dynamicThumb?: boolean; // Add prop for dynamic offset
     checked?: boolean
     onCheckedChange?: (checked: boolean) => void
     disabled?: boolean
   }
->(({ className, checked, onCheckedChange, disabled, ...props }, ref) => {
+>(({ className, checked, onCheckedChange, disabled, dynamicThumb, ...props }, ref) => {
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     if (disabled) return;
     onCheckedChange?.(!checked);
   };
-
-  const rootProps = {
-    ...props,
-    style: dynamicThumb ? { '--thumb-offset': 'calc(100% - 1rem)' } : undefined,
-  };
-
-  if (dynamicThumb) {
-    const effectiveWidth = props.className?.includes('w-8') ? 32 : 40; // px, adjust per size
-    const thumbSize = 16;
-    const offset = effectiveWidth - thumbSize; // px to style
-    rootStyle = { '--thumb-offset': `${offset}px` };
-  }
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' || e.key === ' ') {
