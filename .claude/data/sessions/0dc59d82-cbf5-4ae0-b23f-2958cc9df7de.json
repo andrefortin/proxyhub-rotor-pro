@@ -9,7 +9,9 @@
     "push to git",
     "/bug 17 `clicking the custom ui toggle button in the Admin module does not move the toggle indicator to the opposite side of the toggle, the colors may change, but the button slider stays in the same place.`",
     "/implement bug 17",
-    "git push"
+    "git push",
+    "/bug 18 `the custom swith toggle move the thumb swith too far to the right if there is an icon to the right, id doen't take into account the width of the right icon and overlaps it.`",
+    "/implement bug 18"
   ],
   "agent_name": "Echo"
 }
