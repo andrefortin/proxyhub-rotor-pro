@@ -6,7 +6,10 @@
     "are we done implmenting the feature?",
     "light/dark theme toggle does not work.",
     "the theme toggle switch does not toggle",
-    "push to git"
+    "push to git",
+    "/bug 17 `clicking the custom ui toggle button in the Admin module does not move the toggle indicator to the opposite side of the toggle, the colors may change, but the button slider stays in the same place.`",
+    "/implement bug 17",
+    "git push"
   ],
   "agent_name": "Echo"
 }
