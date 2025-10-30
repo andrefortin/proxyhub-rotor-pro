@@ -28,6 +28,7 @@ export default function Providers() {
 
   const fetchProviders = useCallback(async () => {
     try {
+      setError(null);
       setLoading(true);
       const data = await getProviders({ page, limit: LIMIT, search: search || undefined });
       console.log('Fetched data from API:', data); // Debug: Log full response
@@ -42,6 +43,8 @@ export default function Providers() {
       setTotal(data.total);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to fetch providers');
+      setProviders([]);
+      setTotal(0);
     } finally {
       setLoading(false);
     }
@@ -141,9 +144,6 @@ export default function Providers() {
     }
   };
 
-  if (loading) return <div className="p-8">Loading providers...</div>;
-  if (error) return <div className="p-8 text-red-500">{error}</div>;
-
   return (
     <div className="space-y-4">
       <Card>
@@ -160,108 +160,124 @@ export default function Providers() {
           </div>
         </CardHeader>
         <CardContent>
-          <div className="flex gap-2 mb-4">
-            <input
-              type="text"
-              placeholder="Search providers..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="flex-1 px-3 py-2 border border-input rounded-md bg-background text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:border-input"
-            />
-            <label className="flex items-center gap-2">
-              <input type="checkbox" checked={mock} onChange={(e) => setMock((e.target as HTMLInputElement).checked)} />
-              Mock Mode
-            </label>
-          </div>
-          <div className="space-y-2">
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b border-border">
-                    <th className="text-left p-3 w-12">Logo</th>
-                    <th className="text-left p-3">Name</th>
-                    <th className="text-left p-3">Type</th>
-                    <th className="text-left p-3">Status</th>
-                    <th className="text-left p-3">Created</th>
-                    <th className="text-right p-3">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {!Array.isArray(providers) ? (
-                    <tr>
-                      <td colSpan={6} className="p-4 text-center text-red-500">
-                        Error: Providers data is not an array. Type: {typeof providers}, Value: {JSON.stringify(providers, null, 2)}
-                      </td>
-                    </tr>
-                  ) : providers.length === 0 ? (
-                    <tr>
-                      <td colSpan={6} className="p-4 text-center text-muted-foreground">
-                        No providers found
-                      </td>
-                    </tr>
-                  ) : (
-                    providers.map((provider) => (
-                      <tr key={provider.id} className="border-b border-border hover:bg-accent">
-                        <td className="p-3 w-12">
-                          {provider.logoUrl ? (
-                            <img src={provider.logoUrl} alt={provider.name} className="w-8 h-8 rounded object-cover" onError={(e) => { e.currentTarget.src = '/placeholder-logo.png'; }} />
-                          ) : (
-                            <div className="w-8 h-8 bg-gray-200 rounded flex items-center justify-center">
-                              <span className="text-gray-500 text-xs">{provider.name.charAt(0).toUpperCase()}</span>
-                            </div>
-                          )}
-                        </td>
-                        <td className="p-3">{provider.name}</td>
-                        <td className="p-3">
-                          <span className={cn('px-2 py-1 rounded text-xs', provider.active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800')}>
-                            {provider.type}
-                          </span>
-                        </td>
-                        <td className="p-3">
-                          <span className={cn('px-2 py-1 rounded text-xs', provider.active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800')}>
-                            {provider.active ? 'Active' : 'Inactive'}
-                          </span>
-                        </td>
-                        <td className="p-3">{new Date(provider.createdAt).toLocaleDateString()}</td>
-                        <td className="p-3 text-right">
-                          <Switch
-                            checked={provider.active}
-                            onCheckedChange={(checked) => {
-                              console.log(`Switch clicked for ${provider.id}, checked: ${checked}`); // Debug log
-                              handleToggle(provider.id);
-                            }}
-                            disabled={togglingId === provider.id}
-                            className={cn(
-                              'data-[state=checked]:bg-green-600 data-[state=unchecked]:bg-red-600',
-                              'w-10 h-5 mr-2'
-                            )}
-                          />
-                          <button onClick={() => openEdit(provider.id)} className="p-1 text-blue-600 hover:text-blue-800" title="Edit provider details">
-                            <Edit className="w-4 h-4" />
-                          </button>
-                          <button onClick={() => handleDelete(provider.id)} className="p-1 text-red-600 hover:text-red-800" title="Delete provider">
-                            <Trash2 className="w-4 h-4" />
-                          </button>
-                        </td>
-                      </tr>
-                    ))
-                  )}
-                </tbody>
-              </table>
+          {loading && (
+            <div className="p-8 flex items-center justify-center">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mr-2"></div>
+              <span>Loading providers...</span>
             </div>
-            {providers.length === 0 && (
-              <p className="text-center text-muted-foreground py-8">No providers found. Add one to get started!</p>
-            )}
-          </div>
-          <div className="flex justify-between mt-4">
-            <button onClick={() => setPage(page - 1)} disabled={page === 1} className="px-4 py-2 bg-primary text-primary-foreground rounded disabled:opacity-50">
-              Previous
-            </button>
-            <span>{page} of {Math.ceil(total / LIMIT)}</span>
-            <button onClick={() => setPage(page + 1)} disabled={providers.length < LIMIT} className="px-4 py-2 bg-primary text-primary-foreground rounded disabled:opacity-50">
-              Next
-            </button>
-          </div>
+          )}
+          {!loading && (
+            <>
+              <div className="flex gap-2 mb-4">
+                <input
+                  type="text"
+                  placeholder="Search providers..."
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  className="flex-1 px-3 py-2 border border-input rounded-md bg-background text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:border-input"
+                />
+                <label className="flex items-center gap-2">
+                  <input type="checkbox" checked={mock} onChange={(e) => setMock((e.target as HTMLInputElement).checked)} />
+                  Mock Mode
+                </label>
+              </div>
+              <div className="space-y-2">
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead>
+                      <tr className="border-b border-border">
+                        <th className="text-left p-3 w-12">Logo</th>
+                        <th className="text-left p-3">Name</th>
+                        <th className="text-left p-3">Type</th>
+                        <th className="text-left p-3">Status</th>
+                        <th className="text-left p-3">Created</th>
+                        <th className="text-right p-3">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {providers.length === 0 ? (
+                        <tr>
+                          <td colSpan={6} className="p-4 text-center text-muted-foreground">
+                            No providers found. Add one to get started!
+                          </td>
+                        </tr>
+                      ) : (
+                        providers.map((provider) => (
+                          <tr key={provider.id} className="border-b border-border hover:bg-accent">
+                            <td className="p-3 w-12">
+                              {provider.logoUrl ? (
+                                <img src={provider.logoUrl} alt={provider.name} className="w-8 h-8 rounded object-cover" onError={(e) => { e.currentTarget.src = '/placeholder-logo.png'; }} />
+                              ) : (
+                                <div className="w-8 h-8 bg-gray-200 rounded flex items-center justify-center">
+                                  <span className="text-gray-500 text-xs">{provider.name.charAt(0).toUpperCase()}</span>
+                                </div>
+                              )}
+                            </td>
+                            <td className="p-3">{provider.name}</td>
+                            <td className="p-3">
+                              <span className={cn('px-2 py-1 rounded text-xs', provider.active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800')}>
+                                {provider.type}
+                              </span>
+                            </td>
+                            <td className="p-3">
+                              <span className={cn('px-2 py-1 rounded text-xs', provider.active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800')}>
+                                {provider.active ? 'Active' : 'Inactive'}
+                              </span>
+                            </td>
+                            <td className="p-3">{new Date(provider.createdAt).toLocaleDateString()}</td>
+                            <td className="p-3 text-right">
+                              <Switch
+                                checked={provider.active}
+                                onCheckedChange={(checked) => {
+                                  console.log(`Switch clicked for ${provider.id}, checked: ${checked}`); // Debug log
+                                  handleToggle(provider.id);
+                                }}
+                                disabled={togglingId === provider.id}
+                                className={cn(
+                                  'data-[state=checked]:bg-green-600 data-[state=unchecked]:bg-red-600',
+                                  'w-10 h-5 mr-2'
+                                )}
+                              />
+                              <button onClick={() => openEdit(provider.id)} className="p-1 text-blue-600 hover:text-blue-800" title="Edit provider details">
+                                <Edit className="w-4 h-4" />
+                              </button>
+                              <button onClick={() => handleDelete(provider.id)} className="p-1 text-red-600 hover:text-red-800" title="Delete provider">
+                                <Trash2 className="w-4 h-4" />
+                              </button>
+                            </td>
+                          </tr>
+                        ))
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+                {providers.length === 0 && !error && (
+                  <p className="text-center text-muted-foreground py-8">No providers found. Add one to get started!</p>
+                )}
+              </div>
+              <div className="flex justify-between mt-4">
+                <button onClick={() => setPage(page - 1)} disabled={page === 1 || loading} className="px-4 py-2 bg-primary text-primary-foreground rounded disabled:opacity-50">
+                  Previous
+                </button>
+                <span>{page} of {Math.ceil(total / LIMIT)}</span>
+                <button onClick={() => setPage(page + 1)} disabled={providers.length < LIMIT || loading} className="px-4 py-2 bg-primary text-primary-foreground rounded disabled:opacity-50">
+                  Next
+                </button>
+              </div>
+              {error && (
+                <div className="p-4 bg-destructive/10 border border-destructive/30 rounded-md text-destructive text-sm mt-4 flex items-center justify-between">
+                  <span>{error}</span>
+                  <button
+                    onClick={fetchProviders}
+                    disabled={loading}
+                    className="px-3 py-1 bg-primary text-primary-foreground rounded text-sm disabled:opacity-50"
+                  >
+                    Retry
+                  </button>
+                </div>
+              )}
+            </>
+          )}
         </CardContent>
       </Card>
 

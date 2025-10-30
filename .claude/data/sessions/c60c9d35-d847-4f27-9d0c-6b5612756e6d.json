@@ -5,7 +5,8 @@
     "/bug 18 `When clicking a \"Delete\" button that will remove an item like a provider or a proxy, we should prompt at least 1 time per session if they are sure they want to delete, and if we should remember this choice for the rest of the session and stop asking or just this one time. Make it clear and concise.`",
     "/implement bug 18",
     "The delete should be in a dialog popup not as an alert message.",
-    "create the delete confirmation dialog we asked for"
+    "create the delete confirmation dialog we asked for",
+    "git push"
   ],
   "agent_name": "Zenith"
 }
