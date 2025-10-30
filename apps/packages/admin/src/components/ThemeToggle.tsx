@@ -25,6 +25,7 @@ export default function ThemeToggle() {
     <div className="flex items-center space-x-2">
       <Sun className="h-4 w-4" />
       <Switch
+        dynamicThumb={true}
         checked={darkMode}
         onCheckedChange={(checked) => setDarkMode(!!checked)}
         className="w-8 h-4 mx-1"
