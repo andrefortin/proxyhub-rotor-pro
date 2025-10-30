@@ -14,7 +14,9 @@
     "/implement bug 18",
     "not entirely correct, only take into account the width of the icon that is to the right of ithe switch if that icon is part of the custom switch.",
     "still not quite right, only adjust the right side offset if the is an integrated right side image defined in the switch control like the way we have the theme slider defined, not lilke the way we have the provider management list row switch defined.",
-    "the offset is realtive to the inner displayed width of the switch which adjusts itself if there are overlapping icons or images"
+    "the offset is realtive to the inner displayed width of the switch which adjusts itself if there are overlapping icons or images",
+    "our switch ui components are not moving at all now in the admin providers management page",
+    "push to git"
   ],
   "agent_name": "Echo"
 }

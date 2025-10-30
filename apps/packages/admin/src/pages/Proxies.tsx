@@ -8,6 +8,7 @@ import { Button } from '../components/ui/button';
 import { Globe, Zap, Plus, Edit, Trash2, Filter, Search } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { getProxies, createProxy, updateProxy, deleteProxy, issueLease, getProviders, type Proxy, type CreateProxy, type UpdateProxy, type Provider } from '../lib/api';
+import { useDeleteConfirmation } from '../hooks/useDeleteConfirmation';
 
 const LIMIT = 10;
 
@@ -42,7 +43,7 @@ export default function Proxies() {
   const [total, setTotal] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [editData, setEditData] = useState<Partial<CreateProxy | UpdateProxy>>({});
+  const [editData, setEditData] = useState<any>({});
   const [showTestModal, setShowTestModal] = useState(false);
   const [testingId, setTestingId] = useState<string | null>(null);
   const [testResult, setTestResult] = useState<TestResult | null>(null);
@@ -139,14 +140,18 @@ export default function Proxies() {
     }
   }, [togglingId]);
 
+  const { confirmDelete } = useDeleteConfirmation();
+
   const handleDelete = async (id: string) => {
-    if (!confirm('Delete this proxy? This is irreversible.')) return;
-    try {
-      await deleteProxy(id);
-      fetchProxies();
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to delete proxy');
-    }
+    const proceed = confirmDelete('proxy', async () => {
+      try {
+        await deleteProxy(id);
+        fetchProxies();
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to delete proxy');
+      }
+    });
+    if (!proceed) return;
   };
 
   const openEdit = async (id: string) => {
@@ -442,7 +447,7 @@ export default function Proxies() {
               onSubmit={async (e) => {
                 e.preventDefault();
                 const formData = new FormData(e.currentTarget);
-                const data: Partial<CreateProxy | UpdateProxy> = {
+                const data: any = {
                   host: formData.get('host') as string,
                   port: parseInt(formData.get('port') as string),
                   username: formData.get('username') as string || undefined,
@@ -452,7 +457,7 @@ export default function Proxies() {
                   providerId: formData.get('providerId') as string || undefined,
                   tags: (formData.get('tags') as string)?.split(',').map(t => t.trim()).filter(Boolean) || undefined,
                   meta: formData.get('meta') ? JSON.parse(formData.get('meta') as string) : undefined,
-                  disabled: formData.get('disabled') === 'on' ? false : true, // Active by default unless disabled
+                  disabled: formData.get('disabled') !== 'on', // Active by default unless disabled
                 };
                 editingId ? handleUpdate(data as UpdateProxy) : handleCreate(data as CreateProxy);
               }}

@@ -5,6 +5,7 @@ import { Users2, Plus, Edit, Trash2 } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { Switch } from '../components/ui/switch';
 import { getProviders, createProvider, updateProvider, deleteProvider, getProvider, type Provider } from '../lib/api';
+import { useDeleteConfirmation } from '../hooks/useDeleteConfirmation';
 
 const LIMIT = 10; // Fixed limit per Swagger (max 100)
 
@@ -99,14 +100,18 @@ export default function Providers() {
     }
   }, [providers, togglingId, updateProvider, fetchProviders]);
 
+  const { confirmDelete } = useDeleteConfirmation();
+
   const handleDelete = async (id: string) => {
-    if (!confirm('Delete provider?')) return;
-    try {
-      await deleteProvider(id);
-      fetchProviders();
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to delete provider');
-    }
+    const proceed = confirmDelete('provider', async () => {
+      try {
+        await deleteProvider(id);
+        fetchProviders();
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to delete provider');
+      }
+    });
+    if (!proceed) return;
   };
 
   const openEdit = async (id: string) => {

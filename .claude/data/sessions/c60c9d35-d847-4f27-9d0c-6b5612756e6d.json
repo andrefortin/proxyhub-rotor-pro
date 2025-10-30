@@ -1,0 +1,9 @@
+{
+  "session_id": "c60c9d35-d847-4f27-9d0c-6b5612756e6d",
+  "prompts": [
+    "/prime ",
+    "/bug 18 `When clicking a \"Delete\" button that will remove an item like a provider or a proxy, we should prompt at least 1 time per session if they are sure they want to delete, and if we should remember this choice for the rest of the session and stop asking or just this one time. Make it clear and concise.`",
+    "/implement bug 18"
+  ],
+  "agent_name": "Zenith"
+}

@@ -5,7 +5,8 @@
     "/feature 16 `Create the missing ui components for the Admin module: (Badge, Tooltip, Button) that are referenced in the code. Ensure we add the standard\n  properties and any specific property already referenced in the code.`\n  bash: command substitution: line 1: syntax error near unexpected token `('\n  bash: command substitution: line 1: `Create the missing ui components for the Admin module: (Badge, Tooltip, Button) that are referenced in the code. Ensure we\n  add the standard properties and any specific property already referenced in the code.`",
     "/implement issue 16",
     "continue implementing the todos",
-    "continue implementing the todos"
+    "continue implementing the todos",
+    "put to git"
   ],
   "agent_name": "Nexus"
 }

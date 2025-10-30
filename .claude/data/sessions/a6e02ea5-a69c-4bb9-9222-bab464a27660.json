@@ -1,7 +1,9 @@
 {
   "session_id": "a6e02ea5-a69c-4bb9-9222-bab464a27660",
   "prompts": [
-    "rebuild and redeploy the admin module with docker-compose.dev.yml"
+    "rebuild and redeploy the admin module with docker-compose.dev.yml",
+    "rebuild and redeploy the admin module with docker-compose.dev.yml",
+    "We are still using a cached version of the Admin container, remove, rebuild it using docker-compose.dev.yml"
   ],
   "agent_name": "Nebula"
 }

@@ -6,5 +6,21 @@
     "permission_mode": "bypassPermissions",
     "hook_event_name": "UserPromptSubmit",
     "prompt": "rebuild and redeploy the admin module with docker-compose.dev.yml"
+  },
+  {
+    "session_id": "a6e02ea5-a69c-4bb9-9222-bab464a27660",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/a6e02ea5-a69c-4bb9-9222-bab464a27660.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "rebuild and redeploy the admin module with docker-compose.dev.yml"
+  },
+  {
+    "session_id": "a6e02ea5-a69c-4bb9-9222-bab464a27660",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/a6e02ea5-a69c-4bb9-9222-bab464a27660.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "We are still using a cached version of the Admin container, remove, rebuild it using docker-compose.dev.yml"
   }
 ]

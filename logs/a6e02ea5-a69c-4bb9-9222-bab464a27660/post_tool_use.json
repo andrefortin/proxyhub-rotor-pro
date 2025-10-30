@@ -34,5 +34,59 @@
       "interrupted": false,
       "isImage": false
     }
+  },
+  {
+    "session_id": "a6e02ea5-a69c-4bb9-9222-bab464a27660",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/a6e02ea5-a69c-4bb9-9222-bab464a27660.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PostToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "docker compose -f docker-compose.dev.yml build admin",
+      "description": "Rebuild admin service using docker compose from dev yml"
+    },
+    "tool_response": {
+      "stdout": "",
+      "stderr": "",
+      "interrupted": false,
+      "isImage": false
+    }
+  },
+  {
+    "session_id": "a6e02ea5-a69c-4bb9-9222-bab464a27660",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/a6e02ea5-a69c-4bb9-9222-bab464a27660.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PostToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "docker compose -f docker-compose.dev.yml up -d admin",
+      "description": "Redeploy admin service in detached mode"
+    },
+    "tool_response": {
+      "stdout": " Container proxyhub-rotor-pro-db-1  Running\n Container proxyhub-rotor-pro-api-1  Running\n Container proxyhub-rotor-pro-admin-1  Running\n Container proxyhub-rotor-pro-db-1  Waiting\n Container proxyhub-rotor-pro-db-1  Healthy",
+      "stderr": "",
+      "interrupted": false,
+      "isImage": false
+    }
+  },
+  {
+    "session_id": "a6e02ea5-a69c-4bb9-9222-bab464a27660",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/a6e02ea5-a69c-4bb9-9222-bab464a27660.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PostToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "docker compose -f docker-compose.dev.yml down admin && docker compose -f docker-compose.dev.yml build --no-cache admin && docker compose -f docker-compose.dev.yml up -d admin",
+      "description": "Remove admin container, rebuild without cache, and redeploy admin service"
+    },
+    "tool_response": {
+      "stdout": " Container proxyhub-rotor-pro-admin-1  Stopping\n Container proxyhub-rotor-pro-admin-1  Stopped\n Container proxyhub-rotor-pro-admin-1  Removing\n Container proxyhub-rotor-pro-admin-1  Removed\n Network proxyhub-rotor-pro_default  Removing\n Network proxyhub-rotor-pro_default  Resource is still in use\n Container proxyhub-rotor-pro-db-1  Running\n Container proxyhub-rotor-pro-api-1  Running\n Container proxyhub-rotor-pro-admin-1  Creating\n Container proxyhub-rotor-pro-admin-1  Created\n Container proxyhub-rotor-pro-db-1  Waiting\n Container proxyhub-rotor-pro-db-1  Healthy\n Container proxyhub-rotor-pro-admin-1  Starting\n Container proxyhub-rotor-pro-admin-1  Started",
+      "stderr": "",
+      "interrupted": false,
+      "isImage": false
+    }
   }
 ]
