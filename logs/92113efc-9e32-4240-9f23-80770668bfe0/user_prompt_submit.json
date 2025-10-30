@@ -1,0 +1,66 @@
+[
+  {
+    "session_id": "92113efc-9e32-4240-9f23-80770668bfe0",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/92113efc-9e32-4240-9f23-80770668bfe0.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "/prime "
+  },
+  {
+    "session_id": "92113efc-9e32-4240-9f23-80770668bfe0",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/92113efc-9e32-4240-9f23-80770668bfe0.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "/feature add pagination to the get endpoints of the API module"
+  },
+  {
+    "session_id": "92113efc-9e32-4240-9f23-80770668bfe0",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/92113efc-9e32-4240-9f23-80770668bfe0.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "/implement feature 8"
+  },
+  {
+    "session_id": "92113efc-9e32-4240-9f23-80770668bfe0",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/92113efc-9e32-4240-9f23-80770668bfe0.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "/feature `Add the 'skip' param to the get endpoints'"
+  },
+  {
+    "session_id": "92113efc-9e32-4240-9f23-80770668bfe0",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/92113efc-9e32-4240-9f23-80770668bfe0.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "/implement feature 9"
+  },
+  {
+    "session_id": "92113efc-9e32-4240-9f23-80770668bfe0",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/92113efc-9e32-4240-9f23-80770668bfe0.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "continue todos"
+  },
+  {
+    "session_id": "92113efc-9e32-4240-9f23-80770668bfe0",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/92113efc-9e32-4240-9f23-80770668bfe0.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "continue with todos"
+  },
+  {
+    "session_id": "92113efc-9e32-4240-9f23-80770668bfe0",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/92113efc-9e32-4240-9f23-80770668bfe0.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "push to git"
+  }
+]

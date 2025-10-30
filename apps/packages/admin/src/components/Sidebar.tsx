@@ -1,10 +1,10 @@
-import { LayoutDashboard, Settings, Users } from 'lucide-react'
+import { HandPlatter, LayoutDashboard, Settings, User2, Users } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
 const navItems = [
   { name: 'Dashboard', path: '/', icon: LayoutDashboard },
   { name: 'Proxies', path: '/proxies', icon: Users },
-  { name: 'Providers', path: '/providers', icon: Users },
+  { name: 'Providers', path: '/providers', icon: HandPlatter },
   { name: 'Settings', path: '/settings', icon: Settings },
 ]
 

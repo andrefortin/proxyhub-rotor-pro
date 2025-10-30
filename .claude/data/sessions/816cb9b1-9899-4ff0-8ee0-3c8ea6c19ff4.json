@@ -1,0 +1,10 @@
+{
+  "session_id": "816cb9b1-9899-4ff0-8ee0-3c8ea6c19ff4",
+  "prompts": [
+    "/prime ",
+    "/feature `implement crud endpoints for the proxies, and providers, with an query param to get sample data for testing in the API module`",
+    "continue implementing todos",
+    "continue implementing todos"
+  ],
+  "agent_name": "Nebula"
+}

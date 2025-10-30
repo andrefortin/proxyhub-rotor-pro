@@ -1,0 +1,14 @@
+{
+  "session_id": "92113efc-9e32-4240-9f23-80770668bfe0",
+  "prompts": [
+    "/prime ",
+    "/feature add pagination to the get endpoints of the API module",
+    "/implement feature 8",
+    "/feature `Add the 'skip' param to the get endpoints'",
+    "/implement feature 9",
+    "continue todos",
+    "continue with todos",
+    "push to git"
+  ],
+  "agent_name": "Nexus"
+}

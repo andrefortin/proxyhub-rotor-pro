@@ -1,0 +1,10 @@
+[
+  {
+    "session_id": "019e214c-20ac-4631-96c9-6c90606d2719",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/019e214c-20ac-4631-96c9-6c90606d2719.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "I want to run the command `ccr code --dangerously-skip-permissions` as a command like `ccryolo`. how do I do this step by step from the bash console."
+  }
+]

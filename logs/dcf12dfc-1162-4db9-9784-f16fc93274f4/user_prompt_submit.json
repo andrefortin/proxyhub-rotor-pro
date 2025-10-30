@@ -118,5 +118,69 @@
     "permission_mode": "bypassPermissions",
     "hook_event_name": "UserPromptSubmit",
     "prompt": "push to git"
+  },
+  {
+    "session_id": "dcf12dfc-1162-4db9-9784-f16fc93274f4",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/dcf12dfc-1162-4db9-9784-f16fc93274f4.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "/feature `build out the providers page to manage the proxy providers. Ensure the crud api endpoints exist in the api module and return results. Also include a param to send into the functions to mock data for testing.`"
+  },
+  {
+    "session_id": "dcf12dfc-1162-4db9-9784-f16fc93274f4",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/dcf12dfc-1162-4db9-9784-f16fc93274f4.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "/implement issue-3 providers management"
+  },
+  {
+    "session_id": "dcf12dfc-1162-4db9-9784-f16fc93274f4",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/dcf12dfc-1162-4db9-9784-f16fc93274f4.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "our end to end testing should be checking the console log of the browser in case we have unintended errors in the console log"
+  },
+  {
+    "session_id": "dcf12dfc-1162-4db9-9784-f16fc93274f4",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/dcf12dfc-1162-4db9-9784-f16fc93274f4.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "if our e2e test fail what are we doing?"
+  },
+  {
+    "session_id": "dcf12dfc-1162-4db9-9784-f16fc93274f4",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/dcf12dfc-1162-4db9-9784-f16fc93274f4.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "retest the last feature we implemented"
+  },
+  {
+    "session_id": "dcf12dfc-1162-4db9-9784-f16fc93274f4",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/dcf12dfc-1162-4db9-9784-f16fc93274f4.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "provide commands to resolve the deps with step by step to run in bash console."
+  },
+  {
+    "session_id": "dcf12dfc-1162-4db9-9784-f16fc93274f4",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/dcf12dfc-1162-4db9-9784-f16fc93274f4.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "here are the errors displayed in the admin panel browser console : App.tsx:10 Uncaught ReferenceError: Providers is not defined\n    at App (App.tsx:10:44)\n\nApp.tsx:10 Uncaught ReferenceError: Providers is not defined\n    at App (App.tsx:10:44)\ninstallHook.js:1 The above error occurred in the <App> component:\n\n    at App (http://localhost:4173/src/App.tsx:31:89)\n    at Router (http://localhost:4173/node_modules/.vite/deps/react-router-dom.js?v=669008e9:4501:15)\n    at BrowserRouter (http://localhost:4173/node_modules/.vite/deps/react-router-dom.js?v=669008e9:5247:5)\n\nConsider adding an error boundary to your tree to customize error handling behavior.\nVisit https://reactjs.org/link/error-boundaries to learn more about error boundaries.\nchunk-NUMECXU6.js?v=669008e9:19413 Uncaught ReferenceError: Providers is not defined\n    at App (App.tsx:10:44)\n"
+  },
+  {
+    "session_id": "dcf12dfc-1162-4db9-9784-f16fc93274f4",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/dcf12dfc-1162-4db9-9784-f16fc93274f4.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "installHook.js:1 \u26a0\ufe0f React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition. Error Component Stack\n    at BrowserRouter (react-router-dom.js?v=669008e9:5247:5)\noverrideMethod @ installHook.js:1\nwarnOnce @ react-router-dom.js?v=669008e9:4393\nlogDeprecation @ react-router-dom.js?v=669008e9:4396\nlogV6DeprecationWarnings @ react-router-dom.js?v=669008e9:4399\n(anonymous) @ react-router-dom.js?v=669008e9:5271\ncommitHookEffectListMount @ chunk-NUMECXU6.js?v=669008e9:16915\ncommitPassiveMountOnFiber @ chunk-NUMECXU6.js?v=669008e9:18156\ncommitPassiveMountEffects_complete @ chunk-NUMECXU6.js?v=669008e9:18129\ncommitPassiveMountEffects_begin @ chunk-NUMECXU6.js?v=669008e9:18119\ncommitPassiveMountEffects @ chunk-NUMECXU6.js?v=669008e9:18109\nflushPassiveEffectsImpl @ chunk-NUMECXU6.js?v=669008e9:19490\nflushPassiveEffects @ chunk-NUMECXU6.js?v=669008e9:19447\n(anonymous) @ chunk-NUMECXU6.js?v=669008e9:19328\nworkLoop @ chunk-NUMECXU6.js?v=669008e9:197\nflushWork @ chunk-NUMECXU6.js?v=669008e9:176\nperformWorkUntilDeadline @ chunk-NUMECXU6.js?v=669008e9:384Understand this warning\ninstallHook.js:1 \u26a0\ufe0f React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath. Error Component Stack"
   }
 ]

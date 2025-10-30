@@ -1,0 +1,34 @@
+[
+  {
+    "session_id": "816cb9b1-9899-4ff0-8ee0-3c8ea6c19ff4",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/816cb9b1-9899-4ff0-8ee0-3c8ea6c19ff4.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "/prime "
+  },
+  {
+    "session_id": "816cb9b1-9899-4ff0-8ee0-3c8ea6c19ff4",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/816cb9b1-9899-4ff0-8ee0-3c8ea6c19ff4.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "/feature `implement crud endpoints for the proxies, and providers, with an query param to get sample data for testing in the API module`"
+  },
+  {
+    "session_id": "816cb9b1-9899-4ff0-8ee0-3c8ea6c19ff4",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/816cb9b1-9899-4ff0-8ee0-3c8ea6c19ff4.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "continue implementing todos"
+  },
+  {
+    "session_id": "816cb9b1-9899-4ff0-8ee0-3c8ea6c19ff4",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/816cb9b1-9899-4ff0-8ee0-3c8ea6c19ff4.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "continue implementing todos"
+  }
+]

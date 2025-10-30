@@ -1,4 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ProxiesController } from './proxies.controller';
-@Module({ controllers: [ProxiesController] })
+import { ProxyService } from './proxies.service';
+
+@Module({
+  controllers: [ProxiesController],
+  providers: [ProxyService],
+  exports: [ProxyService]
+})
 export class ProxiesModule {}

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Query, Patch } from "@nestjs/common";
+import { Controller, Get, Post, Body, Param, Query, Patch, Delete } from "@nestjs/common";
 import { ProvidersService } from "./providers.service";
 
 @Controller("v1/providers")
@@ -53,5 +53,14 @@ export class ProvidersController {
       // Basic error handling
       throw new Error(`Import failed: ${error.message}`);
     }
+  }
+
+  @Delete(':id')
+  async delete(@Param('id') id: string) {
+    const success = await this.service.deleteProvider(id);
+    if (!success) {
+      throw new Error('Delete failed');
+    }
+    return { success: true, message: 'Provider deleted' };
   }
 }
