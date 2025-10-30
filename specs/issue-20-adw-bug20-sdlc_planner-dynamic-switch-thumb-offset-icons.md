@@ -16,17 +16,17 @@ Fixed translate-x in Switch thumb doesn't adapt to container dimensions or neigh
 
 ## Solution Statement
 
-Make thumb offset dynamic using CSS custom property on Switch root: `--thumb-offset: calc(100% - 1rem)` (subtracts thumb size from track). Thumb uses `data-[state=checked]:translate-x-[var(--thumb-offset)]` for automatic centering in any width (e.g., w-8). For standalone (Providers), it falls back to fixed or prop-disables. Test to ensure no regressions.
+Implement dynamic positioning in switch.tsx using CSS calc for checked state: `--thumb-offset: calc(100% - 1rem)` on root, then `data-[state=checked]:translate-x-[var(--thumb-offset)]` on thumb for self-adjusting to any width (e.g., w-8). Expose prop for icon-aware adjustments if needed. Keeps default for standalone (e.g., Providers).
 
 ## Steps to Reproduce
 
-1. `cd apps/packages/admin && bun dev`; load http://localhost:4173.
+1. Run `cd apps/packages/admin && bun dev`; load http://localhost:4173.
 2. To Dashboard: Toggle theme Switch—thumb may crowd Moon icon if width constrained.
-3. Expected: Thumb always centers within Switch bounds, independent of icons.
+3. Expected: Thumb always centers dynamically within Switch track regardless of content/layout.
 
 ## Root Cause Analysis
 
-Switch translate is fixed (e.g., translate-x-3), not relative to track (varies with className like w-8 in ThemeToggle). Icons (h-4 w-4, space-x-2) reduce available space; thumb (size-4) overflows on slide. Dynamic calc on root enables self-adjusting offset.
+Switch uses fixed `translate-x-3` (12px) for thumb slide, not relative to track (varies with className like w-8 in ThemeToggle). Icons (h-4 w-4, space-x-2) reduce available space; thumb (size-4) overflows on slide. Dynamic calc on root enables self-adjusting offset.
 
 ## Relevant Files
 
@@ -39,7 +39,7 @@ Use these files to fix the bug:
 
 ### New Files
 
-- `.claude/commands/e2e/test_switch-dynamic-thumb.md`: Validate thumb centers with icons.
+- `.claude/commands/e2e/test_switch-dynamic-thumb.md`: Test thumb centers in varying widths with icons.
 
 ## Step by Step Tasks
 
@@ -47,9 +47,9 @@ Use these files to fix the bug:
 
 - In `switch.tsx`, add to outer div (after className):
   ```
-  style={{ '--thumb-offset': 'calc(100% - 1rem)' }}  // Adjusts to width - thumb
+  style={{ '--thumb-offset': 'calc(100% - 1rem)' }}  // Thumb 1rem, calc subtracts thumb size
   ```
-- Thumb class: Change `data-[state=checked]:translate-x-3` to `data-[state=checked]:translate-x-[var(--thumb-offset)]` (arbitrary for var).
+- Thumb: Change `data-[state=checked]:translate-x-3` to `data-[state=checked]:translate-x-[var(--thumb-offset)]` (arbitrary for var).
 - Add prop `dynamicThumb?: boolean` to interface; if true, use calc, else fixed.
 
 ### Task 2: Update ThemeToggle Usage
@@ -57,9 +57,9 @@ Use these files to fix the bug:
 - In `ThemeToggle.tsx`, pass `dynamicThumb={true}` to Switch:
   ```
   <Switch
+    dynamicThumb={true}
     checked={darkMode}
     onCheckedChange={(checked) => setDarkMode(!!checked)}
-    dynamicThumb={true}
     className="w-8 h-4 mx-1"
     aria-label="Toggle theme"
   />

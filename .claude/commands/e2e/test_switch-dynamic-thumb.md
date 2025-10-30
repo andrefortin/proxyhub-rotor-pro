@@ -10,7 +10,7 @@
    - Screenshot: "dynamic-thumb-checked.png" – Thumb positioned midway in Switch.
    - Toggle off: Screenshot revert.
 
-3. **Standalone Test**: /providers, status Switch (no prop).
+3. **Standalone Test**: /providers, status Switch (no dynamic prop).
    - Toggle: Fixed offset, no icons, full slide.
    - Screenshot: "standalone-thumb.png" – Thumb right, no overlap (table cell).
 

@@ -4,7 +4,7 @@ import { cn } from "../../lib/utils"
 
 const Switch = React.forwardRef<
   React.ElementRef<"div">,
-  React.HTMLAttributes<HTMLDivElement> & {
+  React.HTMLAttributes<HTMLDivElement> & { dynamicThumb?: boolean; // Add prop for dynamic offset
   dynamicThumb?: boolean; // Add prop for dynamic offset
     checked?: boolean
     onCheckedChange?: (checked: boolean) => void
@@ -16,6 +16,11 @@ const Switch = React.forwardRef<
     e.stopPropagation();
     if (disabled) return;
     onCheckedChange?.(!checked);
+  };
+
+  const rootProps = {
+    ...props,
+    style: dynamicThumb ? { '--thumb-offset': 'calc(100% - 1rem)' } : undefined,
   };
 
   if (dynamicThumb) {
