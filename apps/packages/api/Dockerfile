@@ -9,5 +9,5 @@ RUN npm ci --include=dev --legacy-peer-deps
 COPY apps/packages/api/src ./src
 COPY apps/packages/api/tsconfig.json ./
 COPY ../../prisma ./prisma
-# RUN npx prisma generate && npx nest build  # Disabled for dev mode to avoid TS errors
+RUN npx prisma generate && npx nest build
 CMD ["sh", "-c", "npx prisma generate && npx nest start --watch"]

@@ -1,0 +1,58 @@
+[
+  {
+    "session_id": "04290cd4-6398-4470-9f7a-a9e1295ded67",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/04290cd4-6398-4470-9f7a-a9e1295ded67.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "/prime "
+  },
+  {
+    "session_id": "04290cd4-6398-4470-9f7a-a9e1295ded67",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/04290cd4-6398-4470-9f7a-a9e1295ded67.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "/bug 25 `Error in the proxies Management page when deleting a proxy via the api`"
+  },
+  {
+    "session_id": "04290cd4-6398-4470-9f7a-a9e1295ded67",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/04290cd4-6398-4470-9f7a-a9e1295ded67.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "/implement bug 25"
+  },
+  {
+    "session_id": "04290cd4-6398-4470-9f7a-a9e1295ded67",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/04290cd4-6398-4470-9f7a-a9e1295ded67.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "git push"
+  },
+  {
+    "session_id": "04290cd4-6398-4470-9f7a-a9e1295ded67",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/04290cd4-6398-4470-9f7a-a9e1295ded67.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "git push"
+  },
+  {
+    "session_id": "04290cd4-6398-4470-9f7a-a9e1295ded67",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/04290cd4-6398-4470-9f7a-a9e1295ded67.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "/bug 26 `when loading proxies from the database via the api, not all the fields are available to display on the UI or the proxies management code is not displaying the values properly for the proxies. Missing fields are (port, username, password). These same fields are not being displayed in the EDIT proxy dialog either.`"
+  },
+  {
+    "session_id": "04290cd4-6398-4470-9f7a-a9e1295ded67",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/04290cd4-6398-4470-9f7a-a9e1295ded67.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "/implement bug 26"
+  }
+]

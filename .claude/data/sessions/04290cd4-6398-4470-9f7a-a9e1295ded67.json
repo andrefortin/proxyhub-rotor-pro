@@ -1,0 +1,13 @@
+{
+  "session_id": "04290cd4-6398-4470-9f7a-a9e1295ded67",
+  "prompts": [
+    "/prime ",
+    "/bug 25 `Error in the proxies Management page when deleting a proxy via the api`",
+    "/implement bug 25",
+    "git push",
+    "git push",
+    "/bug 26 `when loading proxies from the database via the api, not all the fields are available to display on the UI or the proxies management code is not displaying the values properly for the proxies. Missing fields are (port, username, password). These same fields are not being displayed in the EDIT proxy dialog either.`",
+    "/implement bug 26"
+  ],
+  "agent_name": "Vortex"
+}

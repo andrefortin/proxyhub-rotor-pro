@@ -35,7 +35,7 @@ export class ProxyService {
     const total = await this.prisma.proxy.count({ where });
     const rows = await this.prisma.proxy.findMany({
       where,
-      select: { id: true, host: true, pool: true, providerId: true, country: true, city: true, region: true, latitude: true, longitude: true, asn: true, org: true, score: true },
+      select: { id: true, host: true, port: true, username: true, protocol: true, pool: true, providerId: true, country: true, city: true, region: true, latitude: true, longitude: true, asn: true, org: true, score: true, tags: true, meta: true, disabled: true },
       skip,
       take,
       orderBy: [{ score: 'desc' }, { lastChecked: 'desc' }]

@@ -1,4 +1,4 @@
-import type { Provider, Proxy } from '../types';
+import type { Provider, Proxy, UsageData } from '../types';
 
 export type { Provider, Proxy };
 
@@ -145,6 +145,10 @@ export async function createProxy(proxy: CreateProxy): Promise<Proxy> {
     method: 'POST',
     body: JSON.stringify(proxy),
   });
+}
+
+export async function getProxy(id: string): Promise<Proxy> {
+  return apiRequest(`/v1/proxy/${id}`);
 }
 
 export async function updateProxy(id: string, proxy: UpdateProxy): Promise<Proxy> {

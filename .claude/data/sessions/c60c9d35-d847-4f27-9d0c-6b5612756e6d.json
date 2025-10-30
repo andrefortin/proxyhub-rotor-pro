@@ -6,7 +6,9 @@
     "/implement bug 18",
     "The delete should be in a dialog popup not as an alert message.",
     "create the delete confirmation dialog we asked for",
-    "git push"
+    "git push",
+    "the custom delete dialog box is not displaying in the providers management page when clicking any delete button/icon.",
+    "/bug 27 `The delete dialog works pops up properly on the Proxies page but not on the Providers page when attempting to delete or clicking the delete button.`"
   ],
   "agent_name": "Zenith"
 }

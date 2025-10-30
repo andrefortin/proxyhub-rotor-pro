@@ -2,7 +2,10 @@
   "session_id": "499e7ee1-cc60-4271-99a9-f295b20861d3",
   "prompts": [
     "/prime ",
-    "/implement issue 21"
+    "/implement issue 21",
+    "in the light theme the sidepanel text color should be a light color like white",
+    "in the light theme the sidepanel nav item hover text color should be a light color like white",
+    "git push"
   ],
   "agent_name": "Vortex"
 }

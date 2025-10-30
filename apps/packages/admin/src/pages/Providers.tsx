@@ -47,35 +47,47 @@ const getPlaceholder = (type: 'api' | 'file' | 'manual') => {
   switch (type) {
     case 'api':
       return `{
-"kind": "iproyal",
-"access_token": "YOUR_X_ACCESS_TOKEN",
-"list_endpoint": "https://apid.iproyal.com/v1/reseller/datacenter/proxies",
-"default_pool": "default"
+  "kind": "datacenter",
+  "access_token": "YOUR_X_ACCESS_TOKEN",
+  "list_endpoint": "https://apid.iproyal.com/v1/reseller/datacenter/proxies",
+  "pools": {
+    "default": "general"
+  }
 }`;
     case 'file':
       return `{
-"filePath": "/path/to/proxies.json",
-"format": "json",
-"pools": {
-  "default": "general"
-}
+  "filePath": "/path/to/proxies.json",
+  "format": "json",
+  "pools": {
+    "default": "general"
+  }
 }`;
     case 'manual':
       return `{
-"proxies": [
-  {
-    "host": "1.2.3.4",
-    "port": 8080,
-    "username": "user",
-    "password": "pass"
-  }
-]
+  "proxies": [
+    {
+      "host": "1.2.3.4",
+      "port": 8080,
+      "username": "user",
+      "password": "pass"
+    },
+      "pools": {
+      "default": "general"
+    }
+  ]
 }`;
     default:
       return `{
-"apiKey": "your-api-key",
-"endpoint": "https://api.example.com/proxies",
-"authType": "bearer"
+  "apiKey": "your-api-key",
+  "apiDocs": [
+    "https://docs.iproyal.com/proxies/datacenter/api/user",
+    "https://docs.iproyal.com/proxies/datacenter/api/products",
+    "https://docs.iproyal.com/proxies/datacenter/api/orders",
+    "https://docs.iproyal.com/proxies/datacenter/api/proxies"
+  ],
+  "baseUrl": "https://api.provider.com/v1",
+  "authType": "header",
+  "authHeader": "X-Access-Token"
 }`;
   }
 };
@@ -177,8 +189,32 @@ const fetchProviders = useCallback(async () =>{
 
 
   const handleDelete = async (id: string) => {
+    const confirmed = sessionStorage.getItem('deleteConfirmed') === 'true';
+    if (confirmed) {
+      handleConfirmDelete(id);
+      return;
+    }
+    console.log('handleDelete called for id:', id); // Debug log
     setPendingDeleteId(id);
     setShowDeleteModal(true);
+  };
+
+  const handleConfirmDelete = async (specificId?: string) => {
+    const id = specificId || pendingDeleteId;
+    if (!id) return;
+    try {
+      await deleteProvider(id);
+      fetchProviders();
+      if (rememberChoice) {
+        sessionStorage.setItem('deleteConfirmed', 'true');
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to delete provider');
+    } finally {
+      setShowDeleteModal(false);
+      setPendingDeleteId(null);
+      setRememberChoice(false);
+    }
   };
 
   const handleConfirmDelete = async () => {
@@ -202,10 +238,17 @@ const fetchProviders = useCallback(async () =>{
     setRememberChoice(checked);
   };
 
+  useEffect(() => {
+    console.log('showDeleteModal changed to:', showDeleteModal); // Debug log
+  }, [showDeleteModal]);
+
   const openEdit = async (id: string) => {
     try {
       const provider = await getProvider(id);
       setEditData(provider);
+      setSelectedType((provider.type as 'api' | 'file' | 'manual') || 'api');
+      setConfig(provider.config ? JSON.stringify(provider.config, null, 2) : '');
+      setFileContent(null);
       setEditingId(id);
       setShowModal(true);
     } catch (err) {
@@ -461,44 +504,6 @@ useEffect(() => {
                   </option>
                 </select>
               </div>
-
-const getPlaceholder = (type: 'api' | 'file' | 'manual') => {
-  switch (type) {
-    case 'api':
-      return `{
-"kind": "iproyal",
-"access_token": "YOUR_X_ACCESS_TOKEN",
-"list_endpoint": "https://apid.iproyal.com/v1/reseller/datacenter/proxies",
-"default_pool": "default"
-}`;
-    case 'file':
-      return `{
-"filePath": "/path/to/proxies.json",
-"format": "json",
-"pools": {
-  "default": "general"
-}
-}`;
-    case 'manual':
-      return `{
-"proxies": [
-  {
-    "host": "1.2.3.4",
-    "port": 8080,
-    "username": "user",
-    "password": "pass"
-  }
-]
-}`;
-    default:
-      return `{
-"apiKey": "your-api-key",
-"endpoint": "https://api.example.com/proxies",
-"authType": "bearer"
-}`;
-  }
-};
-
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-4">
                   Configuration

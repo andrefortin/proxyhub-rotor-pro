@@ -46,5 +46,21 @@
     "permission_mode": "bypassPermissions",
     "hook_event_name": "UserPromptSubmit",
     "prompt": "git push"
+  },
+  {
+    "session_id": "c60c9d35-d847-4f27-9d0c-6b5612756e6d",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/c60c9d35-d847-4f27-9d0c-6b5612756e6d.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "the custom delete dialog box is not displaying in the providers management page when clicking any delete button/icon."
+  },
+  {
+    "session_id": "c60c9d35-d847-4f27-9d0c-6b5612756e6d",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/c60c9d35-d847-4f27-9d0c-6b5612756e6d.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "/bug 27 `The delete dialog works pops up properly on the Proxies page but not on the Providers page when attempting to delete or clicking the delete button.`"
   }
 ]

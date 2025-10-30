@@ -7,7 +7,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../com
 import { Button } from '../components/ui/button';
 import { Globe, Zap, Plus, Edit, Trash2, Filter, Search } from 'lucide-react';
 import { cn } from '../lib/utils';
-import { getProxies, createProxy, updateProxy, deleteProxy, issueLease, getProviders, type Proxy, type CreateProxy, type UpdateProxy, type Provider } from '../lib/api';
+import { getProxies, createProxy, updateProxy, deleteProxy, issueLease, getProviders, getProxy, type Proxy, type CreateProxy, type UpdateProxy, type Provider } from '../lib/api';
 import { DeleteConfirmModal } from '../components/DeleteConfirmModal';
 
 const LIMIT = 10;
@@ -36,6 +36,7 @@ export default function Proxies() {
   const [proxies, setProxies] = useState<Proxy[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
   const [search, setSearch] = useState('');
   const [selectedPool, setSelectedPool] = useState('');
   const [selectedProvider, setSelectedProvider] = useState('');
@@ -172,14 +173,19 @@ export default function Proxies() {
 
   const openEdit = async (id: string) => {
     try {
-      // For simplicity, use current data from list; in full impl, fetch single
-      const proxy = proxies.find(p => p.id === id);
+      const proxy = proxies.find(p => p.id === id) || await getProxy(id); // Fetch if not in list
       if (proxy) {
+        console.log(proxy)
         setEditData({
+          host: proxy.host,
+          port: proxy.port,
+          username: proxy.username,
+          password: proxy.password ? '*****' : '',
+          protocol: proxy.protocol,
           pool: proxy.pool,
           providerId: proxy.providerId,
-          tags: proxy.tags,
-          meta: proxy.meta,
+          tags: proxy.tags?.join(', '),
+          meta: JSON.stringify(proxy.meta, null, 2),
           disabled: proxy.disabled,
         });
         setEditingId(id);
@@ -283,7 +289,10 @@ export default function Proxies() {
               >
                 <option value="">All Pools</option>
                 <option value="residential">Residential</option>
+                <option value="isp">ISP</option>
                 <option value="datacenter">Datacenter</option>
+                <option value="mobile">Mobile</option>
+                <option value="web_unblocker">Web Unblocker</option>
                 <option value="test">Test</option>
                 {/* Dynamically from data if needed */}
               </select>
@@ -328,17 +337,18 @@ export default function Proxies() {
                 ) : (
                   proxies.map((proxy) => {
                     const provider = providers.find(p => p.id === proxy.providerId);
+                    console.log('proxy:', proxy);
                     return (
                       <tr key={proxy.id} className="border-b border-border hover:bg-accent data-[state=hover]:scale-[1.01] transition-transform">
                         <td className="p-3 font-mono">
                           <TooltipProvider>
                             <Tooltip>
                               <TooltipTrigger>
-                                {proxy.host}:{proxy.port}
+                                {proxy.host}:{proxy.port || 'N/A'}
                               </TooltipTrigger>
                               <TooltipContent>
                                 <p>Protocol: {proxy.protocol || 'http'}</p>
-                                {proxy.username && <p>Auth: Username provided (masked)</p>}
+                                {proxy.username ? <p>Auth: {proxy.username} (password set)</p> : <p>No authentication</p>}
                               </TooltipContent>
                             </Tooltip>
                           </TooltipProvider>
@@ -465,11 +475,11 @@ export default function Proxies() {
                 const formData = new FormData(e.currentTarget);
                 const data: any = {
                   host: formData.get('host') as string,
-                  port: parseInt(formData.get('port') as string),
+                  port: parseInt(formData.get('port') as string) || undefined,
                   username: formData.get('username') as string || undefined,
                   password: formData.get('password') as string || undefined,
                   protocol: formData.get('protocol') as string || 'http',
-                  pool: formData.get('pool') as string || undefined,
+                  pool: (formData.get('pool') as string) || 'default',
                   providerId: formData.get('providerId') as string || undefined,
                   tags: (formData.get('tags') as string)?.split(',').map(t => t.trim()).filter(Boolean) || undefined,
                   meta: formData.get('meta') ? JSON.parse(formData.get('meta') as string) : undefined,
@@ -530,16 +540,23 @@ export default function Proxies() {
                 </div>
                 <div>
                   <label htmlFor="pool" className="block text-sm font-medium mb-2">
-                    Pool
+                    Pool <span className="text-red-500">*</span>
                   </label>
-                  <input
+                  <select
                     id="pool"
                     name="pool"
-                    type="text"
-                    defaultValue={editData.pool}
-                    placeholder="e.g., residential"
+                    defaultValue={editData.pool || ''}
+                    required
                     className="w-full px-3 py-2 border border-input rounded-md bg-background focus-visible:ring-2 focus-visible:ring-ring"
-                  />
+                  >
+                    <option value="">All Pools</option>
+                    <option value="residential">Residential</option>
+                    <option value="isp">ISP</option>
+                    <option value="datacenter">Datacenter</option>
+                    <option value="mobile">Mobile</option>
+                    <option value="web_unblocker">Web Unblocker</option>
+                    <option value="test">Test</option>
+                  </select>
                 </div>
               </div>
               <div className="grid md:grid-cols-2 gap-4">
@@ -567,7 +584,7 @@ export default function Proxies() {
                     id="username"
                     name="username"
                     type="text"
-                    defaultValue={editData.username}
+                    defaultValue={editData.username || ''}
                     placeholder="username"
                     className="w-full px-3 py-2 border border-input rounded-md bg-background focus-visible:ring-2 focus-visible:ring-ring"
                   />
@@ -582,8 +599,8 @@ export default function Proxies() {
                     id="password"
                     name="password"
                     type="password"
-                    defaultValue={editData.password ? '*****' : ''} // Masked display
-                    placeholder="password"
+                    defaultValue={editData.password ? '*****' : ''}
+                    placeholder="password (enter new to change)"
                     className="w-full px-3 py-2 border border-input rounded-md bg-background focus-visible:ring-2 focus-visible:ring-ring"
                   />
                 </div>

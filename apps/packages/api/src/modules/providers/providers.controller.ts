@@ -21,7 +21,7 @@ export class ProvidersController {
       logoUrl?: string;
     }
   ) {
-    return await this.service.create(data);
+    return await this.service.createProvider(data);
   }
 
   @Patch(':id')
@@ -29,7 +29,7 @@ export class ProvidersController {
     @Param('id') id: string,
     @Body() body: { active: boolean }
   ) {
-    return await this.service.update(id, body);
+    return await this.service.updateProvider(id, body);
   }
 
   @Post(':id/import')

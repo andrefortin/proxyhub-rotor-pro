@@ -19,7 +19,7 @@ export default function Sidebar() {
             <Link
               key={item.name}
               to={item.path}
-              className="flex items-center space-x-2 p-2 rounded hover:bg-gray-800 hover:text-gray-50 dark:hover:text-white"
+              className="flex items-center space-x-2 p-2 rounded hover:bg-gray-800 hover:text-white dark:hover:text-white"
             >
               <Icon className="w-5 h-5" />
               <span className="">{item.name}</span>

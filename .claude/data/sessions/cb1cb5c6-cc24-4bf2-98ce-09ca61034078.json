@@ -1,0 +1,16 @@
+{
+  "session_id": "cb1cb5c6-cc24-4bf2-98ce-09ca61034078",
+  "prompts": [
+    "/prime ",
+    "/bug 24 `when adding/editing a provider, we should show the same example for each provider type depending on which provider type is chosen in the dropdown. This should keep the dialog more concise. Ensure the setup for file upload is working as well.`",
+    "/implement bug 24",
+    "git push",
+    "when we click the edit button in the providers management page instead of displaying the dialog box to add/edit, the code is trying to do something else like start a function, and it gives us an empty page.",
+    "almost there, the error is now : /app/src/pages/Providers.tsx: Unexpected token (344:4)\n  347 |     if (editData.config) {",
+    "/bug 25 `The Add New Proxy dialog should allow choosing the [Pool] from a drop-down list with the same options as the filter on the proxies page.`",
+    "/implement bug 25",
+    "the proxies management page is not showing the port number in the Host:Post display, it may not be saving it correctly either, when we edit the proxy not all the fields are pre-filled with the existing data. There is like some kind of data mapping off",
+    "veryif that we are saving all the fields of the proxy to the database in the add edit proxy dialog"
+  ],
+  "agent_name": "Flux"
+}

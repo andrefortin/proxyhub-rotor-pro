@@ -3,7 +3,10 @@
   "prompts": [
     "rebuild and redeploy the admin module with docker-compose.dev.yml",
     "rebuild and redeploy the admin module with docker-compose.dev.yml",
-    "We are still using a cached version of the Admin container, remove, rebuild it using docker-compose.dev.yml"
+    "We are still using a cached version of the Admin container, remove, rebuild it using docker-compose.dev.yml",
+    "rebuild and restart all the proxyhub containers with docker-compose.dev.yml file",
+    "rebuild and restart all the proxyhub containers with docker-compose.dev.yml file",
+    "rebuild and restart all the proxyhub containers with docker-compose.dev.yml file"
   ],
   "agent_name": "Nebula"
 }

@@ -1020,5 +1020,433 @@
       "content": "# E2E Test: Sidebar Nav Hover Text Color\n\nTest sidebar navigation hover text visibility in light and dark themes.\n\n## User Story\n\nAs an admin user\nI want sidebar nav items to have readable text on hover in both themes\nSo that I can navigate easily without visibility issues\n\n## Test Steps\n\n1. Navigate to http://localhost:4173\n2. Take a screenshot of the initial sidebar in light mode\n3. **Verify** sidebar is visible with nav items (Dashboard, Proxies, etc.)\n4. Hover over a nav item (e.g., 'Providers')\n5. Take a screenshot of the hover state in light mode\n6. **Verify** hover text color is dark/visible (e.g., inspect getComputedStyle(element).color includes 'rgb(0' for dark text)\n7. Toggle to dark theme (using ThemeToggle)\n8. Take a screenshot of the sidebar in dark mode\n9. **Verify** theme is dark (body classList contains 'dark')\n10. Hover over the same nav item\n11. Take a screenshot of the hover state in dark mode\n12. **Verify** hover text color is light/white (e.g., getComputedStyle(element).color === 'rgb(255, 255, 255)' or 'rgb(248, 250, 252)' for gray-50)\n13. **Verify** contrast ratio >4.5:1 (text light on dark bg-gray-800)\n14. Toggle back to light, hover again to ensure no regression\n\n## Success Criteria\n\n- Hover text readable in both themes\n- No color blending in dark mode\n- Theme toggle works\n- 4 screenshots captured: light initial/hover, dark initial/hover\n- All verifications pass without errors",
       "structuredPatch": []
     }
+  },
+  {
+    "session_id": "499e7ee1-cc60-4271-99a9-f295b20861d3",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/499e7ee1-cc60-4271-99a9-f295b20861d3.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PostToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "git add .",
+      "description": "Stage changes for diff"
+    },
+    "tool_response": {
+      "stdout": "",
+      "stderr": "",
+      "interrupted": false,
+      "isImage": false
+    }
+  },
+  {
+    "session_id": "499e7ee1-cc60-4271-99a9-f295b20861d3",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/499e7ee1-cc60-4271-99a9-f295b20861d3.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PostToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "git diff --stat --cached",
+      "description": "Get stats of staged changes"
+    },
+    "tool_response": {
+      "stdout": " .claude/commands/e2e/test_sidebar-nav-hover.md     |   34 +\n .../499e7ee1-cc60-4271-99a9-f295b20861d3.json      |    8 +\n .../c60c9d35-d847-4f27-9d0c-6b5612756e6d.json      |    3 +-\n apps/packages/admin/src/components/Sidebar.tsx     |    2 +-\n .../499e7ee1-cc60-4271-99a9-f295b20861d3/chat.json |  401 +++++\n .../post_tool_use.json                             | 1024 ++++++++++++\n .../pre_tool_use.json                              |  331 ++++\n .../499e7ee1-cc60-4271-99a9-f295b20861d3/stop.json |   10 +\n .../user_prompt_submit.json                        |   18 +\n .../c60c9d35-d847-4f27-9d0c-6b5612756e6d/chat.json | 1683 ++++++++++++++++++++\n .../post_tool_use.json                             |  126 ++\n .../pre_tool_use.json                              |   84 +\n .../c60c9d35-d847-4f27-9d0c-6b5612756e6d/stop.json |   16 +\n .../user_prompt_submit.json                        |    8 +\n 14 files changed, 3746 insertions(+), 2 deletions(-)",
+      "stderr": "",
+      "interrupted": false,
+      "isImage": false
+    }
+  },
+  {
+    "session_id": "499e7ee1-cc60-4271-99a9-f295b20861d3",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/499e7ee1-cc60-4271-99a9-f295b20861d3.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PostToolUse",
+    "tool_name": "TodoWrite",
+    "tool_input": {
+      "todos": [
+        {
+          "content": "Investigate current hover text color in light theme",
+          "status": "pending",
+          "activeForm": "Investigating hover text color in light theme"
+        },
+        {
+          "content": "Adjust Sidebar.tsx or index.css to set light hover text (white) in light theme",
+          "status": "pending",
+          "activeForm": "Adjusting styles for light theme hover text"
+        },
+        {
+          "content": "Rebuild and validate the change in light theme",
+          "status": "pending",
+          "activeForm": "Rebuilding and validating light theme changes"
+        }
+      ]
+    },
+    "tool_response": {
+      "oldTodos": [],
+      "newTodos": [
+        {
+          "content": "Investigate current hover text color in light theme",
+          "status": "pending",
+          "activeForm": "Investigating hover text color in light theme"
+        },
+        {
+          "content": "Adjust Sidebar.tsx or index.css to set light hover text (white) in light theme",
+          "status": "pending",
+          "activeForm": "Adjusting styles for light theme hover text"
+        },
+        {
+          "content": "Rebuild and validate the change in light theme",
+          "status": "pending",
+          "activeForm": "Rebuilding and validating light theme changes"
+        }
+      ]
+    }
+  },
+  {
+    "session_id": "499e7ee1-cc60-4271-99a9-f295b20861d3",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/499e7ee1-cc60-4271-99a9-f295b20861d3.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PostToolUse",
+    "tool_name": "TodoWrite",
+    "tool_input": {
+      "todos": [
+        {
+          "content": "Investigate current hover text color in light theme",
+          "status": "in_progress",
+          "activeForm": "Investigating hover text color in light theme"
+        },
+        {
+          "content": "Adjust Sidebar.tsx or index.css to set light hover text (white) in light theme",
+          "status": "pending",
+          "activeForm": "Adjusting styles for light theme hover text"
+        },
+        {
+          "content": "Rebuild and validate the change in light theme",
+          "status": "pending",
+          "activeForm": "Rebuilding and validating light theme changes"
+        }
+      ]
+    },
+    "tool_response": {
+      "oldTodos": [
+        {
+          "content": "Investigate current hover text color in light theme",
+          "status": "pending",
+          "activeForm": "Investigating hover text color in light theme"
+        },
+        {
+          "content": "Adjust Sidebar.tsx or index.css to set light hover text (white) in light theme",
+          "status": "pending",
+          "activeForm": "Adjusting styles for light theme hover text"
+        },
+        {
+          "content": "Rebuild and validate the change in light theme",
+          "status": "pending",
+          "activeForm": "Rebuilding and validating light theme changes"
+        }
+      ],
+      "newTodos": [
+        {
+          "content": "Investigate current hover text color in light theme",
+          "status": "in_progress",
+          "activeForm": "Investigating hover text color in light theme"
+        },
+        {
+          "content": "Adjust Sidebar.tsx or index.css to set light hover text (white) in light theme",
+          "status": "pending",
+          "activeForm": "Adjusting styles for light theme hover text"
+        },
+        {
+          "content": "Rebuild and validate the change in light theme",
+          "status": "pending",
+          "activeForm": "Rebuilding and validating light theme changes"
+        }
+      ]
+    }
+  },
+  {
+    "session_id": "499e7ee1-cc60-4271-99a9-f295b20861d3",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/499e7ee1-cc60-4271-99a9-f295b20861d3.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PostToolUse",
+    "tool_name": "TodoWrite",
+    "tool_input": {
+      "todos": [
+        {
+          "content": "Investigate current hover text color in light theme",
+          "status": "completed",
+          "activeForm": "Investigated: Current fix sets hover:text-gray-50 (light) in light theme"
+        },
+        {
+          "content": "Adjust Sidebar.tsx or index.css to set light hover text (white) in light theme",
+          "status": "in_progress",
+          "activeForm": "Adjusting styles to use white in light theme hover"
+        },
+        {
+          "content": "Rebuild and validate the change in light theme",
+          "status": "pending",
+          "activeForm": "Rebuilding and validating light theme changes"
+        }
+      ]
+    },
+    "tool_response": {
+      "oldTodos": [
+        {
+          "content": "Investigate current hover text color in light theme",
+          "status": "in_progress",
+          "activeForm": "Investigating hover text color in light theme"
+        },
+        {
+          "content": "Adjust Sidebar.tsx or index.css to set light hover text (white) in light theme",
+          "status": "pending",
+          "activeForm": "Adjusting styles for light theme hover text"
+        },
+        {
+          "content": "Rebuild and validate the change in light theme",
+          "status": "pending",
+          "activeForm": "Rebuilding and validating light theme changes"
+        }
+      ],
+      "newTodos": [
+        {
+          "content": "Investigate current hover text color in light theme",
+          "status": "completed",
+          "activeForm": "Investigated: Current fix sets hover:text-gray-50 (light) in light theme"
+        },
+        {
+          "content": "Adjust Sidebar.tsx or index.css to set light hover text (white) in light theme",
+          "status": "in_progress",
+          "activeForm": "Adjusting styles to use white in light theme hover"
+        },
+        {
+          "content": "Rebuild and validate the change in light theme",
+          "status": "pending",
+          "activeForm": "Rebuilding and validating light theme changes"
+        }
+      ]
+    }
+  },
+  {
+    "session_id": "499e7ee1-cc60-4271-99a9-f295b20861d3",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/499e7ee1-cc60-4271-99a9-f295b20861d3.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PostToolUse",
+    "tool_name": "Edit",
+    "tool_input": {
+      "file_path": "/home/andre/batcave/proxyhub-rotor-pro/apps/packages/admin/src/components/Sidebar.tsx",
+      "old_string": "hover:text-gray-50 dark:hover:text-white",
+      "new_string": "hover:text-white dark:hover:text-white"
+    },
+    "tool_response": {
+      "filePath": "/home/andre/batcave/proxyhub-rotor-pro/apps/packages/admin/src/components/Sidebar.tsx",
+      "oldString": "hover:text-gray-50 dark:hover:text-white",
+      "newString": "hover:text-white dark:hover:text-white",
+      "originalFile": "import { HandPlatter, LayoutDashboard, Settings, HandPlatterIcon, Users } from 'lucide-react'\nimport { Link } from 'react-router-dom'\n\nconst navItems = [\n  { name: 'Dashboard', path: '/', icon: LayoutDashboard },\n  { name: 'Proxies', path: '/proxies', icon: Users },\n  { name: 'Providers', path: '/providers', icon: HandPlatter },\n  { name: 'Settings', path: '/settings', icon: Settings },\n]\n\nexport default function Sidebar() {\n  return (\n    <aside className=\"w-64 h-screen bg-side-panel p-4 flex flex-col space-y-4\">\n      <h1 className=\"text-xl font-bold\">ProxyHub Admin</h1>\n      <nav className=\"flex-1\">\n        {navItems.map((item) => {\n          const Icon = item.icon\n          return (\n            <Link\n              key={item.name}\n              to={item.path}\n              className=\"flex items-center space-x-2 p-2 rounded hover:bg-gray-800 hover:text-gray-50 dark:hover:text-white\"\n            >\n              <Icon className=\"w-5 h-5\" />\n              <span className=\"\">{item.name}</span>\n            </Link>\n          )\n        })}\n      </nav>\n    </aside>\n  )\n}",
+      "structuredPatch": [
+        {
+          "oldStart": 19,
+          "oldLines": 7,
+          "newStart": 19,
+          "newLines": 7,
+          "lines": [
+            "             <Link",
+            "               key={item.name}",
+            "               to={item.path}",
+            "-              className=\"flex items-center space-x-2 p-2 rounded hover:bg-gray-800 hover:text-gray-50 dark:hover:text-white\"",
+            "+              className=\"flex items-center space-x-2 p-2 rounded hover:bg-gray-800 hover:text-white dark:hover:text-white\"",
+            "             >",
+            "               <Icon className=\"w-5 h-5\" />",
+            "               <span className=\"\">{item.name}</span>"
+          ]
+        }
+      ],
+      "userModified": false,
+      "replaceAll": false
+    }
+  },
+  {
+    "session_id": "499e7ee1-cc60-4271-99a9-f295b20861d3",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/499e7ee1-cc60-4271-99a9-f295b20861d3.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PostToolUse",
+    "tool_name": "TodoWrite",
+    "tool_input": {
+      "todos": [
+        {
+          "content": "Investigate current hover text color in light theme",
+          "status": "completed",
+          "activeForm": "Investigated: Current fix sets hover:text-gray-50 (light) in light theme"
+        },
+        {
+          "content": "Adjust Sidebar.tsx or index.css to set light hover text (white) in light theme",
+          "status": "completed",
+          "activeForm": "Adjusted to hover:text-white in both themes"
+        },
+        {
+          "content": "Rebuild and validate the change in light theme",
+          "status": "in_progress",
+          "activeForm": "Rebuilding and validating light theme changes"
+        }
+      ]
+    },
+    "tool_response": {
+      "oldTodos": [
+        {
+          "content": "Investigate current hover text color in light theme",
+          "status": "completed",
+          "activeForm": "Investigated: Current fix sets hover:text-gray-50 (light) in light theme"
+        },
+        {
+          "content": "Adjust Sidebar.tsx or index.css to set light hover text (white) in light theme",
+          "status": "in_progress",
+          "activeForm": "Adjusting styles to use white in light theme hover"
+        },
+        {
+          "content": "Rebuild and validate the change in light theme",
+          "status": "pending",
+          "activeForm": "Rebuilding and validating light theme changes"
+        }
+      ],
+      "newTodos": [
+        {
+          "content": "Investigate current hover text color in light theme",
+          "status": "completed",
+          "activeForm": "Investigated: Current fix sets hover:text-gray-50 (light) in light theme"
+        },
+        {
+          "content": "Adjust Sidebar.tsx or index.css to set light hover text (white) in light theme",
+          "status": "completed",
+          "activeForm": "Adjusted to hover:text-white in both themes"
+        },
+        {
+          "content": "Rebuild and validate the change in light theme",
+          "status": "in_progress",
+          "activeForm": "Rebuilding and validating light theme changes"
+        }
+      ]
+    }
+  },
+  {
+    "session_id": "499e7ee1-cc60-4271-99a9-f295b20861d3",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/499e7ee1-cc60-4271-99a9-f295b20861d3.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PostToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "cd /home/andre/batcave/proxyhub-rotor-pro/apps/packages/admin && bun run build",
+      "description": "Build admin package after adjustments"
+    },
+    "tool_response": {
+      "stdout": "vite v5.4.21 building for production...\ntransforming...\n\u2713 2468 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/index.html                   0.50 kB \u2502 gzip:  0.32 kB\ndist/assets/index-Dig-figa.css   23.37 kB \u2502 gzip:  4.90 kB\ndist/assets/index-DkoPBuhT.js   280.43 kB \u2502 gzip: 89.92 kB\n\u2713 built in 2.17s\n$ vite build",
+      "stderr": "",
+      "interrupted": false,
+      "isImage": false
+    }
+  },
+  {
+    "session_id": "499e7ee1-cc60-4271-99a9-f295b20861d3",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/499e7ee1-cc60-4271-99a9-f295b20861d3.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PostToolUse",
+    "tool_name": "TodoWrite",
+    "tool_input": {
+      "todos": [
+        {
+          "content": "Investigate current hover text color in light theme",
+          "status": "completed",
+          "activeForm": "Investigated: Current fix sets hover:text-gray-50 (light) in light theme"
+        },
+        {
+          "content": "Adjust Sidebar.tsx or index.css to set light hover text (white) in light theme",
+          "status": "completed",
+          "activeForm": "Adjusted to hover:text-white in both themes"
+        },
+        {
+          "content": "Rebuild and validate the change in light theme",
+          "status": "completed",
+          "activeForm": "Rebuilt and restarted admin; changes applied"
+        }
+      ]
+    },
+    "tool_response": {
+      "oldTodos": [
+        {
+          "content": "Investigate current hover text color in light theme",
+          "status": "completed",
+          "activeForm": "Investigated: Current fix sets hover:text-gray-50 (light) in light theme"
+        },
+        {
+          "content": "Adjust Sidebar.tsx or index.css to set light hover text (white) in light theme",
+          "status": "completed",
+          "activeForm": "Adjusted to hover:text-white in both themes"
+        },
+        {
+          "content": "Rebuild and validate the change in light theme",
+          "status": "in_progress",
+          "activeForm": "Rebuilding and validating light theme changes"
+        }
+      ],
+      "newTodos": [
+        {
+          "content": "Investigate current hover text color in light theme",
+          "status": "completed",
+          "activeForm": "Investigated: Current fix sets hover:text-gray-50 (light) in light theme"
+        },
+        {
+          "content": "Adjust Sidebar.tsx or index.css to set light hover text (white) in light theme",
+          "status": "completed",
+          "activeForm": "Adjusted to hover:text-white in both themes"
+        },
+        {
+          "content": "Rebuild and validate the change in light theme",
+          "status": "completed",
+          "activeForm": "Rebuilt and restarted admin; changes applied"
+        }
+      ]
+    }
+  },
+  {
+    "session_id": "499e7ee1-cc60-4271-99a9-f295b20861d3",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/499e7ee1-cc60-4271-99a9-f295b20861d3.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PostToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "git status",
+      "description": "Check current git status before pushing"
+    },
+    "tool_response": {
+      "stdout": "On branch main\nYour branch is up to date with 'origin/main'.\n\nChanges not staged for commit:\n  (use \"git add <file>...\" to update what will be committed)\n  (use \"git restore <file>...\" to discard changes in working directory)\n\tmodified:   .claude/data/sessions/0dc59d82-cbf5-4ae0-b23f-2958cc9df7de.json\n\tmodified:   .claude/data/sessions/499e7ee1-cc60-4271-99a9-f295b20861d3.json\n\tmodified:   .claude/data/sessions/a6e02ea5-a69c-4bb9-9222-bab464a27660.json\n\tmodified:   apps/packages/admin/src/components/Sidebar.tsx\n\tmodified:   apps/packages/api/src/modules/providers/providers.controller.ts\n\tmodified:   apps/packages/api/src/modules/providers/providers.service.ts\n\tmodified:   logs/0dc59d82-cbf5-4ae0-b23f-2958cc9df7de/chat.json\n\tmodified:   logs/0dc59d82-cbf5-4ae0-b23f-2958cc9df7de/notification.json\n\tmodified:   logs/0dc59d82-cbf5-4ae0-b23f-2958cc9df7de/post_tool_use.json\n\tmodified:   logs/0dc59d82-cbf5-4ae0-b23f-2958cc9df7de/pre_tool_use.json\n\tmodified:   logs/0dc59d82-cbf5-4ae0-b23f-2958cc9df7de/stop.json\n\tmodified:   logs/0dc59d82-cbf5-4ae0-b23f-2958cc9df7de/user_prompt_submit.json\n\tmodified:   logs/499e7ee1-cc60-4271-99a9-f295b20861d3/chat.json\n\tmodified:   logs/499e7ee1-cc60-4271-99a9-f295b20861d3/post_tool_use.json\n\tmodified:   logs/499e7ee1-cc60-4271-99a9-f295b20861d3/pre_tool_use.json\n\tmodified:   logs/499e7ee1-cc60-4271-99a9-f295b20861d3/stop.json\n\tmodified:   logs/499e7ee1-cc60-4271-99a9-f295b20861d3/user_prompt_submit.json\n\tmodified:   logs/a6e02ea5-a69c-4bb9-9222-bab464a27660/chat.json\n\tmodified:   logs/a6e02ea5-a69c-4bb9-9222-bab464a27660/post_tool_use.json\n\tmodified:   logs/a6e02ea5-a69c-4bb9-9222-bab464a27660/pre_tool_use.json\n\tmodified:   logs/a6e02ea5-a69c-4bb9-9222-bab464a27660/stop.json\n\tmodified:   logs/a6e02ea5-a69c-4bb9-9222-bab464a27660/user_prompt_submit.json\n\nUntracked files:\n  (use \"git add <file>...\" to include in what will be committed)\n\tlogs/499e7ee1-cc60-4271-99a9-f295b20861d3/notification.json\n\tspecs/issue-22-adw-bug22-sdlc_planner-fix-provider-delete-confirmation-failure.md\n\tspecs/issue-23-adw-bug23-sdlc_planner-align-provider-error-handling-with-proxies.md\n\nno changes added to commit (use \"git add\" and/or \"git commit -a\")",
+      "stderr": "",
+      "interrupted": false,
+      "isImage": false
+    }
+  },
+  {
+    "session_id": "499e7ee1-cc60-4271-99a9-f295b20861d3",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/499e7ee1-cc60-4271-99a9-f295b20861d3.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PostToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "git push",
+      "description": "Push to remote as requested"
+    },
+    "tool_response": {
+      "stdout": "Everything up-to-date",
+      "stderr": "",
+      "interrupted": false,
+      "isImage": false
+    }
   }
 ]

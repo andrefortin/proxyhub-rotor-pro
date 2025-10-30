@@ -126,5 +126,29 @@
     "permission_mode": "bypassPermissions",
     "hook_event_name": "UserPromptSubmit",
     "prompt": "push to git"
+  },
+  {
+    "session_id": "0dc59d82-cbf5-4ae0-b23f-2958cc9df7de",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/0dc59d82-cbf5-4ae0-b23f-2958cc9df7de.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "/bug 22 `The delete buttons on the providers management page of the admin module do not either open the delete confirmation dialog the first time this action has been attempted this session, or simply execute the delete action.`"
+  },
+  {
+    "session_id": "0dc59d82-cbf5-4ae0-b23f-2958cc9df7de",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/0dc59d82-cbf5-4ae0-b23f-2958cc9df7de.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "/bug 23 `Fix the provider page to load the UI and display an error message if we fail to fetch the data from the API (likely order of operations) like the Proxies page does so we actually have a UI page displayed and not simply the error message. Handle the page load in a similar fashion to the Proxies page does for our Providers page.`"
+  },
+  {
+    "session_id": "0dc59d82-cbf5-4ae0-b23f-2958cc9df7de",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/0dc59d82-cbf5-4ae0-b23f-2958cc9df7de.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "/implement issue 23"
   }
 ]

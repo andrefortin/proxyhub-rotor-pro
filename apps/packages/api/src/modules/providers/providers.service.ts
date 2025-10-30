@@ -89,14 +89,7 @@ export class ProvidersService {
     });
   }
 
-  async create(data: {
-    name: string;
-    type: string;
-    config: any;
-    logoUrl?: string;
-  }) {
-    return this.createProvider(data);
-  }
+
 
   async updateProvider(id: string, data: any, mock?: boolean): Promise<any | null> {
     if (mock) {
@@ -125,9 +118,7 @@ export class ProvidersService {
     });
   }
 
-  async update(id: string, data: { active: boolean }) {
-    return this.updateProvider(id, data);
-  }
+
 
   async deleteProvider(id: string, mock?: boolean): Promise<boolean> {
     if (mock) {
