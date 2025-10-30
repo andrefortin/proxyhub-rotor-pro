@@ -5,6 +5,7 @@ import { cn } from "../../lib/utils"
 const Switch = React.forwardRef<
   React.ElementRef<"div">,
   React.HTMLAttributes<HTMLDivElement> & {
+  dynamicThumb?: boolean; // Add prop for dynamic offset
     checked?: boolean
     onCheckedChange?: (checked: boolean) => void
     disabled?: boolean
@@ -16,6 +17,13 @@ const Switch = React.forwardRef<
     if (disabled) return;
     onCheckedChange?.(!checked);
   };
+
+  if (dynamicThumb) {
+    const effectiveWidth = props.className?.includes('w-8') ? 32 : 40; // px, adjust per size
+    const thumbSize = 16;
+    const offset = effectiveWidth - thumbSize; // px to style
+    rootStyle = { '--thumb-offset': `${offset}px` };
+  }
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' || e.key === ' ') {
@@ -42,7 +50,7 @@ const Switch = React.forwardRef<
     >
       <div
         className={cn(
-          "pointer-events-none block size-4 rounded-full bg-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-4 data-[state=unchecked]:translate-x-0"
+          "pointer-events-none block size-4 rounded-full bg-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-[var(--thumb-offset)] data-[state=unchecked]:translate-x-0"
         )}
         data-state={checked ? "checked" : "unchecked"}
       />

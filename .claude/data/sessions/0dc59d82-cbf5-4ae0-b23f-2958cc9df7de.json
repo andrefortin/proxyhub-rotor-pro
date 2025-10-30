@@ -11,7 +11,10 @@
     "/implement bug 17",
     "git push",
     "/bug 18 `the custom swith toggle move the thumb swith too far to the right if there is an icon to the right, id doen't take into account the width of the right icon and overlaps it.`",
-    "/implement bug 18"
+    "/implement bug 18",
+    "not entirely correct, only take into account the width of the icon that is to the right of ithe switch if that icon is part of the custom switch.",
+    "still not quite right, only adjust the right side offset if the is an integrated right side image defined in the switch control like the way we have the theme slider defined, not lilke the way we have the provider management list row switch defined.",
+    "the offset is realtive to the inner displayed width of the switch which adjusts itself if there are overlapping icons or images"
   ],
   "agent_name": "Echo"
 }
