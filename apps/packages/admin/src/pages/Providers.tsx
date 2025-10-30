@@ -20,13 +20,82 @@ export default function Providers() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [editData, setEditData] = useState<Partial<Provider>>({});
+  const [selectedType, setSelectedType] = useState<'api' | 'file' | 'manual'>('api');
+  const [config, setConfig] = useState('');
+  const [fileContent, setFileContent] = useState<File | null>(null);
   const [mock, setMock] = useState(searchParams.get('mock') === 'true');
   const [togglingId, setTogglingId] = useState<string | null>(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [pendingDeleteId, setPendingDeleteId] = useState<string | null>(null);
   const [rememberChoice, setRememberChoice] = useState(false);
 
-  const fetchProviders = useCallback(async () => {
+  useEffect(() => {
+  if (showModal && editData.type && ['api', 'file', 'manual'].includes(editData.type)) {
+    setSelectedType(editData.type as 'api' | 'file' | 'manual');
+  }
+  if (showModal && editData.config) {
+    setConfig(JSON.stringify(editData.config, null, 2));
+  } else if (showModal) {
+    setConfig('');
+  }
+  if (showModal) {
+    setFileContent(null);
+  }
+}, [editData, showModal]);
+
+const getPlaceholder = (type: 'api' | 'file' | 'manual') => {
+  switch (type) {
+    case 'api':
+      return `{
+"kind": "iproyal",
+"access_token": "YOUR_X_ACCESS_TOKEN",
+"list_endpoint": "https://apid.iproyal.com/v1/reseller/datacenter/proxies",
+"default_pool": "default"
+}`;
+    case 'file':
+      return `{
+"filePath": "/path/to/proxies.json",
+"format": "json",
+"pools": {
+  "default": "general"
+}
+}`;
+    case 'manual':
+      return `{
+"proxies": [
+  {
+    "host": "1.2.3.4",
+    "port": 8080,
+    "username": "user",
+    "password": "pass"
+  }
+]
+}`;
+    default:
+      return `{
+"apiKey": "your-api-key",
+"endpoint": "https://api.example.com/proxies",
+"authType": "bearer"
+}`;
+  }
+};
+
+useEffect(() => {
+  console.log('editData or showModal changed:', { editData, showModal });
+  if (showModal) {
+    setSelectedType((editData.type as 'api' | 'file' | 'manual') || 'api');
+    setConfig(editData.config ? JSON.stringify(editData.config, null, 2) : '');
+    setFileContent(null);
+  }
+}, [editData, showModal]);
+
+useEffect(() => {
+  if (error) {
+    console.error('Modal error:', error);
+  }
+}, [error]);
+
+const fetchProviders = useCallback(async () =>{
     try {
       setError(null);
       setLoading(true);
@@ -144,6 +213,25 @@ export default function Providers() {
     }
   };
 
+useEffect(() => {
+    console.log('editData changed:', editData); // Debug log
+    if (editData.type && ['api', 'file', 'manual'].includes(editData.type)) {
+      setSelectedType(editData.type as 'api' | 'file' | 'manual');
+    }
+    if (editData.config) {
+      setConfig(JSON.stringify(editData.config, null, 2));
+    } else {
+      setConfig('');
+    }
+    setFileContent(null);
+  }, [editData, showModal]);
+
+  useEffect(() => {
+    if (error) {
+      console.error('Modal error:', error);
+    }
+  }, [error]);
+
   return (
     <div className="space-y-4">
       <Card>
@@ -153,7 +241,14 @@ export default function Providers() {
               <Users2 className="w-5 h-5" />
               Providers Management
             </CardTitle>
-            <button onClick={() => setShowModal(true)} className="flex items-center gap-1 bg-primary text-primary-foreground px-4 py-2 rounded hover:bg-primary/90">
+            <button onClick={() => {
+              setEditingId(null);
+              setEditData({});
+              setSelectedType('api');
+              setConfig('');
+              setFileContent(null);
+              setShowModal(true);
+            }} className="flex items-center gap-1 bg-primary text-primary-foreground px-4 py-2 rounded hover:bg-primary/90">
               <Plus className="w-4 h-4" />
               Add Provider
             </button>
@@ -164,6 +259,11 @@ export default function Providers() {
             <div className="p-8 flex items-center justify-center">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mr-2"></div>
               <span>Loading providers...</span>
+            </div>
+          )}
+          {error && (
+            <div className="p-4 bg-destructive/10 border border-destructive/30 rounded-md text-destructive text-sm mb-4">
+              {error}
             </div>
           )}
           {!loading && (
@@ -177,7 +277,7 @@ export default function Providers() {
                   className="flex-1 px-3 py-2 border border-input rounded-md bg-background text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:border-input"
                 />
                 <label className="flex items-center gap-2">
-                  <input type="checkbox" checked={mock} onChange={(e) => setMock((e.target as HTMLInputElement).checked)} />
+                  <input type="checkbox" checked={mock} onChange={(e) => setMock(e.target.checked)} />
                   Mock Mode
                 </label>
               </div>
@@ -228,15 +328,9 @@ export default function Providers() {
                             <td className="p-3 text-right">
                               <Switch
                                 checked={provider.active}
-                                onCheckedChange={(checked) => {
-                                  console.log(`Switch clicked for ${provider.id}, checked: ${checked}`); // Debug log
-                                  handleToggle(provider.id);
-                                }}
+                                onCheckedChange={(checked) => handleToggle(provider.id)}
                                 disabled={togglingId === provider.id}
-                                className={cn(
-                                  'data-[state=checked]:bg-green-600 data-[state=unchecked]:bg-red-600',
-                                  'w-10 h-5 mr-2'
-                                )}
+                                className={cn('data-[state=checked]:bg-green-600 data-[state=unchecked]:bg-red-600', 'w-10 h-5 mr-2')}
                               />
                               <button onClick={() => openEdit(provider.id)} className="p-1 text-blue-600 hover:text-blue-800" title="Edit provider details">
                                 <Edit className="w-4 h-4" />
@@ -267,11 +361,7 @@ export default function Providers() {
               {error && (
                 <div className="p-4 bg-destructive/10 border border-destructive/30 rounded-md text-destructive text-sm mt-4 flex items-center justify-between">
                   <span>{error}</span>
-                  <button
-                    onClick={fetchProviders}
-                    disabled={loading}
-                    className="px-3 py-1 bg-primary text-primary-foreground rounded text-sm disabled:opacity-50"
-                  >
+                  <button onClick={fetchProviders} disabled={loading} className="px-3 py-1 bg-primary text-primary-foreground rounded text-sm disabled:opacity-50">
                     Retry
                   </button>
                 </div>
@@ -290,12 +380,23 @@ export default function Providers() {
             </div>
             <form onSubmit={async (e) => {
               e.preventDefault();
+              try {
+                JSON.parse(config); // Validate JSON
+              } catch {
+                setError('Invalid JSON in configuration. Please check and correct.');
+                return;
+              }
               const formData = new FormData(e.currentTarget);
+              const finalConfig = fileContent ? {
+                ...JSON.parse(config),
+                file: fileContent.name,
+                uploaded: true
+              } : JSON.parse(config);
               const data = {
                 name: formData.get('name') as string,
-                type: (formData.get('type') as 'api' | 'file' | 'manual'),
+                type: selectedType,
                 logoUrl: formData.get('logoUrl') as string,
-                config: formData.get('config') ? JSON.parse(formData.get('config') as string) : {},
+                config: finalConfig,
                 active: formData.get('active') === 'on',
               };
               try {
@@ -341,7 +442,11 @@ export default function Providers() {
                 <select
                   id="type"
                   name="type"
-                  defaultValue={editData.type || 'api'}
+                  value={selectedType}
+                  onChange={(e) => {
+                    const value = e.target.value as 'api' | 'file' | 'manual';
+                    setSelectedType(value);
+                  }}
                   required
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
                 >
@@ -356,6 +461,43 @@ export default function Providers() {
                   </option>
                 </select>
               </div>
+
+const getPlaceholder = (type: 'api' | 'file' | 'manual') => {
+  switch (type) {
+    case 'api':
+      return `{
+"kind": "iproyal",
+"access_token": "YOUR_X_ACCESS_TOKEN",
+"list_endpoint": "https://apid.iproyal.com/v1/reseller/datacenter/proxies",
+"default_pool": "default"
+}`;
+    case 'file':
+      return `{
+"filePath": "/path/to/proxies.json",
+"format": "json",
+"pools": {
+  "default": "general"
+}
+}`;
+    case 'manual':
+      return `{
+"proxies": [
+  {
+    "host": "1.2.3.4",
+    "port": 8080,
+    "username": "user",
+    "password": "pass"
+  }
+]
+}`;
+    default:
+      return `{
+"apiKey": "your-api-key",
+"endpoint": "https://api.example.com/proxies",
+"authType": "bearer"
+}`;
+  }
+};
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-4">
@@ -374,16 +516,43 @@ export default function Providers() {
                 </div>
                 <textarea
                   name="config"
-                  defaultValue={JSON.stringify(editData.config, null, 2)}
+                  value={config}
+                  onChange={(e) => setConfig(e.target.value)}
                   rows={8}
-                  placeholder='{
-  "apiKey": "your-api-key",
-  "endpoint": "https://api.example.com/proxies",
-  "authType": "bearer"
-}'
+                  placeholder={getPlaceholder(selectedType)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md font-mono text-sm bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-vertical transition-colors"
-                  title="Enter JSON configuration. Use templates from documentation based on your provider type. Validate with a JSON linter if needed."
+                  title="Enter JSON configuration. Use the placeholder example for your selected provider type. Validate with a JSON linter if needed."
                 />
+                {selectedType === 'file' && (
+                  <div className="mt-2">
+                    <label htmlFor="configFile" className="block text-sm font-medium text-gray-700 mb-1">
+                      Upload Config File (JSON/CSV)
+                    </label>
+                    <input
+                      id="configFile"
+                      type="file"
+                      accept=".json,.csv"
+                      onChange={async (e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          setFileContent(file);
+                          const reader = new FileReader();
+                          reader.onload = (event) => {
+                            const content = event.target?.result as string;
+                            try {
+                              const parsed = JSON.parse(content); // Assume JSON, or parse CSV manually if needed
+                              setConfig(JSON.stringify({ source: 'uploaded', data: parsed }, null, 2));
+                            } catch {
+                              setConfig(JSON.stringify({ source: 'uploaded', content: content }, null, 2));
+                            }
+                          };
+                          reader.readAsText(file);
+                        }
+                      }}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+                )}
                 <div className="text-xs text-gray-500 mt-1">
                   Tip: Start with the example config from your provider's documentation. Common fields: apiKey, endpoint, username, password, filePath.
                 </div>
