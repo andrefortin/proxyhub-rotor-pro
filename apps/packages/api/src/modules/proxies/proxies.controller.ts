@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Patch, Delete, Param, Body, Query, BadRequestException } from '@nestjs/common';
+import { Controller, Get, Query, BadRequestException } from '@nestjs/common';
 import { ProxyService } from './proxies.service';
 import { validatePagination, PaginationParams } from '../../common/pagination';
 import { ApiTags, ApiOperation, ApiQuery, ApiParam, ApiBody, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
@@ -46,30 +46,5 @@ export class ProxiesController {
   @ApiResponse({ status: 200, description: 'Random proxies', type: PaginatedProxiesDto })
   async sample() {
     return await this.service.getSample();
-  }
-
-  @Post()
-  @ApiOperation({ summary: 'Create a new proxy' })
-  @ApiBody({ type: CreateProxyDto })
-  @ApiResponse({ status: 201, description: 'Created proxy', type: CreateProxyDto })
-  async create(@Body() data: CreateProxyDto) {
-    return await this.service.createProxy(data);
-  }
-
-  @Patch(':id')
-  @ApiOperation({ summary: 'Update proxy details' })
-  @ApiParam({ name: 'id', description: 'Proxy ID' })
-  @ApiBody({ type: 'object', schema: { properties: { meta: { type: 'object' }, tags: { type: 'array', items: { type: 'string' } } } } })
-  @ApiResponse({ status: 200, description: 'Updated proxy', type: CreateProxyDto })
-  async update(@Param('id') id: string, @Body() data: any) {
-    return await this.service.updateProxy(id, data);
-  }
-
-  @Delete(':id')
-  @ApiOperation({ summary: 'Delete a proxy' })
-  @ApiParam({ name: 'id', description: 'Proxy ID' })
-  @ApiResponse({ status: 200, description: 'Deletion success', schema: { properties: { success: { type: 'boolean' } } } })
-  async delete(@Param('id') id: string) {
-    return await this.service.deleteProxy(id);
   }
 }

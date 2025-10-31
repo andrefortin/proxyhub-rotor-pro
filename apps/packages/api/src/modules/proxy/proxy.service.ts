@@ -1,9 +1,14 @@
-import { Injectable, Inject } from '@nestjs/common';
-import { PrismaClient } from '@prisma/client';
-import { v4 as uuid } from 'uuid';
-import Redis from 'ioredis';
+import { Injectable, Inject } from "@nestjs/common";
+import { HttpService } from "@nestjs/axios";
+import { PrismaClient } from "@prisma/client";
+import { v4 as uuid } from "uuid";
+import Redis from "ioredis";
+import { catchError, firstValueFrom } from 'rxjs';
+import { AxiosError } from 'axios';
 
-function nowPlusSeconds(s: number) { return new Date(Date.now() + s * 1000); }
+function nowPlusSeconds(s: number) {
+  return new Date(Date.now() + s * 1000);
+}
 
 const LUA_RESERVE = `
 if redis.call('exists', KEYS[1]) == 1 then
@@ -17,42 +22,101 @@ end
 @Injectable()
 export class ProxyService {
   private reserveSha: string | null = null;
-  constructor(private prisma: PrismaClient, @Inject('REDIS') private redis: Redis) {}
-  private stickyKey(project: string, pool: string) { return `sticky:${project}:${pool}`; }
+  constructor(
+    private readonly httpService: HttpService,
+    private prisma: PrismaClient,
+    @Inject("REDIS") private redis: Redis
+  ) {}
+  private stickyKey(project: string, pool: string) {
+    return `sticky:${project}:${pool}`;
+  }
 
   private async reserveKey(proxyId: string, ttlSec: number) {
-    if (!this.reserveSha) this.reserveSha = await this.redis.script('LOAD', LUA_RESERVE) as string;
+    if (!this.reserveSha)
+      this.reserveSha = (await this.redis.script(
+        "LOAD",
+        LUA_RESERVE
+      )) as string;
     const key = `proxy:inuse:${proxyId}`;
     // cSpell:ignore evalsha setex
-    const ok: any = await this.redis.evalsha(this.reserveSha!, 1, key, ttlSec.toString());
-    return ok === 1 || ok === '1';
+    const ok: any = await this.redis.evalsha(
+      this.reserveSha!,
+      1,
+      key,
+      ttlSec.toString()
+    );
+    return ok === 1 || ok === "1";
   }
 
   private formatProxy(p: any) {
     if (p.username && p.password) {
-      return `${p.protocol || 'http'}://${encodeURIComponent(p.username)}:${encodeURIComponent(p.password)}@${p.host}:${p.port}`;
+      return `${p.protocol || "http"}://${encodeURIComponent(
+        p.username
+      )}:${encodeURIComponent(p.password)}@${p.host}:${p.port}`;
     }
-    return `${p.protocol || 'http'}://${p.host}:${p.port}`;
+    return `${p.protocol || "http"}://${p.host}:${p.port}`;
   }
 
-  async issueLease(opts: { project: string; pool: string; country?: string; sticky?: boolean }) {
-    const policy = await this.prisma.poolPolicy.findUnique({ where: { pool: opts.pool } })
-      .then(p => p || { reuseTtlSeconds: parseInt(process.env.DEFAULT_REUSE_TTL_SECONDS || '86400', 10), maxFailures: 5 });
+  async issueLease(opts: {
+    project: string;
+    pool: string;
+    country?: string;
+    sticky?: boolean;
+  }) {
+    const policy = await this.prisma.poolPolicy
+      .findUnique({ where: { pool: opts.pool } })
+      .then(
+        (p) =>
+          p || {
+            reuseTtlSeconds: parseInt(
+              process.env.DEFAULT_REUSE_TTL_SECONDS || "86400",
+              10
+            ),
+            maxFailures: 5,
+          }
+      );
 
     // Sticky reuse first
     if (opts.sticky) {
       const key = this.stickyKey(opts.project, opts.pool);
       const stickyProxyId = await this.redis.get(key);
       if (stickyProxyId) {
-        const p = await this.prisma.proxy.findUnique({ where: { id: stickyProxyId } });
+        const p = await this.prisma.proxy.findUnique({
+          where: { id: stickyProxyId },
+        });
         if (p && p.failedCount < policy.maxFailures) {
           const leaseId = uuid();
-          const leaseSeconds = parseInt(process.env.DEFAULT_LEASE_SECONDS || '300', 10);
+          const leaseSeconds = parseInt(
+            process.env.DEFAULT_LEASE_SECONDS || "300",
+            10
+          );
           const expiresAt = nowPlusSeconds(leaseSeconds);
-          await this.prisma.lease.create({ data: { id: leaseId, proxyId: p.id, project: opts.project, sticky: true, expiresAt } });
-          await this.prisma.proxy.update({ where: { id: p.id }, data: { lastUsed: new Date() } });
+          await this.prisma.lease.create({
+            data: {
+              id: leaseId,
+              proxyId: p.id,
+              project: opts.project,
+              sticky: true,
+              expiresAt,
+            },
+          });
+          await this.prisma.proxy.update({
+            where: { id: p.id },
+            data: { lastUsed: new Date() },
+          });
           await this.redis.setex(key, policy.reuseTtlSeconds, p.id);
-          return { leaseId, proxy: this.formatProxy(p), protocol: p.protocol, expiresAt, meta: { providerId: p.providerId, score: p.score, country: p.country, sticky: true } };
+          return {
+            leaseId,
+            proxy: this.formatProxy(p),
+            protocol: p.protocol,
+            expiresAt,
+            meta: {
+              providerId: p.providerId,
+              score: p.score,
+              country: p.country,
+              sticky: true,
+            },
+          };
         } else {
           await this.redis.del(key);
         }
@@ -62,8 +126,8 @@ export class ProxyService {
     // Candidate selection
     const candidates = await this.prisma.proxy.findMany({
       where: { pool: opts.pool, failedCount: { lt: policy.maxFailures } },
-      orderBy: [{ score: 'desc' }, { lastChecked: 'desc' }],
-      take: 30
+      orderBy: [{ score: "desc" }, { lastChecked: "desc" }],
+      take: 30,
     });
 
     for (const c of candidates) {
@@ -71,36 +135,187 @@ export class ProxyService {
       if (!reserved) continue;
 
       const leaseId = uuid();
-      const leaseSeconds = parseInt(process.env.DEFAULT_LEASE_SECONDS || '300', 10);
+      const leaseSeconds = parseInt(
+        process.env.DEFAULT_LEASE_SECONDS || "300",
+        10
+      );
       const expiresAt = nowPlusSeconds(leaseSeconds);
 
-      await this.prisma.lease.create({ data: { id: leaseId, proxyId: c.id, project: opts.project, sticky: !!opts.sticky, expiresAt } });
-      await this.prisma.proxy.update({ where: { id: c.id }, data: { lastUsed: new Date() } });
-      if (opts.sticky) { await this.redis.setex(this.stickyKey(opts.project, opts.pool), policy.reuseTtlSeconds, c.id); }
+      await this.prisma.lease.create({
+        data: {
+          id: leaseId,
+          proxyId: c.id,
+          project: opts.project,
+          sticky: !!opts.sticky,
+          expiresAt,
+        },
+      });
+      await this.prisma.proxy.update({
+        where: { id: c.id },
+        data: { lastUsed: new Date() },
+      });
+      if (opts.sticky) {
+        await this.redis.setex(
+          this.stickyKey(opts.project, opts.pool),
+          policy.reuseTtlSeconds,
+          c.id
+        );
+      }
 
-      return { leaseId, proxy: this.formatProxy(c), protocol: c.protocol, expiresAt, meta: { providerId: c.providerId, score: c.score, country: c.country, sticky: !!opts.sticky } };
+      return {
+        leaseId,
+        proxy: this.formatProxy(c),
+        protocol: c.protocol,
+        expiresAt,
+        meta: {
+          providerId: c.providerId,
+          score: c.score,
+          country: c.country,
+          sticky: !!opts.sticky,
+        },
+      };
     }
-    return { error: 'NO_PROXY_AVAILABLE' };
+    return { error: "NO_PROXY_AVAILABLE" };
   }
 
   async releaseLease(leaseId: string, body: any) {
-    const lease = await this.prisma.lease.findUnique({ where: { id: leaseId } });
+    const lease = await this.prisma.lease.findUnique({
+      where: { id: leaseId },
+    });
     if (!lease) return;
-    const status = body?.status === 'ok' ? 'ok' : 'failed';
-    const proxy = await this.prisma.proxy.findUnique({ where: { id: lease.proxyId } });
-    await this.prisma.lease.update({ where: { id: leaseId }, data: { releasedAt: new Date(), status: status as any } });
+    const status = body?.status === "ok" ? "ok" : "failed";
+    const proxy = await this.prisma.proxy.findUnique({
+      where: { id: lease.proxyId },
+    });
+    await this.prisma.lease.update({
+      where: { id: leaseId },
+      data: { releasedAt: new Date(), status: status as any },
+    });
     await this.prisma.usageEvent.create({
       data: {
-        project: lease.project, pool: proxy?.pool || 'default', apiKeyId: lease.apiKeyId || null, proxyId: lease.proxyId,
-        outcome: status === 'ok' ? 'success' : 'failure', latencyMs: body?.latencyMs || null, status: body?.statusCode || null, error: body?.error || null
-      }
+        project: lease.project,
+        pool: proxy?.pool || "default",
+        apiKeyId: lease.apiKeyId || null,
+        proxyId: lease.proxyId,
+        outcome: status === "ok" ? "success" : "failure",
+        latencyMs: body?.latencyMs || null,
+        status: body?.statusCode || null,
+        error: body?.error || null,
+      },
     });
-    if (status !== 'ok') {
-      await this.prisma.proxy.update({ where: { id: lease.proxyId }, data: { failedCount: { increment: 1 }, score: { decrement: 10 } } });
+    if (status !== "ok") {
+      await this.prisma.proxy.update({
+        where: { id: lease.proxyId },
+        data: { failedCount: { increment: 1 }, score: { decrement: 10 } },
+      });
     }
   }
 
   async markFailed(leaseId: string, reason: string) {
-    await this.releaseLease(leaseId, { status: 'failed', error: reason });
+    await this.releaseLease(leaseId, { status: "failed", error: reason });
+  }
+
+  async updateProxy(id: string, data: any) {
+    return this.prisma.proxy.update({
+      where: { id },
+      data,
+    });
+  }
+
+  async deleteProxy(id: string) {
+    await this.prisma.proxy.delete({ where: { id } });
+    return { success: true };
+  }
+
+  async createProxy(data: any) {
+    // Validate provider exists if providerId provided
+    if (data.providerId) {
+      const provider = await this.prisma.provider.findUnique({
+        where: { id: data.providerId },
+      });
+      if (!provider) {
+        throw new Error("Provider not found");
+      }
+    }
+
+    return this.prisma.proxy.create({
+      data: {
+        pool: data.pool,
+        host: data.host,
+        port: data.port,
+        username: data.username,
+        password: data.password,
+        protocol: data.protocol || "http",
+        country: data.country,
+        region: data.region,
+        city: data.city,
+        latitude: data.latitude,
+        longitude: data.longitude,
+        asn: data.asn,
+        org: data.org,
+        tags: data.tags || [],
+        meta: data.meta,
+        providerId: data.providerId,
+      },
+    });
+  }
+
+  async testProxy(id: string) {
+    const proxy = await this.prisma.proxy.findUnique({
+      where: { id: id },
+    });
+    if (!proxy) {
+      throw new Error("Proxy not found");
+    }
+    const testUrl = "https://example.com";
+    const { protocol, host, port, username, password } = proxy;
+    const url = `${protocol || "http"}://${host}:${port}@${username}:${password} ${testUrl}`;
+    
+    console.log("Testing proxy", url);
+
+    const start = Date.now();
+    /*
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "User-Agent": "ProxyHub/1.0",
+      },
+    });
+    */
+    const data = await this.httpService.axiosRef.get<any[]>(testUrl, {
+      proxy: {
+        protocol: protocol || "http",
+        host: host,
+        port: port,
+        auth: {
+          username: username,
+          password: password
+        }
+      }
+    });
+    
+    /*
+    const response = await firstValueFrom(
+      this.httpService.get(url).pipe(
+        catchError((error: AxiosError) => {
+          console.log(error);
+          throw error;
+        }),
+      ),
+    );
+    */
+    
+    // return data;
+    console.log("data:", data);
+
+    const end = Date.now();
+    const latency = end - start;
+    const {status} = data;
+    const body = data.data;
+    return {
+      latency,
+      status,
+      body,
+    };
   }
 }

@@ -7,7 +7,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../com
 import { Button } from '../components/ui/button';
 import { Globe, Zap, Plus, Edit, Trash2, Filter, Search } from 'lucide-react';
 import { cn } from '../lib/utils';
-import { getProxies, createProxy, updateProxy, deleteProxy, issueLease, getProviders, getProxy, type Proxy, type CreateProxy, type UpdateProxy, type Provider } from '../lib/api';
+import { getProxies, createProxy, updateProxy, deleteProxy, issueLease, getProviders, getProxy, type Proxy, type CreateProxy, type UpdateProxy, type Provider, testProxy } from '../lib/api';
 import { DeleteConfirmModal } from '../components/DeleteConfirmModal';
 
 const LIMIT = 10;
@@ -27,9 +27,10 @@ interface LeaseResponse {
 
 interface TestResult {
   success: boolean;
-  proxyString?: string;
-  error?: string;
-  score: number;
+  proxyId: string;
+  httpStatus?: number | undefined;
+  latencyMs?: number | undefined;
+  error?: string | undefined;
 }
 
 export default function Proxies() {
@@ -206,6 +207,23 @@ export default function Proxies() {
 
       console.log('proxy:', proxy);
 
+      const testResults = await testProxy(proxy.id);
+      console.log('testResults:', testResults);
+
+      if (!testResults.success) {
+        throw new Error(testResults.error || 'Test failed');
+      }
+
+      // For now, assume success if lease issued
+      setTestResult({
+        success: testResults.success,
+        error: testResults.error,
+        proxyId: id,
+        httpStatus: testResults.httpStatus,
+        latencyMs: testResults.latencyMs,
+      });
+
+      /*
       const leaseResponse = await issueLease({
         project: 'admin-test',
         pool: proxy.pool,
@@ -225,11 +243,12 @@ export default function Proxies() {
         // Optionally release lease immediately
         // await releaseLease(leaseResponse.leaseId, { status: 'ok' });
       }
+      */
     } catch (err) {
       setTestResult({
         success: false,
         error: err instanceof Error ? err.message : 'Test failed',
-        score: proxies.find(p => p.id === id)?.score || 0,
+        proxyId: id
       });
     } finally {
       setTestingId(null);
@@ -649,7 +668,11 @@ export default function Proxies() {
                 </TooltipProvider>
               </div>
               <div className="flex gap-3 pt-4 border-t">
-                <Button type="button" variant="outline" onClick={() => { setShowModal(false); setEditData({}); setEditingId(null); }}>
+                <Button type="button" variant="outline" onClick={() => {
+                  setShowModal(false);
+                  setEditData({});
+                  setEditingId(null);
+                }}>
                   Cancel
                 </Button>
                 <Button type="submit" className="ml-auto hover:scale-105 transition-transform">
@@ -674,13 +697,13 @@ export default function Proxies() {
                 <>
                   <div className={cn('p-3 rounded-md', testResult.success ? 'bg-green-50 border border-green-200' : 'bg-red-50 border border-red-200')}>
                     <p className="font-medium">Status: {testResult.success ? 'Success' : 'Failed'}</p>
-                    {testResult.success && testResult.proxyString && (
+                    {testResult.success && (
                       <div className="mt-2 p-2 bg-muted font-mono text-sm rounded">
-                        {testResult.proxyString}
+                        HTTPS Status: {testResult.httpStatus}
                       </div>
                     )}
                     {testResult.error && <p className="text-sm mt-1">Error: {testResult.error}</p>}
-                    <p>Score: {testResult.score}%</p>
+                    <p>Latency: {testResult.latencyMs}ms</p>
                   </div>
                   <Button onClick={() => setShowTestModal(false)} className="w-full">
                     Close
@@ -699,7 +722,11 @@ export default function Proxies() {
 
       <DeleteConfirmModal
         isOpen={showDeleteModal}
-        onClose={() => { setShowDeleteModal(false); setPendingDeleteId(null); setRememberChoice(false); }}
+        onClose={() => {
+          setShowDeleteModal(false);
+          setPendingDeleteId(null);
+          setRememberChoice(false);
+        }}
         onConfirm={handleConfirmDelete}
         itemType="proxy"
         rememberChoice={rememberChoice}

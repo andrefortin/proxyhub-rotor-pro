@@ -1,6 +1,11 @@
 {
   "session_id": "d00f6942-38a2-4115-bb95-e28055dc2188",
   "prompts": [
+    "rebuild and redeploy all the docker images using docker-compose.dev.yml",
+    "rebuild and redeploy all the docker images using docker-compose.dev.yml",
+    "rebuild and redeploy all the docker images using docker-compose.dev.yml",
+    "rebuild and redeploy all the docker images using docker-compose.dev.yml",
+    "rebuild and redeploy all the docker images using docker-compose.dev.yml",
     "rebuild and redeploy all the docker images using docker-compose.dev.yml"
   ],
   "agent_name": "Quantum"
