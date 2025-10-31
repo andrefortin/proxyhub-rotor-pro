@@ -118,5 +118,17 @@
       "command": "docker compose -f docker-compose.dev.yml down && docker compose -f docker-compose.dev.yml build --no-cache && docker compose -f docker-compose.dev.yml up -d",
       "description": "Stop and remove all services, rebuild without cache, and restart all proxyhub containers from dev yml"
     }
+  },
+  {
+    "session_id": "a6e02ea5-a69c-4bb9-9222-bab464a27660",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/a6e02ea5-a69c-4bb9-9222-bab464a27660.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "docker compose -f docker-compose.dev.yml down && docker compose -f docker-compose.dev.yml build --no-cache && docker compose -f docker-compose.dev.yml up -d",
+      "description": "Stop and remove all services, rebuild without cache, and restart all proxyhub containers from dev yml"
+    }
   }
 ]

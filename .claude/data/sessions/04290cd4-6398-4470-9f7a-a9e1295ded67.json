@@ -7,7 +7,9 @@
     "git push",
     "git push",
     "/bug 26 `when loading proxies from the database via the api, not all the fields are available to display on the UI or the proxies management code is not displaying the values properly for the proxies. Missing fields are (port, username, password). These same fields are not being displayed in the EDIT proxy dialog either.`",
-    "/implement bug 26"
+    "/implement bug 26",
+    "password field not being returned by the api for get requests of Proxies or proxy",
+    "git push"
   ],
   "agent_name": "Vortex"
 }

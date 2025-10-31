@@ -62,5 +62,13 @@
     "permission_mode": "bypassPermissions",
     "hook_event_name": "UserPromptSubmit",
     "prompt": "/bug 27 `The delete dialog works pops up properly on the Proxies page but not on the Providers page when attempting to delete or clicking the delete button.`"
+  },
+  {
+    "session_id": "c60c9d35-d847-4f27-9d0c-6b5612756e6d",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/c60c9d35-d847-4f27-9d0c-6b5612756e6d.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "/bug 26 `API container showing error logs in docker container : src/modules/providers/providers.service.ts:114:17 - error TS2353: Object literal may only specify known properties, and 'disabled' does not exist in type '(Without<ProxyUpdateManyMutationInput, ProxyUncheckedUpdateManyInput> & ProxyUncheckedUpdateManyInput) | (Without<...> & ProxyUpdateManyMutationInput)'.\n\n114         data: { disabled: !active },\n                    ~~~~~~~~\n\n  node_modules/.prisma/client/index.d.ts:3980:5\n    3980     data: XOR<ProxyUpdateManyMutationInput, ProxyUncheckedUpdateManyInput>\n             ~~~~\n    The expected type comes from property 'data' which is declared here on type '{ data: (Without<ProxyUpdateManyMutationInput, ProxyUncheckedUpdateManyInput> & ProxyUncheckedUpdateManyInput) | (Without<...> & ProxyUpdateManyMutationInput); where?: ProxyWhereInput; limit?: number; }'\n\nsrc/modules/proxies/proxies.service.ts:38:246 - error TS2353: Object literal may only specify known properties, and 'disabled' does not exist in type 'ProxySelect<DefaultArgs>'.\n\n38       select: { id: true, host: true, port: true, username: true, protocol: true, pool: true, providerId: true, country: true, city: true, region: true, latitude: true, longitude: true, asn: true, org: true, score: true, tags: true, meta: true, disabled: true },\n                                                                                                                                                                                                                                                        ~~~~~~~~\n\n  node_modules/.prisma/client/index.d.ts:3851:5\n    3851     select?: ProxySelect<ExtArgs> | null\n             ~~~~~~\n    The expected type comes from property 'select' which is declared here on type '{ select?: ProxySelect<DefaultArgs>; omit?: ProxyOmit<DefaultArgs>; include?: ProxyInclude<DefaultArgs>; ... 5 more ...; distinct?: ProxyScalarFieldEnum | ProxyScalarFieldEnum[]; }'\n\n[7:45:21 PM] Found 2 errors. Watching for file changes.\n`"
   }
 ]

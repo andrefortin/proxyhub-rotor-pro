@@ -167,6 +167,7 @@ export async function issueLease(params: {
   pool?: string;
   sticky?: boolean;
   country?: string;
+  proxy?: Proxy;
 }): Promise<Lease | { error: string }> {
   const query = new URLSearchParams({
     project: params.project,

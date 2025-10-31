@@ -217,23 +217,6 @@ const fetchProviders = useCallback(async () =>{
     }
   };
 
-  const handleConfirmDelete = async () => {
-    if (!pendingDeleteId) return;
-    try {
-      await deleteProvider(pendingDeleteId);
-      fetchProviders();
-      if (rememberChoice) {
-        sessionStorage.setItem('deleteConfirmed', 'true');
-      }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to delete provider');
-    } finally {
-      setShowDeleteModal(false);
-      setPendingDeleteId(null);
-      setRememberChoice(false);
-    }
-  };
-
   const handleRememberChange = (checked: boolean) => {
     setRememberChoice(checked);
   };

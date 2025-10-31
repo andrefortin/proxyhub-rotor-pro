@@ -1,0 +1,9 @@
+{
+  "session_id": "d79dca89-72ca-4b2d-bae4-3cd1ba68046a",
+  "prompts": [
+    "/prime ",
+    "/implement bug 26",
+    "git push"
+  ],
+  "agent_name": "Prism"
+}

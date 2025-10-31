@@ -180,12 +180,12 @@ export default function Proxies() {
           host: proxy.host,
           port: proxy.port,
           username: proxy.username,
-          password: proxy.password ? '*****' : '',
+          password: proxy.password, // || "",
           protocol: proxy.protocol,
           pool: proxy.pool,
           providerId: proxy.providerId,
-          tags: proxy.tags?.join(', '),
-          meta: JSON.stringify(proxy.meta, null, 2),
+          tags: proxy.tags || [],
+          meta: proxy.meta || {},
           disabled: proxy.disabled,
         });
         setEditingId(id);
@@ -203,10 +203,14 @@ export default function Proxies() {
     try {
       const proxy = proxies.find(p => p.id === id);
       if (!proxy || !proxy.pool) throw new Error('Invalid proxy');
+
+      console.log('proxy:', proxy);
+
       const leaseResponse = await issueLease({
         project: 'admin-test',
         pool: proxy.pool,
         sticky: false,
+        proxy: proxy
       });
       if ('error' in leaseResponse) {
         setTestResult({ success: false, error: leaseResponse.error, score: proxy.score });
@@ -337,7 +341,6 @@ export default function Proxies() {
                 ) : (
                   proxies.map((proxy) => {
                     const provider = providers.find(p => p.id === proxy.providerId);
-                    console.log('proxy:', proxy);
                     return (
                       <tr key={proxy.id} className="border-b border-border hover:bg-accent data-[state=hover]:scale-[1.01] transition-transform">
                         <td className="p-3 font-mono">
@@ -483,7 +486,7 @@ export default function Proxies() {
                   providerId: formData.get('providerId') as string || undefined,
                   tags: (formData.get('tags') as string)?.split(',').map(t => t.trim()).filter(Boolean) || undefined,
                   meta: formData.get('meta') ? JSON.parse(formData.get('meta') as string) : undefined,
-                  disabled: formData.get('disabled') !== 'on', // Active by default unless disabled
+                  disabled: formData.get('disabled') === "on", // Active by default unless disabled
                 };
                 editingId ? handleUpdate(data as UpdateProxy) : handleCreate(data as CreateProxy);
               }}
@@ -598,8 +601,8 @@ export default function Proxies() {
                   <input
                     id="password"
                     name="password"
-                    type="password"
-                    defaultValue={editData.password ? '*****' : ''}
+                    type="text"
+                    defaultValue={editData.password || ''}
                     placeholder="password (enter new to change)"
                     className="w-full px-3 py-2 border border-input rounded-md bg-background focus-visible:ring-2 focus-visible:ring-ring"
                   />
@@ -619,7 +622,7 @@ export default function Proxies() {
                   id="tags"
                   name="tags"
                   type="text"
-                  defaultValue={editData.tags?.join(', ')}
+                  defaultValue={typeof editData?.tags === 'undefined' ? [] : editData?.tags.length !== 0 ? editData.tags.join(', ') : ''}
                   placeholder="tag1, tag2, geo-us"
                   className="w-full px-3 py-2 border border-input rounded-md bg-background focus-visible:ring-2 focus-visible:ring-ring"
                 />
@@ -632,7 +635,7 @@ export default function Proxies() {
                   id="meta"
                   name="meta"
                   rows={3}
-                  defaultValue={JSON.stringify(editData.meta, null, 2)}
+                  defaultValue={typeof editData?.meta === 'undefined' ? '' : editData?.meta !== null ? JSON.stringify(editData.meta, null, 2) : ''}
                   placeholder='{"custom": "value"}'
                   className="w-full px-3 py-2 border border-input rounded-md bg-background font-mono text-sm focus-visible:ring-2 focus-visible:ring-ring"
                 />

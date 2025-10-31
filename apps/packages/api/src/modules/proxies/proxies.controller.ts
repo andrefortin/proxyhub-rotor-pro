@@ -23,8 +23,7 @@ export class ProxiesController {
   async list(@Query() q: ProxyQueryDto) {
     const sample = q.sample === 'true';
     if (sample) {
-      const result = await this.service.listProxies(q, true);
-      return result;
+      return await this.service.listProxies(q, true);
     }
 
     const params: PaginationParams = {

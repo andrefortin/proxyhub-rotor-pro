@@ -1,0 +1,25 @@
+[
+  {
+    "session_id": "36d5b4e7-40f1-4fed-83b1-9c96c396f6dd",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/36d5b4e7-40f1-4fed-83b1-9c96c396f6dd.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "git ls-files",
+      "description": "List all tracked files in the git repository"
+    }
+  },
+  {
+    "session_id": "36d5b4e7-40f1-4fed-83b1-9c96c396f6dd",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/36d5b4e7-40f1-4fed-83b1-9c96c396f6dd.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Read",
+    "tool_input": {
+      "file_path": "/home/andre/batcave/proxyhub-rotor-pro/.claude/commands/conditional_docs.md"
+    }
+  }
+]

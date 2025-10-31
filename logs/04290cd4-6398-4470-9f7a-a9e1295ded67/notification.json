@@ -12,5 +12,12 @@
     "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
     "hook_event_name": "Notification",
     "message": "Claude is waiting for your input"
+  },
+  {
+    "session_id": "04290cd4-6398-4470-9f7a-a9e1295ded67",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/04290cd4-6398-4470-9f7a-a9e1295ded67.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "hook_event_name": "Notification",
+    "message": "Claude is waiting for your input"
   }
 ]
