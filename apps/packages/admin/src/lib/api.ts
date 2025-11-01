@@ -88,6 +88,9 @@ export async function getProxies(
     pool?: string;
     providerId?: string;
     bbox?: string; // minLon,minLat,maxLon,maxLat
+    search?: string;
+    sortBy?: string;
+    sortOrder?: 'asc' | 'desc';
   } = {}
 ): Promise<PaginationResponse<Proxy>> {
   const query = new URLSearchParams({
@@ -96,6 +99,9 @@ export async function getProxies(
     ...(params.pool && { pool: params.pool }),
     ...(params.providerId && { providerId: params.providerId }),
     ...(params.bbox && { bbox: params.bbox }),
+    ...(params.search && { search: params.search }),
+    ...(params.sortBy && { sortBy: params.sortBy }),
+    ...(params.sortOrder && { sortOrder: params.sortOrder }),
   });
   return apiRequest(`/v1/proxies?${query}`);
 }

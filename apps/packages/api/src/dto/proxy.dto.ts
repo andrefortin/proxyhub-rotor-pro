@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsOptional, IsNumber, IsArray, IsEnum, Min, Max, IsObject } from 'class-validator';
+import { IsString, IsOptional, IsNumber, IsArray, IsEnum, Min, Max, IsObject, IsBoolean } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class ProxyQueryDto {
@@ -17,6 +17,11 @@ export class ProxyQueryDto {
   @IsOptional()
   @IsString()
   bbox?: string;
+
+  @ApiProperty({ description: 'Search term for host, port, pool, country, city, region, or provider name', required: false })
+  @IsOptional()
+  @IsString()
+  search?: string;
 
   @ApiProperty({ description: 'Page number (default 1)', required: false })
   @IsOptional()
@@ -44,6 +49,16 @@ export class ProxyQueryDto {
   @IsOptional()
   @IsString()
   sample?: string;
+
+  @ApiProperty({ description: 'Field to sort by', required: false })
+  @IsOptional()
+  @IsString()
+  sortBy?: string;
+
+  @ApiProperty({ description: 'Sort direction (asc/desc)', required: false })
+  @IsOptional()
+  @IsString()
+  sortOrder?: 'asc' | 'desc';
 }
 
 export class CreateProxyDto {
@@ -117,6 +132,11 @@ export class CreateProxyDto {
   @IsNumber()
   @Type(() => Number)
   longitude?: number;
+
+  @ApiProperty({ description: 'Whether the proxy is disabled', required: false, default: false })
+  @IsOptional()
+  @IsBoolean()
+  disabled?: boolean;
 }
 
 export class PaginatedProxiesDto {

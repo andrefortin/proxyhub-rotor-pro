@@ -16,6 +16,28 @@ export class ProxyService {
       take = Math.min(parseInt(query?.limit || "200", 10), 5000),
     } = pagination || {};
 
+    // Handle sorting
+    let orderBy: any = { createdAt: 'desc' }; // Default fallback
+    if (query.sortBy && query.sortOrder) {
+      const sortField = query.sortBy;
+      const sortOrder = query.sortOrder;
+      
+      // Map frontend field names to database field names
+      const fieldMap: Record<string, string> = {
+        'host': 'host',
+        'pool': 'pool', 
+        'country': 'country',
+        'score': 'score',
+        'disabled': 'disabled',
+        'providerId': 'providerId',
+        'lastChecked': 'lastChecked'
+      };
+      
+      const dbField = fieldMap[sortField] || sortField;
+      orderBy = { [dbField]: sortOrder };
+      console.log('Sorting by:', dbField, sortOrder);
+    }
+
     if (sample) {
       // Use raw query for random sample
       const rows: any[] = await this.prisma.$queryRawUnsafe(
@@ -25,23 +47,62 @@ export class ProxyService {
     }
 
     const where: any = {};
-    if (query.pool) where.pool = query.pool;
-    if (query.providerId) where.providerId = query.providerId;
+    const filters: any = {};
+    
+    // Apply filters
+    if (query.pool) filters.pool = query.pool;
+    if (query.providerId) filters.providerId = query.providerId;
+    
+    // Add search functionality
+    if (query.search) {
+      const searchTerm = query.search;
+      const searchConditions: any[] = [
+        { host: { contains: searchTerm, mode: 'insensitive' } },
+        { pool: { contains: searchTerm, mode: 'insensitive' } },
+        { country: { contains: searchTerm, mode: 'insensitive' } },
+        { city: { contains: searchTerm, mode: 'insensitive' } },
+        { region: { contains: searchTerm, mode: 'insensitive' } },
+        { provider: { name: { contains: searchTerm, mode: 'insensitive' } } },
+      ];
+      
+      // Add port search if searchTerm is numeric
+      const portNum = parseInt(searchTerm);
+      if (!isNaN(portNum)) {
+        searchConditions.push({ port: { equals: portNum } });
+      }
+      
+      // Combine filters and search
+      if (Object.keys(filters).length > 0) {
+        where.AND = [filters, { OR: searchConditions }];
+      } else {
+        where.OR = searchConditions;
+      }
+    } else {
+      // No search, just apply filters
+      Object.assign(where, filters);
+    }
 
     // Bbox filter
     if (query.bbox) {
       const parts = String(query.bbox).split(",").map(Number);
       if (parts.length === 4) {
-        where.AND = [
+        const bboxConditions = [
           { latitude: { gte: parts[1] } },
           { latitude: { lte: parts[3] } },
           { longitude: { gte: parts[0] } },
           { longitude: { lte: parts[2] } },
         ];
+        
+        if (where.AND) {
+          where.AND.push(...bboxConditions);
+        } else {
+          where.AND = bboxConditions;
+        }
       }
     }
 
     const total = await this.prisma.proxy.count({ where });
+    console.log('Final orderBy:', orderBy);
     const rows = await this.prisma.proxy.findMany({
       where,
       select: {
@@ -64,10 +125,16 @@ export class ProxyService {
         tags: true,
         meta: true,
         disabled: true,
+        lastChecked: true,
+        provider: {
+          select: {
+            name: true,
+          },
+        },
       },
       skip,
       take,
-      orderBy: [{ score: "desc" }, { lastChecked: "desc" }],
+      orderBy,
     });
 
     const page = Math.floor(skip / take) + 1;

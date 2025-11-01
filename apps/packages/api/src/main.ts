@@ -7,13 +7,16 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('ProxyHub Rotator API')
-    .setDescription('API for managing proxy providers, proxies, usage, and notifications. MCP-optimized with tool tags.')
+    .setDescription('API for managing proxy providers, proxies, usage, and notifications. MCP-optimized for AI tool integration.')
     .setVersion('1.0')
-    .addTag('providers', 'mcp-tool')
-    .addTag('proxies', 'mcp-tool')
-    .addTag('usage')
-    .addTag('notifications')
-    .addTag('webhooks', 'mcp-tool')
+    .addServer('http://localhost:8080', 'Development server')
+    .addBearerAuth({ type: 'http', scheme: 'bearer', bearerFormat: 'JWT' }, 'X-Access-Token')
+    .addTag('proxies', 'Proxy management and leasing - MCP compatible')
+    .addTag('providers', 'Proxy provider configuration - MCP compatible')
+    .addTag('webhooks', 'Webhook and notification management - MCP compatible')
+    .addTag('notifications', 'Notification configuration')
+    .addTag('usage', 'Usage statistics and monitoring')
+    .setExternalDoc('MCP Configuration', './mcp-server.json')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api-docs', app, document);

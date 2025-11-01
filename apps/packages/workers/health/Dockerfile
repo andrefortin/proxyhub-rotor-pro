@@ -4,4 +4,4 @@ COPY package*.json ./
 RUN npm ci --include=dev && npm cache clean --force
 ENV PATH="/app/node_modules/.bin:${PATH}"
 COPY src ./src
-CMD ["nodemon", "-L", "src/index.js"]
+CMD ["npx", "nodemon", "-L", "--exec", "npx tsx", "src/index.ts"]

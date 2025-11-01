@@ -16,12 +16,17 @@ export class ProxiesController {
   @ApiQuery({ name: 'pool', required: false, type: String, description: 'Filter by pool' })
   @ApiQuery({ name: 'providerId', required: false, type: String, description: 'Filter by provider ID' })
   @ApiQuery({ name: 'bbox', required: false, type: String, description: 'Bounding box [minLon,minLat,maxLon,maxLat]' })
+  @ApiQuery({ name: 'search', required: false, type: String, description: 'Search term for host, port, pool, country, city, region, or provider name' })
   @ApiQuery({ name: 'page', required: false, type: Number, description: 'Page number (default 1)' })
   @ApiQuery({ name: 'limit', required: false, type: Number, description: 'Items per page (default 200, max 5000)' })
   @ApiQuery({ name: 'skip', required: false, type: Number, description: 'Number of items to skip (overrides page)' })
   @ApiQuery({ name: 'sample', required: false, enum: ['true'], description: 'Return random sample instead' })
+  @ApiQuery({ name: 'sortBy', required: false, type: String, description: 'Field to sort by' })
+  @ApiQuery({ name: 'sortOrder', required: false, enum: ['asc', 'desc'], description: 'Sort direction' })
   @ApiResponse({ status: 200, description: 'Paginated proxies', type: PaginatedProxiesDto })
   async list(@Query() q: ProxyQueryDto) {
+    console.log('Controller received query:', JSON.stringify(q, null, 2));
+    console.log('Sort params - sortBy:', q.sortBy, 'sortOrder:', q.sortOrder);
     const sample = q.sample === 'true';
     if (sample) {
       return await this.service.listProxies(q, true);

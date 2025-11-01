@@ -1,6 +1,10 @@
-# ProxyHub Rotator — Pro Build (IPRoyal Orders + Sticky + GeoIP)
+# ProxyHub Rotator — Pro Build
 
-Quickstart:
+**Enterprise proxy management and rotation service with AI integration**
+
+🚀 **Features**: IPRoyal Integration • Sticky Sessions • GeoIP Enrichment • Health Monitoring • MCP Support
+
+## Quick Start
 
 ```bash
 cp .env.example .env
@@ -8,101 +12,175 @@ docker compose up --build -d
 docker compose exec api npx prisma migrate deploy
 ```
 
-## IPRoyal Integration
+**Access Points**:
+- API: http://localhost:8080
+- Admin UI: http://localhost:4173  
+- API Docs: http://localhost:8080/api-docs
 
-### Provider Config
+## Core Features
 
+### 🔄 Proxy Leasing System
+```bash
+# Get proxy for project
+curl -H "X-Access-Token: TOKEN" \
+  "http://localhost:8080/v1/proxy?project=scraper&pool=residential&sticky=true&country=US"
+
+# Release with feedback
+curl -X POST -H "X-Access-Token: TOKEN" \
+  -d '{"status":"ok","latencyMs":250}' \
+  "http://localhost:8080/v1/proxy/LEASE_ID/release"
+```
+
+### 🌍 Geographic & Performance Filtering
+```bash
+# Search by location
+curl "http://localhost:8080/v1/proxies?search=Germany&sortBy=score&sortOrder=desc"
+
+# Bounding box filter (US West Coast)
+curl "http://localhost:8080/v1/proxies?bbox=-125,32,-114,42"
+```
+
+### 🔗 Provider Integration
+
+**IPRoyal Setup**:
 ```json
-POST /v1/providers
+POST /v1/provider
 {
-  "name": "iproyal-dc",
+  "name": "iproyal-datacenter",
   "type": "api",
   "config": {
     "kind": "iproyal",
-    "access_token": "YOUR_X_ACCESS_TOKEN",
+    "access_token": "YOUR_TOKEN",
     "list_endpoint": "https://apid.iproyal.com/v1/reseller/datacenter/proxies",
-    "default_pool": "default"
+    "default_pool": "datacenter"
   }
 }
 ```
 
-Trigger import: `POST /v1/providers/{id}/import`
+**Import Proxies**: `POST /v1/provider/{id}/import`
 
-### Orders API (Reseller)
+### 🎯 Sticky Sessions
+Reuse same proxy for project/pool: `GET /v1/proxy?project=AGENT&sticky=true`
 
-You can call these endpoints with `X-Access-Token` in headers:
+### 📍 GeoIP Enrichment
 
-- `GET /v1/reseller/orders` → list orders
-- `GET /v1/reseller/orders/{id}` → get single order
-- `POST /v1/reseller/orders` → create new order (pass plan, quantity, etc.)
-- `POST /v1/reseller/orders/{id}/rotate` → rotate proxies in that order
-- `PATCH /v1/reseller/orders/{id}` → change credentials or settings
-- `DELETE /v1/reseller/orders/{id}` → delete order
+1. Download [GeoLite2-City.mmdb](https://www.maxmind.com/en/geolite2/signup)
+2. Place at `./geoip/GeoLite2-City.mmdb`
+3. Set `GEOIP_DB_PATH=/geoip/GeoLite2-City.mmdb`
 
-We wrap these under:
+Health worker automatically enriches proxies with location data.
 
-```
-POST /v1/providers/{id}/orders/sync   # fetch all orders
-POST /v1/providers/{id}/orders/create # create new order
-POST /v1/providers/{id}/orders/{orderId}/rotate
-POST /v1/providers/{id}/orders/{orderId}/delete
-```
+### 📊 Health Monitoring
+- Automatic proxy testing every 60 seconds
+- Score-based ranking (0-100%)
+- Failed proxy rotation
+- Performance metrics
 
-Responses are proxied back from IPRoyal.
+### 🔔 Notifications
+**Supported**: Discord, Telegram, Generic Webhooks
 
-## Sticky Sessions
-
-`GET /v1/proxy?project=AGENT&pool=linkedin&sticky=true` uses Redis `sticky:{project}:{pool}` to reuse proxies.
-
-## GeoIP Setup (MaxMind)
-
-1. Create free MaxMind account: https://www.maxmind.com/en/geolite2/signup
-2. Go to "GeoLite2 Free Downloadable Databases".
-3. Download **GeoLite2-City.mmdb**.
-4. Place file at `./geoip/GeoLite2-City.mmdb`.
-5. In `docker-compose.yml`, mount volume:
-
-```yaml
-services:
-  api:
-    volumes: ["./geoip:/geoip"]
-  worker-health:
-    volumes: ["./geoip:/geoip"]
+```bash
+# Test webhook
+curl -X POST -H "X-Access-Token: TOKEN" \
+  -d '{"event":"test","payload":{"message":"Hello"}}' \
+  "http://localhost:8080/v1/webhooks"
 ```
 
-6. Set `.env`:
+## 🤖 AI Integration (MCP)
+
+**Model Context Protocol** support for AI assistants:
+
+```json
+{
+  "mcpServers": {
+    "proxyhub": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-fetch"],
+      "env": {
+        "FETCH_BASE_URL": "http://localhost:8080",
+        "FETCH_HEADERS": "{\"X-Access-Token\": \"your-token\"}"
+      }
+    }
+  }
+}
+```
+
+**Available AI Tools**:
+- `get_proxy_lease` - Get proxy for web scraping
+- `list_proxies` - Search/filter proxies
+- `create_provider` - Setup proxy providers
+- `test_proxy` - Check proxy health
+- `send_webhook` - Test notifications
+
+See [MCP_README.md](./MCP_README.md) for full AI integration guide.
+
+## 📚 Documentation
+
+- **API Reference**: [API_DOCUMENTATION.md](./API_DOCUMENTATION.md)
+- **MCP Integration**: [MCP_README.md](./MCP_README.md)
+- **Interactive Docs**: http://localhost:8080/api-docs
+- **OpenAPI Spec**: http://localhost:8080/api-docs-json
+
+## 🏗️ Architecture
 
 ```
+┌─────────────┐  ┌──────────────┐  ┌─────────────┐
+│   Admin UI  │  │  API Server  │  │ Health Worker│
+│ (React/Vite)│  │ (NestJS/TS) │  │ (TypeScript)│
+└─────────────┘  └──────────────┘  └─────────────┘
+       │                │                 │
+       └────────────────┼─────────────────┘
+                        │
+              ┌─────────────────┐
+              │   PostgreSQL    │
+              │   + Redis       │
+              └─────────────────┘
+```
+
+## 🔧 Configuration
+
+**Environment Variables**:
+```bash
+DATABASE_URL=postgresql://user:pass@localhost:5432/proxyhub
+REDIS_URL=redis://localhost:6379
 GEOIP_DB_PATH=/geoip/GeoLite2-City.mmdb
+PORT=8080
 ```
 
-The health worker will then enrich proxies with country/city/region.
+**Docker Services**:
+- `api` - NestJS API server
+- `admin` - React admin interface  
+- `worker-health` - Proxy health monitoring
+- `postgres` - Database
+- `redis` - Caching & sessions
 
-## Admin UI
+## 🚀 Production Deployment
 
-Open http://localhost:4173 → shows pools, providers, usage summary, webhooks.
+```bash
+# Production build
+docker compose -f docker-compose.prod.yml up -d
 
----
+# Scale workers
+docker compose up --scale worker-health=3
 
-## Proxies API for Map
+# Health check
+curl http://localhost:8080/health
+```
 
-Pagination is supported on list endpoints with `?page=1&limit=10` (default page=1, limit=10, max limit=100). Responses include `items`, `total`, `page`, `limit`.
+## 📈 Monitoring
 
-- List with filters: `GET /v1/proxies?page=1&limit=20&pool=POOL&providerId=...&bbox=minLon,minLat,maxLon,maxLat`
-- Sample: `GET /v1/proxies/sample` (200 random, no pagination)
+**Usage Statistics**: `GET /usage/stats`
+**Proxy Health**: Admin UI → Proxies tab
+**Notifications**: `GET /v1/notifications/logs`
 
-## Providers API
+## 🤝 Contributing
 
-Pagination supported on GET /v1/providers with `?page=1&limit=10&search=IPRoyal`.
+1. Fork the repository
+2. Create feature branch: `git checkout -b feature/amazing-feature`
+3. Commit changes: `git commit -m 'Add amazing feature'`
+4. Push to branch: `git push origin feature/amazing-feature`
+5. Open Pull Request
 
-Responses: { items: [...], total: number, page: number, limit: number }.
+## 📄 License
 
-## Admin Map
-
-- Leaflet + clustering (default), toggle to Google Maps (set `VITE_GOOGLE_MAPS_API_KEY` in `packages/admin/.env` or your env).
-- Buttons: **Load Sample** (fast) and **Load All (clustered)**.
-
-## Notifications
-
-- Discord, Telegram, and generic webhook integrated.
-- Send a test: `POST /v1/webhooks` with `{"event":"test","payload":{"hello":"world"}}`.
+MIT License - see [LICENSE](LICENSE) file for details.

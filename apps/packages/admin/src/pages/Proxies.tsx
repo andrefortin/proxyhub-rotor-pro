@@ -5,7 +5,7 @@ import { Switch } from '../components/ui/switch';
 import { Badge } from '../components/ui/badge';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../components/ui/tooltip';
 import { Button } from '../components/ui/button';
-import { Globe, Zap, Plus, Edit, Trash2, Filter, Search } from 'lucide-react';
+import { Globe, Zap, Plus, Edit, Trash2, Filter, Search, X, ChevronUp, ChevronDown } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { getProxies, createProxy, updateProxy, deleteProxy, issueLease, getProviders, getProxy, type Proxy, type CreateProxy, type UpdateProxy, type Provider, testProxy } from '../lib/api';
 import toast from 'react-hot-toast';
@@ -45,6 +45,7 @@ export default function Proxies() {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [search, setSearch] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState('');
   const [selectedPool, setSelectedPool] = useState('');
   const [selectedProvider, setSelectedProvider] = useState('');
   const [page, setPage] = useState(1);
@@ -64,6 +65,17 @@ export default function Proxies() {
   const [showImport, setShowImport] = useState(false);
   const [selectedProxies, setSelectedProxies] = useState<Set<string>>(new Set());
   const [selectAll, setSelectAll] = useState(false);
+  const searchInputRef = React.useRef<HTMLInputElement>(null);
+  const [sortField, setSortField] = useState<string>('');
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+
+  // Debounce search input
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [search]);
 
   // Fetch providers for filter dropdown
   useEffect(() => {
@@ -81,35 +93,59 @@ export default function Proxies() {
     fetchProviders();
   }, []);
 
-  const fetchProxies = useCallback(async () => {
+  const fetchProxies = useCallback(async (showLoading = true) => {
+    const wasSearchFocused = document.activeElement === searchInputRef.current;
     try {
-      setLoading(true);
+      if (showLoading) setLoading(true);
       setError(null);
       const params: any = {
         page,
         limit: LIMIT,
       };
-      if (search) params.search = search; // Assuming API supports search; if not, client-side
+      if (debouncedSearch) params.search = debouncedSearch;
       if (selectedPool) params.pool = selectedPool;
       if (selectedProvider) params.providerId = selectedProvider;
+      if (sortField) {
+        params.sortBy = sortField;
+        params.sortOrder = sortDirection;
+      }
+      console.log('Frontend sending params:', params);
       const data = await getProxies(params);
       setProxies(data.items);
       setTotal(data.total);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to fetch proxies');
     } finally {
-      setLoading(false);
+      if (showLoading) setLoading(false);
+      if (wasSearchFocused && searchInputRef.current) {
+        searchInputRef.current.focus();
+      }
     }
-  }, [page, search, selectedPool, selectedProvider]);
+  }, [page, debouncedSearch, selectedPool, selectedProvider, sortField, sortDirection]);
 
   useEffect(() => {
-    fetchProxies();
+    fetchProxies(page === 1 && !debouncedSearch && !selectedPool && !selectedProvider);
   }, [fetchProxies]);
 
   const resetFilters = () => {
     setSearch('');
+    setDebouncedSearch('');
     setSelectedPool('');
     setSelectedProvider('');
+    setSortField('');
+    setSortDirection('asc');
+    setPage(1);
+  };
+
+  const handleSort = (field: string) => {
+    console.log('Sorting by field:', field);
+    
+    if (sortField === field) {
+      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortField(field);
+      setSortDirection('asc');
+    }
     setPage(1);
   };
 
@@ -137,7 +173,7 @@ export default function Proxies() {
     if (selectedProxies.size === 0) return;
     try {
       await Promise.all(Array.from(selectedProxies).map(id => deleteProxy(id)));
-      fetchProxies();
+      fetchProxies(false);
     } catch (err) {
       setError('Failed to delete selected proxies');
     }
@@ -147,7 +183,7 @@ export default function Proxies() {
     if (selectedProxies.size === 0) return;
     try {
       await Promise.all(Array.from(selectedProxies).map(id => updateProxy(id, { disabled: disable })));
-      fetchProxies();
+      fetchProxies(false);
     } catch (err) {
       setError('Failed to update selected proxies');
     }
@@ -181,7 +217,7 @@ export default function Proxies() {
   const handleCreate = async (data: CreateProxy) => {
     try {
       await createProxy(data);
-      fetchProxies();
+      fetchProxies(false);
       setShowModal(false);
       setEditData({});
     } catch (err) {
@@ -193,7 +229,7 @@ export default function Proxies() {
     if (!editingId) return;
     try {
       await updateProxy(editingId, data);
-      fetchProxies();
+      fetchProxies(false);
       setEditingId(null);
       setShowModal(false);
       setEditData({});
@@ -209,7 +245,7 @@ export default function Proxies() {
       // Optimistic update
       setProxies(prev => prev.map(p => p.id === id ? { ...p, disabled: !currentDisabled } : p));
       await updateProxy(id, { disabled: !currentDisabled });
-      fetchProxies(); // Sync
+      fetchProxies(false); // Sync
     } catch (err) {
       // Revert
       setProxies(prev => prev.map(p => p.id === id ? { ...p, disabled: currentDisabled } : p));
@@ -229,7 +265,7 @@ export default function Proxies() {
     if (!pendingDeleteId) return;
     try {
       await deleteProxy(pendingDeleteId);
-      fetchProxies();
+      fetchProxies(false);
       if (rememberChoice) {
         sessionStorage.setItem('deleteConfirmed', 'true');
       }
@@ -400,12 +436,22 @@ export default function Proxies() {
               <div className="relative flex-1">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4" />
                 <input
+                  ref={searchInputRef}
                   type="text"
                   placeholder="Search proxies by host or tags..."
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 border border-input rounded-md bg-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="w-full pl-10 pr-10 py-2 border border-input rounded-md bg-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 />
+                {search && (
+                  <button
+                    type="button"
+                    onClick={() => setSearch('')}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground w-4 h-4"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                )}
               </div>
             </div>
             <div className="flex gap-2">
@@ -434,9 +480,7 @@ export default function Proxies() {
                   <option key={p.id} value={p.id}>{p.name}</option>
                 ))}
               </select>
-              <Button variant="outline" onClick={resetFilters} size="sm">
-                Clear
-              </Button>
+
             </div>
           </div>
 
@@ -453,20 +497,133 @@ export default function Proxies() {
                       className="rounded"
                     />
                   </th>
-                  <th className="text-left p-3">Host:Port</th>
-                  <th className="text-left p-3">Pool</th>
-                  <th className="text-left p-3">Provider</th>
-                  <th className="text-left p-3">Location</th>
-                  <th className="text-left p-3">Score</th>
-                  <th className="text-left p-3">Status</th>
+                  <th className="text-left p-3 cursor-pointer hover:bg-accent" onClick={() => handleSort('host')}>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <div className="flex items-center gap-1">
+                            Host:Port
+                            {sortField === 'host' && (
+                              sortDirection === 'asc' ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />
+                            )}
+                          </div>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>The server address and port number for connecting to this proxy</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </th>
+                  <th className="text-left p-3 cursor-pointer hover:bg-accent" onClick={() => handleSort('pool')}>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <div className="flex items-center gap-1">
+                            Pool
+                            {sortField === 'pool' && (
+                              sortDirection === 'asc' ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />
+                            )}
+                          </div>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Category of proxy (residential, datacenter, mobile, etc.)</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </th>
+                  <th className="text-left p-3 cursor-pointer hover:bg-accent" onClick={() => handleSort('providerId')}>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <div className="flex items-center gap-1">
+                            Provider
+                            {sortField === 'providerId' && (
+                              sortDirection === 'asc' ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />
+                            )}
+                          </div>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>The company or service that supplies this proxy</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </th>
+                  <th className="text-left p-3 cursor-pointer hover:bg-accent" onClick={() => handleSort('country')}>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <div className="flex items-center gap-1">
+                            Location
+                            {sortField === 'country' && (
+                              sortDirection === 'asc' ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />
+                            )}
+                          </div>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Geographic location where this proxy server is located</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </th>
+                  <th className="text-left p-3 cursor-pointer hover:bg-accent" onClick={() => handleSort('score')}>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <div className="flex items-center gap-1">
+                            Score
+                            {sortField === 'score' && (
+                              sortDirection === 'asc' ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />
+                            )}
+                          </div>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Reliability rating based on connection success rate (higher is better)</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </th>
+                  <th className="text-left p-3 cursor-pointer hover:bg-accent" onClick={() => handleSort('disabled')}>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <div className="flex items-center gap-1">
+                            Status
+                            {sortField === 'disabled' && (
+                              sortDirection === 'asc' ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />
+                            )}
+                          </div>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Whether this proxy is currently active and available for use</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </th>
+                  <th className="text-left p-3 cursor-pointer hover:bg-accent" onClick={() => handleSort('lastChecked')}>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <div className="flex items-center gap-1">
+                            Last Checked
+                            {sortField === 'lastChecked' && (
+                              sortDirection === 'asc' ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />
+                            )}
+                          </div>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>When this proxy was last tested for connectivity and performance</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </th>
                   <th className="text-right p-3">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {proxies.length === 0 ? (
                   <tr>
-                    <td colSpan={8} className="p-8 text-center text-muted-foreground">
-                      No proxies found. {search || selectedPool || selectedProvider ? 'Try adjusting filters.' : 'Add one above!'}
+                    <td colSpan={9} className="p-8 text-center text-muted-foreground">
+                      No proxies found. {debouncedSearch || selectedPool || selectedProvider ? 'Try adjusting filters.' : 'Add one above!'}
                     </td>
                   </tr>
                 ) : (
@@ -539,6 +696,9 @@ export default function Proxies() {
                             disabled={togglingId === proxy.id}
                             className="data-[state=checked]:bg-green-500 data-[state=unchecked]:bg-red-500 transition-colors"
                           />
+                        </td>
+                        <td className="p-3 text-sm text-muted-foreground">
+                          {proxy.lastChecked ? new Date(proxy.lastChecked).toLocaleString() : 'Never'}
                         </td>
                         <td className="p-3 text-right space-x-1">
                           <TooltipProvider>

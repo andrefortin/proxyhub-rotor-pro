@@ -7,6 +7,7 @@ import { PrismaClient } from "@prisma/client";
 import { v4 as uuid } from "uuid";
 import Redis from "ioredis";
 import { catchError, firstValueFrom, lastValueFrom } from "rxjs";
+import { CacheClearService } from './cache-clear.service';
 
 const STATUS_CODES = {
   "100": "Continue",
@@ -93,7 +94,8 @@ export class ProxyService {
   constructor(
     private readonly httpService: HttpService,
     private prisma: PrismaClient,
-    @Inject("REDIS") private redis: Redis
+    @Inject("REDIS") private redis: Redis,
+    private cacheService: CacheClearService
   ) {}
   private stickyKey(project: string, pool: string) {
     return `sticky:${project}:${pool}`;
@@ -193,7 +195,11 @@ export class ProxyService {
 
     // Candidate selection
     const candidates = await this.prisma.proxy.findMany({
-      where: { pool: opts.pool, failedCount: { lt: policy.maxFailures } },
+      where: { 
+        pool: opts.pool, 
+        failedCount: { lt: policy.maxFailures },
+        disabled: false // Exclude disabled proxies
+      },
       orderBy: [{ score: "desc" }, { lastChecked: "desc" }],
       take: 30,
     });
@@ -271,11 +277,22 @@ export class ProxyService {
         error: body?.error || null,
       },
     });
-    if (status !== "ok") {
+    if (status === "ok") {
+      // Success: increase score based on latency
+      let scoreIncrease = 3;
+      if (body?.latencyMs) {
+        if (body.latencyMs < 500) scoreIncrease = 8;
+        else if (body.latencyMs < 1000) scoreIncrease = 5;
+        else if (body.latencyMs < 2000) scoreIncrease = 3;
+      }
+      await this.prisma.$executeRaw`UPDATE "Proxy" SET score = LEAST(100, score + ${scoreIncrease}) WHERE id = ${lease.proxyId}`;
+    } else {
+      // Failure: decrease score and increment failure count
       await this.prisma.proxy.update({
         where: { id: lease.proxyId },
-        data: { failedCount: { increment: 1 }, score: { decrement: 10 } },
+        data: { failedCount: { increment: 1 } },
       });
+      await this.prisma.$executeRaw`UPDATE "Proxy" SET score = GREATEST(0, score - 10) WHERE id = ${lease.proxyId}`;
     }
   }
 
@@ -309,7 +326,7 @@ export class ProxyService {
       }
     }
 
-    return this.prisma.proxy.create({
+    const proxy = await this.prisma.proxy.create({
       data: {
         pool: data.pool,
         host: data.host,
@@ -327,8 +344,14 @@ export class ProxyService {
         tags: data.tags || [],
         meta: data.meta,
         providerId: data.providerId,
+        disabled: data.disabled || false,
       },
     });
+
+    // Test proxy after creation (commented out to prevent auto-testing)
+    // this.testProxy(proxy.id).catch(err => console.error('Failed to test new proxy:', err));
+
+    return proxy;
   }
 
   async getProxy(id: string) {
@@ -404,7 +427,69 @@ export class ProxyService {
     latencyMs?: number;
     error?: string;
   }> {
-    return await this.getIpThroughProxy(id);
+    const result = await this.getIpThroughProxy(id);
+    
+    // Calculate score based on success and latency
+    let scoreChange = 0;
+    if (result.success) {
+      // Base success bonus
+      scoreChange = 5;
+      
+      // Latency bonus (faster = higher score)
+      if (result.latencyMs) {
+        if (result.latencyMs < 500) scoreChange += 10; // Very fast
+        else if (result.latencyMs < 1000) scoreChange += 5; // Fast
+        else if (result.latencyMs < 2000) scoreChange += 2; // Moderate
+        // No bonus for slow (>2s)
+      }
+    } else {
+      // Failure penalty
+      scoreChange = -10;
+    }
+    
+    // Get proxy for enrichment
+    const proxyData = await this.prisma.proxy.findUnique({
+      where: { id },
+      select: { host: true, country: true }
+    });
+    
+    // Enrich with GeoIP data if missing country
+    let geoData = {};
+    if (proxyData && !proxyData.country) {
+      try {
+        const enrichResult = await this.enrichSingleProxy(proxyData.host, proxyData.country);
+        if (enrichResult.country) {
+          geoData = {
+            country: enrichResult.country,
+            city: enrichResult.city,
+            region: enrichResult.region,
+            latitude: enrichResult.latitude,
+            longitude: enrichResult.longitude,
+            asn: enrichResult.asn,
+            org: enrichResult.org
+          };
+        }
+      } catch (error) {
+        console.warn(`Failed to enrich proxy ${id} during test:`, error.message);
+      }
+    }
+    
+    // Update lastChecked, score, and geo data
+    await this.prisma.proxy.update({
+      where: { id },
+      data: { 
+        lastChecked: new Date(),
+        ...geoData
+      }
+    });
+    
+    if (scoreChange > 0) {
+      await this.prisma.$executeRaw`UPDATE "Proxy" SET score = LEAST(100, score + ${scoreChange}) WHERE id = ${id}`;
+    } else if (scoreChange < 0) {
+      await this.prisma.$executeRaw`UPDATE "Proxy" SET score = GREATEST(0, score + ${scoreChange}) WHERE id = ${id}`;
+    }
+    
+    return result;
 
     /*
     const proxy = await this.prisma.proxy.findUnique({
@@ -690,5 +775,202 @@ async getIpThroughProxy(id: string, useHttps = true): Promise<any> {
       port,
       testUrl,
     };
+  }
+
+  async clearCache(type?: 'sticky' | 'reservations' | 'all') {
+    switch (type) {
+      case 'sticky':
+        return this.cacheService.clearAllSticky();
+      case 'reservations':
+        return this.cacheService.clearAllReservations();
+      case 'all':
+        return this.cacheService.flushAll();
+      default:
+        return this.cacheService.flushAll();
+    }
+  }
+
+  async enrichProxiesWithGeoIP(limit: number = 100, force: boolean = false) {
+    const mm = await import('maxmind');
+    const fs = await import('fs');
+    
+    const ASN_DB = process.env.GEOIP_ASN_DB || '/geoip/GeoLite2-ASN.mmdb';
+    const CITY_DB = process.env.GEOIP_CITY_DB || '/geoip/GeoLite2-City.mmdb';
+    const COUNTRY_DB = process.env.GEOIP_COUNTRY_DB || '/geoip/GeoLite2-Country.mmdb';
+    
+    let asnDb = null, cityDb = null, countryDb = null;
+    
+    try {
+      if (fs.existsSync(ASN_DB)) asnDb = await mm.open(ASN_DB);
+      if (fs.existsSync(CITY_DB)) cityDb = await mm.open(CITY_DB);
+      if (fs.existsSync(COUNTRY_DB)) countryDb = await mm.open(COUNTRY_DB);
+    } catch (error) {
+      return { error: 'MaxMind databases not available', processed: 0, enriched: 0, skipped: 0, errors: 1 };
+    }
+    
+    const whereClause = force ? {} : {
+      OR: [
+        { country: null },
+        { city: null },
+        { latitude: null },
+        { longitude: null }
+      ]
+    };
+    
+    const proxies = await this.prisma.proxy.findMany({
+      where: whereClause,
+      select: { id: true, host: true, country: true },
+      take: limit
+    });
+    
+    let processed = 0, enriched = 0, skipped = 0, errors = 0;
+    
+    for (const proxy of proxies) {
+      processed++;
+      
+      try {
+        let asn = null, org = null, country = null, city = null, region = null, lat = null, lon = null;
+        
+        if (asnDb) {
+          try {
+            const a = asnDb.get(proxy.host);
+            asn = a?.autonomous_system_number || null;
+            org = a?.autonomous_system_organization || null;
+          } catch {}
+        }
+        
+        if (cityDb) {
+          try {
+            const c = cityDb.get(proxy.host);
+            country = c?.country?.iso_code || null;
+            city = c?.city?.names?.en || null;
+            region = c?.subdivisions?.[0]?.iso_code || null;
+            lat = c?.location?.latitude || null;
+            lon = c?.location?.longitude || null;
+          } catch {}
+        }
+        
+        if (!country && countryDb) {
+          try {
+            const co = countryDb.get(proxy.host);
+            country = co?.country?.iso_code || null;
+          } catch {}
+        }
+        
+        // Only call API if no country found in MaxMind AND no country in database
+        if (!country && !proxy.country) {
+          try {
+            const axios = await import('axios');
+            const response = await axios.default.get(`https://api.iplocation.net/?ip=${proxy.host}`, {
+              timeout: 5000,
+              headers: { 'User-Agent': 'ProxyHub-Rotator/1.0' }
+            });
+            if (response.data && response.data.country_code2) {
+              country = response.data.country_code2;
+              if (!city && response.data.city) city = response.data.city;
+              if (!region && response.data.region_name) region = response.data.region_name;
+              if (!lat && response.data.latitude) lat = parseFloat(response.data.latitude);
+              if (!lon && response.data.longitude) lon = parseFloat(response.data.longitude);
+              if (!org && response.data.isp) org = response.data.isp;
+            }
+          } catch (apiError) {
+            console.warn(`iplocation.net API failed for ${proxy.host}:`, apiError.message);
+          }
+        }
+        
+        if (country || city || lat || lon || asn) {
+          await this.prisma.proxy.update({
+            where: { id: proxy.id },
+            data: {
+              country: country || undefined,
+              city: city || undefined,
+              region: region || undefined,
+              latitude: lat || undefined,
+              longitude: lon || undefined,
+              asn: asn || undefined,
+              org: org || undefined
+            }
+          });
+          enriched++;
+        } else {
+          skipped++;
+        }
+      } catch (error) {
+        errors++;
+        console.error(`Error enriching proxy ${proxy.id}:`, error);
+      }
+    }
+    
+    return { processed, enriched, skipped, errors };
+  }
+
+  private async enrichSingleProxy(host: string, existingCountry?: string) {
+    const mm = await import('maxmind');
+    const fs = await import('fs');
+    
+    const ASN_DB = process.env.GEOIP_ASN_DB || '/geoip/GeoLite2-ASN.mmdb';
+    const CITY_DB = process.env.GEOIP_CITY_DB || '/geoip/GeoLite2-City.mmdb';
+    const COUNTRY_DB = process.env.GEOIP_COUNTRY_DB || '/geoip/GeoLite2-Country.mmdb';
+    
+    let asnDb = null, cityDb = null, countryDb = null;
+    
+    try {
+      if (fs.existsSync(ASN_DB)) asnDb = await mm.open(ASN_DB);
+      if (fs.existsSync(CITY_DB)) cityDb = await mm.open(CITY_DB);
+      if (fs.existsSync(COUNTRY_DB)) countryDb = await mm.open(COUNTRY_DB);
+    } catch (error) {
+      return { country: null, city: null, region: null, latitude: null, longitude: null, asn: null, org: null };
+    }
+    
+    let asn = null, org = null, country = null, city = null, region = null, lat = null, lon = null;
+    
+    if (asnDb) {
+      try {
+        const a = asnDb.get(host);
+        asn = a?.autonomous_system_number || null;
+        org = a?.autonomous_system_organization || null;
+      } catch {}
+    }
+    
+    if (cityDb) {
+      try {
+        const c = cityDb.get(host);
+        country = c?.country?.iso_code || null;
+        city = c?.city?.names?.en || null;
+        region = c?.subdivisions?.[0]?.iso_code || null;
+        lat = c?.location?.latitude || null;
+        lon = c?.location?.longitude || null;
+      } catch {}
+    }
+    
+    if (!country && countryDb) {
+      try {
+        const co = countryDb.get(host);
+        country = co?.country?.iso_code || null;
+      } catch {}
+    }
+    
+    // Only call API if no country found in MaxMind AND no existing country in database
+    if (!country && !existingCountry) {
+      try {
+        const axios = await import('axios');
+        const response = await axios.default.get(`https://api.iplocation.net/?ip=${host}`, {
+          timeout: 5000,
+          headers: { 'User-Agent': 'ProxyHub-Rotator/1.0' }
+        });
+        if (response.data && response.data.country_code2) {
+          country = response.data.country_code2;
+          if (!city && response.data.city) city = response.data.city;
+          if (!region && response.data.region_name) region = response.data.region_name;
+          if (!lat && response.data.latitude) lat = parseFloat(response.data.latitude);
+          if (!lon && response.data.longitude) lon = parseFloat(response.data.longitude);
+          if (!org && response.data.isp) org = response.data.isp;
+        }
+      } catch (apiError) {
+        console.warn(`iplocation.net API failed for ${host}:`, apiError.message);
+      }
+    }
+    
+    return { asn, org, country, city, region, latitude: lat, longitude: lon };
   }
 }

@@ -1,0 +1,190 @@
+{
+  "name": "proxyhub-rotator",
+  "version": "1.0.0",
+  "description": "ProxyHub Rotator API - Proxy management and rotation service",
+  "baseUrl": "http://localhost:8080",
+  "authentication": {
+    "type": "bearer",
+    "description": "Use X-Access-Token header for authentication"
+  },
+  "tools": [
+    {
+      "name": "get_proxy_lease",
+      "description": "Issue a proxy lease for use in a project",
+      "endpoint": "GET /v1/proxy",
+      "parameters": {
+        "project": { "type": "string", "required": true, "description": "Project identifier" },
+        "pool": { "type": "string", "required": false, "description": "Pool name (default: 'default')" },
+        "sticky": { "type": "boolean", "required": false, "description": "Enable sticky session reuse" },
+        "country": { "type": "string", "required": false, "description": "Filter by country code" }
+      },
+      "returns": {
+        "leaseId": "string",
+        "proxy": "string",
+        "protocol": "string",
+        "expiresAt": "datetime",
+        "meta": "object"
+      }
+    },
+    {
+      "name": "release_proxy_lease",
+      "description": "Release a proxy lease and provide usage feedback",
+      "endpoint": "POST /v1/proxy/{leaseId}/release",
+      "parameters": {
+        "leaseId": { "type": "string", "required": true, "description": "Lease ID to release" },
+        "status": { "type": "string", "enum": ["ok", "failed"], "description": "Usage status" },
+        "latencyMs": { "type": "number", "description": "Request latency in milliseconds" },
+        "statusCode": { "type": "number", "description": "HTTP status code received" }
+      }
+    },
+    {
+      "name": "list_proxies",
+      "description": "Get paginated list of proxies with filtering and search",
+      "endpoint": "GET /v1/proxies",
+      "parameters": {
+        "pool": { "type": "string", "description": "Filter by pool" },
+        "providerId": { "type": "string", "description": "Filter by provider ID" },
+        "search": { "type": "string", "description": "Search term" },
+        "page": { "type": "number", "description": "Page number" },
+        "limit": { "type": "number", "description": "Items per page" },
+        "bbox": { "type": "string", "description": "Geographic bounding box" },
+        "sortBy": { "type": "string", "description": "Sort field" },
+        "sortOrder": { "type": "string", "enum": ["asc", "desc"], "description": "Sort direction" }
+      }
+    },
+    {
+      "name": "create_proxy",
+      "description": "Create a new proxy entry",
+      "endpoint": "POST /v1/proxy",
+      "parameters": {
+        "pool": { "type": "string", "required": true },
+        "host": { "type": "string", "required": true },
+        "port": { "type": "number", "required": true },
+        "username": { "type": "string" },
+        "password": { "type": "string" },
+        "protocol": { "type": "string", "default": "http" },
+        "providerId": { "type": "string" }
+      }
+    },
+    {
+      "name": "test_proxy",
+      "description": "Test a proxy connection and measure performance",
+      "endpoint": "GET /v1/proxy/{id}/test",
+      "parameters": {
+        "id": { "type": "string", "required": true, "description": "Proxy ID to test" }
+      }
+    },
+    {
+      "name": "list_providers",
+      "description": "Get all proxy providers",
+      "endpoint": "GET /v1/providers",
+      "parameters": {
+        "page": { "type": "number" },
+        "limit": { "type": "number" },
+        "search": { "type": "string" }
+      }
+    },
+    {
+      "name": "create_provider",
+      "description": "Create a new proxy provider",
+      "endpoint": "POST /v1/provider",
+      "parameters": {
+        "name": { "type": "string", "required": true },
+        "type": { "type": "string", "enum": ["api", "file", "manual"], "required": true },
+        "config": { "type": "object", "required": true },
+        "logoUrl": { "type": "string" }
+      }
+    },
+    {
+      "name": "import_proxies",
+      "description": "Trigger proxy import from a provider",
+      "endpoint": "POST /v1/provider/{id}/import",
+      "parameters": {
+        "id": { "type": "string", "required": true, "description": "Provider ID" }
+      }
+    },
+    {
+      "name": "send_webhook",
+      "description": "Send test event to configured webhooks",
+      "endpoint": "POST /v1/webhooks",
+      "parameters": {
+        "event": { "type": "string", "enum": ["test", "custom"], "default": "test" },
+        "payload": { "type": "object", "description": "Event payload data" }
+      }
+    },
+    {
+      "name": "get_usage_stats",
+      "description": "Get API usage statistics",
+      "endpoint": "GET /usage/stats"
+    },
+    {
+      "name": "get_notifications_config",
+      "description": "Get notification configurations",
+      "endpoint": "GET /v1/notifications/config"
+    },
+    {
+      "name": "update_notification_config",
+      "description": "Update notification method configuration",
+      "endpoint": "PATCH /v1/notifications/{method}",
+      "parameters": {
+        "method": { "type": "string", "enum": ["discord", "telegram", "webhook"], "required": true },
+        "enabled": { "type": "boolean" },
+        "config": { "type": "object" },
+        "eventTypes": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    {
+      "name": "enrich_proxies_geoip",
+      "description": "Bulk enrich proxies with MaxMind GeoIP data (country, city, coordinates)",
+      "endpoint": "POST /v1/proxy/enrich-geoip",
+      "parameters": {
+        "limit": { "type": "number", "description": "Number of proxies to process (default: 100)" },
+        "force": { "type": "boolean", "description": "Force re-enrichment of already enriched proxies" }
+      },
+      "returns": {
+        "processed": "number",
+        "enriched": "number", 
+        "skipped": "number",
+        "errors": "number"
+      }
+    }
+  ],
+  "examples": [
+    {
+      "name": "Get a proxy for web scraping",
+      "description": "Issue a proxy lease for a web scraping project",
+      "tool": "get_proxy_lease",
+      "parameters": {
+        "project": "webscraper",
+        "pool": "residential",
+        "sticky": true,
+        "country": "US"
+      }
+    },
+    {
+      "name": "Search proxies by location",
+      "description": "Find proxies in a specific geographic area",
+      "tool": "list_proxies",
+      "parameters": {
+        "search": "US",
+        "bbox": "-125,25,-66,49",
+        "limit": 50
+      }
+    },
+    {
+      "name": "Create IPRoyal provider",
+      "description": "Set up IPRoyal as a proxy provider",
+      "tool": "create_provider",
+      "parameters": {
+        "name": "iproyal-dc",
+        "type": "api",
+        "config": {
+          "kind": "iproyal",
+          "access_token": "YOUR_TOKEN",
+          "list_endpoint": "https://apid.iproyal.com/v1/reseller/datacenter/proxies",
+          "default_pool": "default"
+        }
+      }
+    }
+  ]
+}
