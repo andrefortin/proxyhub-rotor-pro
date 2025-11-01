@@ -64,7 +64,16 @@ export default function Settings() {
   }, []);
 
   const updateSetting = (key: string, value: any) => {
-    setSettings(prev => ({ ...prev, [key]: value }));
+    const newSettings = { ...settings, [key]: value };
+    
+    // If all GeoIP sources are disabled, disable GeoIP enrichment
+    if (['geoipMaxmind', 'geoipIplocation', 'geoipIpapi'].includes(key)) {
+      if (!newSettings.geoipMaxmind && !newSettings.geoipIplocation && !newSettings.geoipIpapi) {
+        newSettings.geoEnrichment = false;
+      }
+    }
+    
+    setSettings(newSettings);
     setSaved(false);
   };
 
@@ -253,7 +262,8 @@ export default function Settings() {
                 onChange={(e) => updateSetting('maxFailures', parseInt(e.target.value))}
                 className="w-24"
                 min="1"
-                max="20"
+                max="100"
+                step="1"
               />
             </SettingItem>
 
@@ -267,8 +277,9 @@ export default function Settings() {
                 value={settings.leaseTimeout}
                 onChange={(e) => updateSetting('leaseTimeout', parseInt(e.target.value))}
                 className="w-24"
-                min="60"
-                max="3600"
+                min="1"
+                max="600"
+                step="1"
               />
             </SettingItem>
 
