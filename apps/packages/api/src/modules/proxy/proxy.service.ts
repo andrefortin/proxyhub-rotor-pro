@@ -474,12 +474,22 @@ export class ProxyService {
       }
     }
     
-    // Update lastChecked, score, and geo data
+    // Update lastChecked, score, geo data, and test results
+    const testMeta = result.success ? {
+      lastTestStatus: result.httpStatus,
+      lastTestLatency: result.latencyMs,
+      lastTestTime: new Date().toISOString()
+    } : {
+      lastTestError: result.error,
+      lastTestTime: new Date().toISOString()
+    };
+    
     await this.prisma.proxy.update({
       where: { id },
       data: { 
         lastChecked: new Date(),
-        ...geoData
+        ...geoData,
+        meta: testMeta
       }
     });
     
@@ -847,6 +857,27 @@ async getIpThroughProxy(id: string, useHttps = true): Promise<any> {
             region = c?.subdivisions?.[0]?.iso_code || null;
             lat = c?.location?.latitude || null;
             lon = c?.location?.longitude || null;
+            
+            // Store additional data in meta
+            if (c) {
+              const geoMeta: any = {};
+              if (c.city?.names) geoMeta.cityNames = c.city.names;
+              if (c.subdivisions && c.subdivisions.length > 0) {
+                geoMeta.subdivisions = c.subdivisions.map(s => ({
+                  name: s.names?.en,
+                  isoCode: s.iso_code
+                }));
+              }
+              if (c.country?.names) geoMeta.countryNames = c.country.names;
+              if (c.postal?.code) geoMeta.postalCode = c.postal.code;
+              if (c.location?.time_zone) geoMeta.timezone = c.location.time_zone;
+              if (Object.keys(geoMeta).length > 0) {
+                await this.prisma.proxy.update({
+                  where: { id: proxy.id },
+                  data: { meta: geoMeta }
+                });
+              }
+            }
           } catch {}
         }
         
