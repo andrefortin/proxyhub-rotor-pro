@@ -41,7 +41,8 @@ interface TestResult {
 
 export default function Proxies() {
   const [proxies, setProxies] = useState<Proxy[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [initialLoad, setInitialLoad] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [search, setSearch] = useState(() => sessionStorage.getItem('proxies_search') || '');
@@ -114,10 +115,10 @@ export default function Proxies() {
     fetchProviders();
   }, []);
 
-  const fetchProxies = useCallback(async (showLoading = true) => {
+  const fetchProxies = useCallback(async () => {
     const wasSearchFocused = document.activeElement === searchInputRef.current;
     try {
-      if (showLoading) setLoading(true);
+      setLoading(true);
       setError(null);
       const params: any = {
         page,
@@ -137,7 +138,8 @@ export default function Proxies() {
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to fetch proxies');
     } finally {
-      if (showLoading) setLoading(false);
+      setLoading(false);
+      setInitialLoad(false);
       if (wasSearchFocused && searchInputRef.current) {
         searchInputRef.current.focus();
       }
@@ -145,7 +147,7 @@ export default function Proxies() {
   }, [page, debouncedSearch, selectedPool, selectedProvider, sortField, sortDirection]);
 
   useEffect(() => {
-    fetchProxies(page === 1 && !debouncedSearch && !selectedPool && !selectedProvider);
+    fetchProxies();
   }, [fetchProxies]);
 
   const resetFilters = () => {
@@ -199,7 +201,7 @@ export default function Proxies() {
     if (selectedProxies.size === 0) return;
     try {
       await Promise.all(Array.from(selectedProxies).map(id => deleteProxy(id)));
-      fetchProxies(false);
+      fetchProxies();
     } catch (err) {
       setError('Failed to delete selected proxies');
     }
@@ -209,7 +211,7 @@ export default function Proxies() {
     if (selectedProxies.size === 0) return;
     try {
       await Promise.all(Array.from(selectedProxies).map(id => updateProxy(id, { disabled: disable })));
-      fetchProxies(false);
+      fetchProxies();
     } catch (err) {
       setError('Failed to update selected proxies');
     }
@@ -243,7 +245,7 @@ export default function Proxies() {
   const handleCreate = async (data: CreateProxy) => {
     try {
       await createProxy(data);
-      fetchProxies(false);
+      fetchProxies();
       setShowModal(false);
       setEditData({});
     } catch (err) {
@@ -255,7 +257,7 @@ export default function Proxies() {
     if (!editingId) return;
     try {
       await updateProxy(editingId, data);
-      fetchProxies(false);
+      fetchProxies();
       setEditingId(null);
       setShowModal(false);
       setEditData({});
@@ -271,7 +273,7 @@ export default function Proxies() {
       // Optimistic update
       setProxies(prev => prev.map(p => p.id === id ? { ...p, disabled: !currentDisabled } : p));
       await updateProxy(id, { disabled: !currentDisabled });
-      fetchProxies(false); // Sync
+      fetchProxies(); // Sync
     } catch (err) {
       // Revert
       setProxies(prev => prev.map(p => p.id === id ? { ...p, disabled: currentDisabled } : p));
@@ -286,7 +288,7 @@ export default function Proxies() {
     if (sessionStorage.getItem('deleteConfirmed') === 'true') {
       try {
         await deleteProxy(id);
-        fetchProxies(false);
+        fetchProxies();
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to delete proxy');
       }
@@ -300,7 +302,7 @@ export default function Proxies() {
     if (!pendingDeleteId) return;
     try {
       await deleteProxy(pendingDeleteId);
-      fetchProxies(false);
+      fetchProxies();
       if (rememberChoice) {
         sessionStorage.setItem('deleteConfirmed', 'true');
       }
@@ -407,7 +409,7 @@ export default function Proxies() {
     }
   };
 
-  if (loading) {
+  if (initialLoad) {
     return (
       <div className="p-8 flex items-center justify-center">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
@@ -520,7 +522,12 @@ export default function Proxies() {
           </div>
 
           {/* Table */}
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto relative">
+            {loading && !initialLoad && (
+              <div className="absolute inset-0 bg-background/50 flex items-center justify-center z-10">
+                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary"></div>
+              </div>
+            )}
             <table className="w-full">
               <thead>
                 <tr className="border-b border-border">
