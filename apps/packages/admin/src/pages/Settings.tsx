@@ -112,12 +112,27 @@ export default function Settings() {
             <SettingItem
               icon={Clock}
               title="Auto Refresh"
-              description="Automatically refresh dashboard data every 30 seconds"
+              description="Automatically refresh dashboard data"
             >
-              <Switch
-                checked={settings.autoRefresh}
-                onCheckedChange={(checked) => updateSetting('autoRefresh', checked)}
-              />
+              <div className="flex items-center gap-3">
+                <Switch
+                  checked={settings.autoRefresh}
+                  onCheckedChange={(checked) => updateSetting('autoRefresh', checked)}
+                />
+                {settings.autoRefresh && (
+                  <div className="flex items-center gap-2">
+                    <Input
+                      type="number"
+                      value={settings.refreshInterval}
+                      onChange={(e) => updateSetting('refreshInterval', parseInt(e.target.value))}
+                      className="w-20"
+                      min="10"
+                      max="300"
+                    />
+                    <span className="text-sm text-gray-600">seconds</span>
+                  </div>
+                )}
+              </div>
             </SettingItem>
 
             <SettingItem
@@ -227,21 +242,6 @@ export default function Settings() {
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <SettingItem
-              icon={Clock}
-              title="Refresh Interval"
-              description="How often to refresh dashboard data (seconds)"
-            >
-              <Input
-                type="number"
-                value={settings.refreshInterval}
-                onChange={(e) => updateSetting('refreshInterval', parseInt(e.target.value))}
-                className="w-24"
-                min="10"
-                max="300"
-              />
-            </SettingItem>
-
             <SettingItem
               icon={AlertCircle}
               title="Max Failures Before Disable"
