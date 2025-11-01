@@ -248,4 +248,21 @@ export async function importProxies(params: {
   });
 }
 
-// Add more as needed for other endpoints
+export async function getActiveLeases(): Promise<{ proxyIds: string[] }> {
+  try {
+    return await apiRequest('/v1/leases/active');
+  } catch {
+    return { proxyIds: [] };
+  }
+}
+
+export async function getSettings(): Promise<Record<string, any>> {
+  return apiRequest('/v1/settings');
+}
+
+export async function updateSettings(settings: Record<string, any>): Promise<Record<string, any>> {
+  return apiRequest('/v1/settings', {
+    method: 'PUT',
+    body: JSON.stringify(settings),
+  });
+}

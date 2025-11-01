@@ -20,6 +20,8 @@ export interface Proxy {
   country?: string;
   region?: string;
   city?: string;
+  latitude?: number;
+  longitude?: number;
   asn?: string;
   org?: string;
   lastChecked?: string;

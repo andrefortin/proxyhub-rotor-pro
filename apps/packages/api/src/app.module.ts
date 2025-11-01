@@ -8,10 +8,11 @@ import { ProxiesModule } from './modules/proxies/proxies.module';
 import { ProvidersModule } from './modules/providers/providers.module';
 import { ProviderModule } from './modules/provider/provider.module';
 import { UsageModule } from './modules/usage/usage.module';
+import { SettingsModule } from './modules/settings/settings.module';
 import { HttpModule } from '@nestjs/axios';
 
 @Module({
-  imports: [PrismaModule, RedisModule, ProxyModule, WebhookModule, ProxiesModule, ProvidersModule, ProviderModule, UsageModule, HttpModule],
+  imports: [PrismaModule, RedisModule, ProxyModule, WebhookModule, ProxiesModule, ProvidersModule, ProviderModule, UsageModule, SettingsModule, HttpModule],
   controllers: [AppController],
  })
 export class AppModule {}

@@ -91,12 +91,33 @@ end
 @Injectable()
 export class ProxyService {
   private reserveSha: string | null = null;
+  private maxFailures: number = 5;
+  private leaseTimeout: number = 300;
+  private stickySessionDefault: boolean = false;
+  
   constructor(
     private readonly httpService: HttpService,
     private prisma: PrismaClient,
     @Inject("REDIS") private redis: Redis,
     private cacheService: CacheClearService
-  ) {}
+  ) {
+    this.loadSettings();
+  }
+  
+  private async loadSettings() {
+    try {
+      const settings = await this.prisma.appSettings.findMany({
+        where: { key: { in: ['maxFailures', 'leaseTimeout', 'stickySession'] } }
+      });
+      settings.forEach(s => {
+        if (s.key === 'maxFailures') this.maxFailures = s.value as number;
+        if (s.key === 'leaseTimeout') this.leaseTimeout = s.value as number;
+        if (s.key === 'stickySession') this.stickySessionDefault = s.value as boolean;
+      });
+    } catch (error) {
+      console.warn('Failed to load settings:', error);
+    }
+  }
   private stickyKey(project: string, pool: string) {
     return `sticky:${project}:${pool}`;
   }
@@ -133,6 +154,8 @@ export class ProxyService {
     country?: string;
     sticky?: boolean;
   }) {
+    // Apply sticky session default if not explicitly set
+    const useSticky = opts.sticky !== undefined ? opts.sticky : this.stickySessionDefault;
     const policy = await this.prisma.poolPolicy
       .findUnique({ where: { pool: opts.pool } })
       .then(
@@ -142,12 +165,12 @@ export class ProxyService {
               process.env.DEFAULT_REUSE_TTL_SECONDS || "86400",
               10
             ),
-            maxFailures: 5,
+            maxFailures: this.maxFailures,
           }
       );
 
     // Sticky reuse first
-    if (opts.sticky) {
+    if (useSticky) {
       const key = this.stickyKey(opts.project, opts.pool);
       const stickyProxyId = await this.redis.get(key);
       if (stickyProxyId) {
@@ -156,10 +179,7 @@ export class ProxyService {
         });
         if (p && p.failedCount < policy.maxFailures) {
           const leaseId = uuid();
-          const leaseSeconds = parseInt(
-            process.env.DEFAULT_LEASE_SECONDS || "300",
-            10
-          );
+          const leaseSeconds = this.leaseTimeout;
           const expiresAt = nowPlusSeconds(leaseSeconds);
           await this.prisma.lease.create({
             data: {
@@ -209,10 +229,7 @@ export class ProxyService {
       if (!reserved) continue;
 
       const leaseId = uuid();
-      const leaseSeconds = parseInt(
-        process.env.DEFAULT_LEASE_SECONDS || "300",
-        10
-      );
+      const leaseSeconds = this.leaseTimeout;
       const expiresAt = nowPlusSeconds(leaseSeconds);
 
       await this.prisma.lease.create({
@@ -220,7 +237,7 @@ export class ProxyService {
           id: leaseId,
           proxyId: c.id,
           project: opts.project,
-          sticky: !!opts.sticky,
+          sticky: useSticky,
           expiresAt,
         },
       });
@@ -228,7 +245,7 @@ export class ProxyService {
         where: { id: c.id },
         data: { lastUsed: new Date() },
       });
-      if (opts.sticky) {
+      if (useSticky) {
         await this.redis.setex(
           this.stickyKey(opts.project, opts.pool),
           policy.reuseTtlSeconds,
@@ -245,7 +262,7 @@ export class ProxyService {
           providerId: c.providerId,
           score: c.score,
           country: c.country,
-          sticky: !!opts.sticky,
+          sticky: useSticky,
         },
       };
     }
@@ -938,6 +955,24 @@ async getIpThroughProxy(id: string, useHttps = true): Promise<any> {
   private async enrichSingleProxy(host: string, existingCountry?: string) {
     const mm = await import('maxmind');
     const fs = await import('fs');
+    const dns = await import('dns');
+    
+    // DNS resolution for hostnames
+    const isIpAddress = (h: string) => /^(\d{1,3}\.){3}\d{1,3}$/.test(h) || /^[0-9a-fA-F:]+$/.test(h);
+    let ip = host;
+    if (!isIpAddress(host)) {
+      try {
+        const addresses = await dns.promises.resolve4(host);
+        ip = addresses[0];
+      } catch {
+        try {
+          const addresses = await dns.promises.resolve6(host);
+          ip = addresses[0];
+        } catch {
+          ip = host;
+        }
+      }
+    }
     
     const ASN_DB = process.env.GEOIP_ASN_DB || '/geoip/GeoLite2-ASN.mmdb';
     const CITY_DB = process.env.GEOIP_CITY_DB || '/geoip/GeoLite2-City.mmdb';
@@ -957,7 +992,7 @@ async getIpThroughProxy(id: string, useHttps = true): Promise<any> {
     
     if (asnDb) {
       try {
-        const a = asnDb.get(host);
+        const a = asnDb.get(ip);
         asn = a?.autonomous_system_number || null;
         org = a?.autonomous_system_organization || null;
       } catch {}
@@ -965,7 +1000,7 @@ async getIpThroughProxy(id: string, useHttps = true): Promise<any> {
     
     if (cityDb) {
       try {
-        const c = cityDb.get(host);
+        const c = cityDb.get(ip);
         country = c?.country?.iso_code || null;
         city = c?.city?.names?.en || null;
         region = c?.subdivisions?.[0]?.iso_code || null;
@@ -976,7 +1011,7 @@ async getIpThroughProxy(id: string, useHttps = true): Promise<any> {
     
     if (!country && countryDb) {
       try {
-        const co = countryDb.get(host);
+        const co = countryDb.get(ip);
         country = co?.country?.iso_code || null;
       } catch {}
     }
@@ -985,7 +1020,7 @@ async getIpThroughProxy(id: string, useHttps = true): Promise<any> {
     if (!country && !existingCountry) {
       try {
         const axios = await import('axios');
-        const response = await axios.default.get(`https://api.iplocation.net/?ip=${host}`, {
+        const response = await axios.default.get(`https://api.iplocation.net/?ip=${ip}`, {
           timeout: 5000,
           headers: { 'User-Agent': 'ProxyHub-Rotator/1.0' }
         });
@@ -998,10 +1033,44 @@ async getIpThroughProxy(id: string, useHttps = true): Promise<any> {
           if (!org && response.data.isp) org = response.data.isp;
         }
       } catch (apiError) {
-        console.warn(`iplocation.net API failed for ${host}:`, apiError.message);
+        console.warn(`iplocation.net API failed for ${ip}:`, apiError.message);
+        
+        // Fallback to ipapi.co
+        try {
+          const axios = await import('axios');
+          const response = await axios.default.get(`https://ipapi.co/${ip}/json/`, {
+            timeout: 5000,
+            headers: { 'User-Agent': 'ProxyHub-Rotator/1.0' }
+          });
+          if (response.data && response.data.country_code) {
+            country = response.data.country_code;
+            if (!city && response.data.city) city = response.data.city;
+            if (!region && response.data.region) region = response.data.region;
+            if (!lat && response.data.latitude) lat = response.data.latitude;
+            if (!lon && response.data.longitude) lon = response.data.longitude;
+            if (!org && response.data.org) org = response.data.org;
+            if (!asn && response.data.asn) asn = parseInt(response.data.asn.replace('AS', ''));
+          }
+        } catch (fallbackError) {
+          console.warn(`ipapi.co API failed for ${ip}:`, fallbackError.message);
+        }
       }
     }
     
     return { asn, org, country, city, region, latitude: lat, longitude: lon };
+  }
+
+  async getActiveLeases() {
+    const activeLeases = await this.prisma.lease.findMany({
+      where: {
+        status: 'active',
+        expiresAt: { gt: new Date() }
+      },
+      select: { proxyId: true },
+      distinct: ['proxyId']
+    });
+    
+    const proxyIds = activeLeases.map(l => l.proxyId);
+    return { proxyIds, count: proxyIds.length };
   }
 }

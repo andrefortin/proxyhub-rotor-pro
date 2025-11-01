@@ -4,6 +4,7 @@ import Layout from './components/Layout'
 import Dashboard from './pages/Dashboard'
 import Providers from './pages/Providers'
 import Proxies from './pages/Proxies'
+import Settings from './pages/Settings'
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Route path="/" element={<Dashboard />} />
         <Route path="/providers" element={<Providers />} />
         <Route path="/proxies" element={<Proxies />} />
+        <Route path="/settings" element={<Settings />} />
       </Routes>
       <Toaster
         position="top-right"

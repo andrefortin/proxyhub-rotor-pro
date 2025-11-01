@@ -8,6 +8,6 @@ COPY apps/packages/api/package.json apps/packages/api/package-lock.json* ./
 RUN if [ -f package-lock.json ]; then npm ci --include=dev --legacy-peer-deps; else npm install --include=dev --legacy-peer-deps; fi
 COPY apps/packages/api/src ./src
 COPY apps/packages/api/tsconfig.json ./
-COPY ../../prisma ./prisma
+COPY apps/prisma ./prisma
 RUN npx prisma generate && npx nest build
 CMD ["sh", "-c", "npx prisma generate && npx nest start --watch"]

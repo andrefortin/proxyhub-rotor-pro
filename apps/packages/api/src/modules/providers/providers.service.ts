@@ -26,7 +26,6 @@ export class ProvidersService {
           type: "api",
           active: true,
           config: { kind: "iproyal", access_token: "mock_token" },
-          logoUrl: "https://example.com/logo.png",
         },
         {
           id: "mock-2",
@@ -34,7 +33,6 @@ export class ProvidersService {
           type: "file",
           active: false,
           config: { path: "/path/to/proxies.txt" },
-          logoUrl: null,
         },
         {
           id: "mock-3",
@@ -42,7 +40,6 @@ export class ProvidersService {
           type: "manual",
           active: true,
           config: {},
-          logoUrl: null,
         },
       ];
       const filteredMock = search
@@ -69,7 +66,6 @@ export class ProvidersService {
         type: true,
         active: true,
         config: true,
-        logoUrl: true,
         createdAt: true,
       },
       orderBy: { createdAt: "desc" },

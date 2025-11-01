@@ -44,10 +44,10 @@ export default function Proxies() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
-  const [search, setSearch] = useState('');
-  const [debouncedSearch, setDebouncedSearch] = useState('');
-  const [selectedPool, setSelectedPool] = useState('');
-  const [selectedProvider, setSelectedProvider] = useState('');
+  const [search, setSearch] = useState(() => sessionStorage.getItem('proxies_search') || '');
+  const [debouncedSearch, setDebouncedSearch] = useState(() => sessionStorage.getItem('proxies_search') || '');
+  const [selectedPool, setSelectedPool] = useState(() => sessionStorage.getItem('proxies_pool') || '');
+  const [selectedProvider, setSelectedProvider] = useState(() => sessionStorage.getItem('proxies_provider') || '');
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
   const [showModal, setShowModal] = useState(false);
@@ -66,8 +66,29 @@ export default function Proxies() {
   const [selectedProxies, setSelectedProxies] = useState<Set<string>>(new Set());
   const [selectAll, setSelectAll] = useState(false);
   const searchInputRef = React.useRef<HTMLInputElement>(null);
-  const [sortField, setSortField] = useState<string>('');
-  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+  const [sortField, setSortField] = useState<string>(() => sessionStorage.getItem('proxies_sortField') || '');
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>(() => (sessionStorage.getItem('proxies_sortDirection') as 'asc' | 'desc') || 'asc');
+
+  // Persist filters to sessionStorage
+  useEffect(() => {
+    sessionStorage.setItem('proxies_search', search);
+  }, [search]);
+
+  useEffect(() => {
+    sessionStorage.setItem('proxies_pool', selectedPool);
+  }, [selectedPool]);
+
+  useEffect(() => {
+    sessionStorage.setItem('proxies_provider', selectedProvider);
+  }, [selectedProvider]);
+
+  useEffect(() => {
+    sessionStorage.setItem('proxies_sortField', sortField);
+  }, [sortField]);
+
+  useEffect(() => {
+    sessionStorage.setItem('proxies_sortDirection', sortDirection);
+  }, [sortDirection]);
 
   // Debounce search input
   useEffect(() => {
@@ -135,6 +156,11 @@ export default function Proxies() {
     setSortField('');
     setSortDirection('asc');
     setPage(1);
+    sessionStorage.removeItem('proxies_search');
+    sessionStorage.removeItem('proxies_pool');
+    sessionStorage.removeItem('proxies_provider');
+    sessionStorage.removeItem('proxies_sortField');
+    sessionStorage.removeItem('proxies_sortDirection');
   };
 
   const handleSort = (field: string) => {

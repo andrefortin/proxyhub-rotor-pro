@@ -21,7 +21,7 @@ export class ProviderService {
           type: "api",
           active: true,
           config: { kind: "iproyal", access_token: "mock_token" },
-          logoUrl: "https://example.com/logo.png",
+
         };
       }
       return null;
@@ -35,7 +35,6 @@ export class ProviderService {
         type: true,
         active: true,
         config: true,
-        logoUrl: true,
         createdAt: true,
       },
     });
@@ -57,7 +56,7 @@ export class ProviderService {
         name: data.name,
         type: data.type,
         config: data.config,
-        logoUrl: data.logoUrl,
+
       },
     });
   }
@@ -72,7 +71,6 @@ export class ProviderService {
         active: true,
         config: true,
         imports: true,
-        logoUrl: true,
         proxies: true,
       },
     });

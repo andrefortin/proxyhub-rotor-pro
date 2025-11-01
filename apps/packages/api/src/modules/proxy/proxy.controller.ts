@@ -164,3 +164,22 @@ export class ProxyController {
     return await this.service.enrichProxiesWithGeoIP(limit || 100, force || false);
   }
 }
+
+@ApiTags('leases')
+@ApiBearerAuth()
+@Controller("v1/leases")
+export class LeasesController {
+  constructor(private service: ProxyService) {}
+
+  @Get('active')
+  @ApiOperation({ summary: 'Get active proxy leases', description: 'Returns list of proxy IDs that currently have active leases' })
+  @ApiResponse({ status: 200, description: 'Active lease proxy IDs', schema: {
+    properties: {
+      proxyIds: { type: 'array', items: { type: 'string' } },
+      count: { type: 'number' }
+    }
+  }})
+  async getActiveLeases() {
+    return await this.service.getActiveLeases();
+  }
+}
