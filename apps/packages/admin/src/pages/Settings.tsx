@@ -38,6 +38,9 @@ export default function Settings() {
     refreshInterval: 30,
     maxFailures: 5,
     leaseTimeout: 300,
+    geoipMaxmind: true,
+    geoipIplocation: true,
+    geoipIpapi: true,
   });
 
   const [saved, setSaved] = useState(false);
@@ -126,6 +129,47 @@ export default function Settings() {
                 onCheckedChange={(checked) => updateSetting('geoEnrichment', checked)}
               />
             </SettingItem>
+
+            {settings.geoEnrichment && (
+              <div className="ml-12 mt-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                <h4 className="text-sm font-medium text-gray-900 mb-3">GeoIP Sources (priority order)</h4>
+                <div className="space-y-2">
+                  <div className="flex items-center gap-3 p-3 bg-white rounded border border-gray-200">
+                    <span className="text-xs font-medium text-gray-500 w-6">1</span>
+                    <div className="flex-1">
+                      <span className="text-sm font-medium text-gray-900">MaxMind GeoLite2 (Local)</span>
+                    </div>
+                    <Switch
+                      checked={settings.geoipMaxmind}
+                      onCheckedChange={(checked) => updateSetting('geoipMaxmind', checked)}
+                    />
+                  </div>
+                  <div className="flex items-center gap-3 p-3 bg-white rounded border border-gray-200">
+                    <span className="text-xs font-medium text-gray-500 w-6">2</span>
+                    <div className="flex-1">
+                      <span className="text-sm font-medium text-gray-900">iplocation.net API</span>
+                    </div>
+                    <Switch
+                      checked={settings.geoipIplocation}
+                      onCheckedChange={(checked) => updateSetting('geoipIplocation', checked)}
+                    />
+                  </div>
+                  <div className="flex items-center gap-3 p-3 bg-white rounded border border-gray-200">
+                    <span className="text-xs font-medium text-gray-500 w-6">3</span>
+                    <div className="flex-1">
+                      <span className="text-sm font-medium text-gray-900">ipapi.co API (Fallback)</span>
+                    </div>
+                    <Switch
+                      checked={settings.geoipIpapi}
+                      onCheckedChange={(checked) => updateSetting('geoipIpapi', checked)}
+                    />
+                  </div>
+                </div>
+                <p className="text-xs text-gray-500 mt-2">
+                  Sources are tried in order until location data is found. Disable unused sources to improve performance.
+                </p>
+              </div>
+            )}
 
             <SettingItem
               icon={AlertCircle}
