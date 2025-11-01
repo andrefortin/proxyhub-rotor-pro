@@ -656,7 +656,15 @@ export default function Proxies() {
                           <Badge variant="secondary">{proxy.pool || 'default'}</Badge>
                         </td>
                         <td className="p-3">
-                          {provider ? provider.name : 'Unknown'}
+                          {provider ? (
+                            provider.logoUrl ? (
+                              <img src={provider.logoUrl} alt={provider.name} className="h-6 max-w-[100px] object-contain" title={provider.name} />
+                            ) : (
+                              provider.name
+                            )
+                          ) : (
+                            'Unknown'
+                          )}
                         </td>
                         <td className="p-3">
                           <TooltipProvider>
