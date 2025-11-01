@@ -142,7 +142,10 @@ export default function Dashboard() {
                       </div>
                       <div>
                         <p className="font-medium text-sm">{proxy.host}:{proxy.port}</p>
-                        <p className="text-xs text-gray-500">{proxy.country || 'Unknown'} • {proxy.pool}</p>
+                        <p className="text-xs text-gray-500">
+                          {proxy.country || 'Unknown'} • {proxy.pool}
+                          {proxy.meta?.lastTestLatency != null && ` • ${proxy.meta.lastTestLatency}ms`}
+                        </p>
                       </div>
                     </div>
                     <div className="text-right">

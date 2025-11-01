@@ -130,6 +130,7 @@ export class ProxyService {
         meta: true,
         disabled: true,
         lastChecked: true,
+        latencyMs: true,
         provider: {
           select: {
             name: true,
