@@ -38,6 +38,7 @@ export default function Settings() {
     refreshInterval: 30,
     maxFailures: 5,
     leaseTimeout: 300,
+    healthCheckUrl: 'https://ipv4.icanhazip.com/?format=json',
     geoipMaxmind: true,
     geoipIplocation: true,
     geoipIpapi: true,
@@ -268,6 +269,20 @@ export default function Settings() {
                 className="w-24"
                 min="60"
                 max="3600"
+              />
+            </SettingItem>
+
+            <SettingItem
+              icon={Globe}
+              title="Health Check URL"
+              description="URL used to test proxy connectivity"
+            >
+              <Input
+                type="url"
+                value={settings.healthCheckUrl}
+                onChange={(e) => updateSetting('healthCheckUrl', e.target.value)}
+                className="w-full"
+                placeholder="https://ipv4.icanhazip.com/?format=json"
               />
             </SettingItem>
           </CardContent>

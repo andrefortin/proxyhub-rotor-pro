@@ -12,10 +12,11 @@ let maxFailures = 5;
 let refreshInterval = 60000;
 let notificationsEnabled = true;
 let healthMonitoringEnabled = true;
+let healthCheckUrl = 'https://ipv4.icanhazip.com/?format=json';
 
 async function loadSettings(client: Client) {
   try {
-    const result = await client.query('SELECT key, value FROM "AppSettings" WHERE key IN ($1, $2, $3, $4, $5, $6)', ['geoEnrichment', 'autoRetry', 'maxFailures', 'refreshInterval', 'notifications', 'healthMonitoring']);
+    const result = await client.query('SELECT key, value FROM "AppSettings" WHERE key IN ($1, $2, $3, $4, $5, $6, $7)', ['geoEnrichment', 'autoRetry', 'maxFailures', 'refreshInterval', 'notifications', 'healthMonitoring', 'healthCheckUrl']);
     result.rows.forEach(row => {
       if (row.key === 'geoEnrichment') geoEnrichmentEnabled = row.value;
       if (row.key === 'autoRetry') autoRetryEnabled = row.value;
@@ -23,6 +24,7 @@ async function loadSettings(client: Client) {
       if (row.key === 'refreshInterval') refreshInterval = row.value * 1000;
       if (row.key === 'notifications') notificationsEnabled = row.value;
       if (row.key === 'healthMonitoring') healthMonitoringEnabled = row.value;
+      if (row.key === 'healthCheckUrl') healthCheckUrl = row.value;
     });
   } catch (error) {
     console.warn('Failed to load settings:', error);
@@ -53,7 +55,7 @@ async function sendNotification(client: Client, event: string, payload: any) {
   }
 }
 
-const TEST_URL = process.env.TEST_URL || "https://ipv4.icanhazip.com/?format=json";
+
 
 const ASN_DB = process.env.GEOIP_ASN_DB || "/geoip/GeoLite2-ASN.mmdb";
 const CITY_DB = process.env.GEOIP_CITY_DB || "/geoip/GeoLite2-City.mmdb";
@@ -205,8 +207,8 @@ async function checkProxy(row: ProxyRow): Promise<CheckResult> {
   try {
     const purl = proxyUrl(row);
     const agent = new HttpsProxyAgent(purl);
-    console.log(`Testing proxy ${row.host}:${row.port} (${row.pool}) via ${TEST_URL}`);
-    await axios.get(TEST_URL, {
+    console.log(`Testing proxy ${row.host}:${row.port} (${row.pool}) via ${healthCheckUrl}`);
+    await axios.get(healthCheckUrl, {
       httpsAgent: agent,
       proxy: false,
       timeout: 10000,
