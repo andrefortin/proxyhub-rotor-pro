@@ -44,7 +44,7 @@ const Switch = React.forwardRef<
       <div
         className={cn(
           "pointer-events-none block size-4 rounded-full bg-background shadow-lg ring-0 transition-transform",
-          checked ? "translate-x-5" : "translate-x-0"
+          checked ? "translate-x-[1.25rem]" : "translate-x-0"
         )}
       />
     </div>
