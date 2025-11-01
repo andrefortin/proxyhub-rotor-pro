@@ -664,7 +664,7 @@ export default function Proxies() {
                               <TooltipTrigger>
                                 <div className="flex items-center gap-1">
                                   <Globe className="w-4 h-4" />
-                                  {proxy.country}, {proxy.city}
+                                  {proxy.city}, {proxy.region} {proxy.country}
                                 </div>
                               </TooltipTrigger>
                               <TooltipContent>
