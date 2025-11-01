@@ -257,8 +257,17 @@ export default function Proxies() {
 
 
   const handleDelete = async (id: string) => {
-    setPendingDeleteId(id);
-    setShowDeleteModal(true);
+    if (sessionStorage.getItem('deleteConfirmed') === 'true') {
+      try {
+        await deleteProxy(id);
+        fetchProxies(false);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to delete proxy');
+      }
+    } else {
+      setPendingDeleteId(id);
+      setShowDeleteModal(true);
+    }
   };
 
   const handleConfirmDelete = async () => {
