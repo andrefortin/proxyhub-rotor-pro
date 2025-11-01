@@ -348,8 +348,8 @@ export class ProxyService {
       },
     });
 
-    // Test proxy after creation (commented out to prevent auto-testing)
-    // this.testProxy(proxy.id).catch(err => console.error('Failed to test new proxy:', err));
+    // Test proxy after creation to validate and enrich
+    this.testProxy(proxy.id).catch(err => console.error('Failed to test new proxy:', err));
 
     return proxy;
   }

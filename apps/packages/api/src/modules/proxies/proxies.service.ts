@@ -1,10 +1,14 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, Inject, forwardRef } from "@nestjs/common";
 import { PrismaClient } from "@prisma/client";
 import { PaginatedResponse } from "../../common/pagination";
+import { ProxyService as ProxyTestService } from "../proxy/proxy.service";
 
 @Injectable()
 export class ProxyService {
-  constructor(private prisma: PrismaClient) {}
+  constructor(
+    private prisma: PrismaClient,
+    @Inject(forwardRef(() => ProxyTestService)) private proxyTestService: ProxyTestService
+  ) {}
 
   async listProxies(
     query: any,
@@ -154,6 +158,7 @@ export class ProxyService {
   async importProxies(proxies: any[], pool?: string, providerId?: string): Promise<{ imported: number; skipped: number }> {
     let imported = 0;
     let skipped = 0;
+    const importedIds: string[] = [];
 
     for (const proxy of proxies) {
       try {
@@ -173,7 +178,7 @@ export class ProxyService {
         }
 
         // Create new proxy
-        await this.prisma.proxy.create({
+        const created = await this.prisma.proxy.create({
           data: {
             host: proxy.host,
             port: proxy.port || 8080,
@@ -186,11 +191,23 @@ export class ProxyService {
             disabled: false,
           },
         });
+        importedIds.push(created.id);
         imported++;
       } catch (error) {
         console.error('Failed to import proxy:', proxy, error);
         skipped++;
       }
+    }
+
+    // Test all imported proxies asynchronously after import completes
+    if (importedIds.length > 0) {
+      setImmediate(() => {
+        importedIds.forEach(id => {
+          this.proxyTestService.testProxy(id).catch(err => 
+            console.error(`Failed to test imported proxy ${id}:`, err)
+          );
+        });
+      });
     }
 
     return { imported, skipped };
