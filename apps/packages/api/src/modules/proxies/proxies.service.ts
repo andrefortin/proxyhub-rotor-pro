@@ -202,10 +202,13 @@ export class ProxyService {
     // Test all imported proxies asynchronously after import completes
     if (importedIds.length > 0) {
       setImmediate(() => {
-        importedIds.forEach(id => {
-          this.proxyTestService.testProxy(id).catch(err => 
-            console.error(`Failed to test imported proxy ${id}:`, err)
-          );
+        console.log(`Starting tests for ${importedIds.length} imported proxies...`);
+        importedIds.forEach((id, index) => {
+          this.proxyTestService.testProxy(id)
+            .then(() => console.log(`✓ Proxy ${index + 1}/${importedIds.length} tested successfully`))
+            .catch(err => {
+              console.warn(`✗ Proxy ${index + 1}/${importedIds.length} test failed, continuing...`, err.message);
+            });
         });
       });
     }
