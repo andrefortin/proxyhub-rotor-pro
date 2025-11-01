@@ -53,7 +53,7 @@ async function sendNotification(client: Client, event: string, payload: any) {
   }
 }
 
-const TEST_URL = process.env.TEST_URL || "https://httpbin.org/ip";
+const TEST_URL = process.env.TEST_URL || "https://ipv4.icanhazip.com/?format=json";
 
 const ASN_DB = process.env.GEOIP_ASN_DB || "/geoip/GeoLite2-ASN.mmdb";
 const CITY_DB = process.env.GEOIP_CITY_DB || "/geoip/GeoLite2-City.mmdb";
@@ -94,12 +94,9 @@ if (existsSync(CITY_DB)) cityDb = await mm.open(CITY_DB);
 if (existsSync(COUNTRY_DB)) countryDb = await mm.open(COUNTRY_DB);
 
 function proxyUrl(p: ProxyRow): string {
-  if (p.username && p.password) {
-    return `${p.protocol}://${encodeURIComponent(
-      p.username
-    )}:${encodeURIComponent(p.password)}@${p.host}:${p.port}`;
-  }
-  return `${p.protocol}://${p.host}:${p.port}`;
+  const username = p.username ? encodeURIComponent(p.username) : 'anonymous';
+  const password = p.password ? encodeURIComponent(p.password) : '';
+  return `http://${username}:${password}@${p.host}:${p.port}`;
 }
 
 function isIpAddress(host: string): boolean {
@@ -207,17 +204,21 @@ async function checkProxy(row: ProxyRow): Promise<CheckResult> {
   const geo = await enrich(row.host, row.country);
   try {
     const purl = proxyUrl(row);
-    const agent = purl.startsWith("https://")
-      ? new HttpsProxyAgent(purl)
-      : new HttpProxyAgent(purl);
+    const agent = new HttpsProxyAgent(purl);
+    console.log(`Testing proxy ${row.host}:${row.port} (${row.pool}) via ${TEST_URL}`);
     await axios.get(TEST_URL, {
       httpsAgent: agent,
-      httpAgent: agent,
-      timeout: 30000,
+      proxy: false,
+      timeout: 10000,
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+      }
     });
     const latency = Date.now() - start;
+    console.log(`✓ Proxy ${row.host}:${row.port} OK (${latency}ms)`);
     return { ok: true, latency, ...geo };
-  } catch (e) {
+  } catch (e: any) {
+    console.log(`✗ Proxy ${row.host}:${row.port} FAILED: ${e.code || e.message}`);
     return { ok: false, latency: null, ...geo };
   }
 }
@@ -226,12 +227,14 @@ async function run(): Promise<void> {
   const client = new Client({ connectionString: process.env.DATABASE_URL });
   await client.connect();
   await loadSettings(client);
+  console.log(`Health worker started - checking every ${refreshInterval/1000}s, maxFailures: ${maxFailures}`);
 
   const query = autoRetryEnabled
     ? 'SELECT id, host, port, username, password, protocol, country FROM "Proxy" WHERE disabled = false ORDER BY (country IS NULL) DESC, "failedCount" DESC, random() LIMIT 10'
     : 'SELECT id, host, port, username, password, protocol, country FROM "Proxy" WHERE disabled = false ORDER BY (country IS NULL) DESC, random() LIMIT 10';
   
   const { rows } = await client.query<ProxyRow>(query);
+  console.log(`Checking ${rows.length} proxies...`);
 
   for (const r of rows) {
     const res = await checkProxy(r);
