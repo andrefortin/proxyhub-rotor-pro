@@ -35,6 +35,7 @@ export class ProviderService {
         type: true,
         active: true,
         config: true,
+        logoUrl: true,
         createdAt: true,
       },
     });
@@ -56,7 +57,7 @@ export class ProviderService {
         name: data.name,
         type: data.type,
         config: data.config,
-
+        logoUrl: data.logoUrl,
       },
     });
   }
@@ -70,6 +71,7 @@ export class ProviderService {
         type: true,
         active: true,
         config: true,
+        logoUrl: true,
         imports: true,
         proxies: true,
       },

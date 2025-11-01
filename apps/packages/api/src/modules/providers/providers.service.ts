@@ -66,6 +66,7 @@ export class ProvidersService {
         type: true,
         active: true,
         config: true,
+        logoUrl: true,
         createdAt: true,
       },
       orderBy: { createdAt: "desc" },
