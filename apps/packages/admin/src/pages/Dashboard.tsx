@@ -127,6 +127,7 @@ export default function Dashboard() {
           <CardContent>
             <div className="space-y-3">
               {proxies
+                .filter(p => !p.disabled)
                 .sort((a, b) => b.score - a.score)
                 .slice(0, 5)
                 .map((proxy) => (
