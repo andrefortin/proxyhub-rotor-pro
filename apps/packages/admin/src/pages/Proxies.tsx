@@ -663,7 +663,13 @@ export default function Proxies() {
                             <Tooltip>
                               <TooltipTrigger>
                                 <div className="flex items-center gap-1">
-                                  <Globe className="w-4 h-4" />
+                                  {proxy.country ? (
+                                    <span className="text-lg" title={proxy.country}>
+                                      {String.fromCodePoint(...[...proxy.country.toUpperCase()].map(c => 127397 + c.charCodeAt(0)))}
+                                    </span>
+                                  ) : (
+                                    <Globe className="w-4 h-4" />
+                                  )}
                                   {proxy.city}, {proxy.region} {proxy.country}
                                 </div>
                               </TooltipTrigger>
