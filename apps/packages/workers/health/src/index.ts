@@ -104,7 +104,7 @@ async function enrich(ip: string, existingCountry?: string): Promise<GeoData> {
         if (!lon && response.data.longitude) lon = parseFloat(response.data.longitude);
         if (!org && response.data.isp) org = response.data.isp;
       }
-    } catch (apiError) {
+    } catch (apiError: any) {
       console.warn(`iplocation.net API failed for ${ip}:`, apiError.message);
     }
   }
