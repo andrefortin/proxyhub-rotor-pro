@@ -28,8 +28,8 @@ interface ProxyImportModalProps {
 
 export const ProxyImportModal: React.FC<ProxyImportModalProps> = ({ onImportSuccess, providers, open = false, onOpenChange }) => {
   const [parsedRows, setParsedRows] = useState<ProxyRow[]>([]);
-  const [selectedPool, setSelectedPool] = useState('');
-  const [selectedProviderId, setSelectedProviderId] = useState('');
+  const [selectedPool, setSelectedPool] = useState('isp');
+  const [selectedProviderId, setSelectedProviderId] = useState(providers.length === 1 ? providers[0].id : '');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const toast = useToast();
