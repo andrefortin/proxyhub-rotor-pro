@@ -16,14 +16,56 @@ interface ApiError {
   status: number;
 }
 
+
+export interface CreateProxy {
+  host: string;
+  port: number;
+  username?: string;
+  password?: string;
+  protocol?: string;
+  pool?: string;
+  providerId?: string;
+  tags?: string[];
+  meta?: any;
+  disabled?: boolean;
+}
+
+export interface UpdateProxy {
+  pool?: string;
+  providerId?: string;
+  tags?: string[];
+  meta?: any;
+  disabled?: boolean;
+}
+
+export interface Lease {
+  leaseId: string;
+  proxy: string; // http://user:pass@host:port
+  protocol: string;
+  expiresAt: string;
+  meta: {
+    providerId?: string;
+    score: number;
+    country?: string;
+    sticky: boolean;
+  };
+}
+
 export async function apiRequest<T>(
   url: string,
   options: RequestInit = {}
 ): Promise<T> {
   const fullUrl = `${API_BASE}${url}`;
+  
+  // Don't set Content-Type for FormData - let browser handle it
+  const headers: Record<string, string> = {};
+  if (!(options.body instanceof FormData)) {
+    headers["Content-Type"] = "application/json";
+  }
+  
   const response = await fetch(fullUrl, {
     headers: {
-      "Content-Type": "application/json",
+      ...headers,
       ...options.headers,
     },
     ...options,
@@ -124,52 +166,14 @@ export async function getUsageStats(): Promise<UsageData[]> {
   return apiRequest("/v1/usage/stats");
 }
 
-export interface CreateProxy {
-  host: string;
-  port: number;
-  username?: string;
-  password?: string;
-  protocol?: string;
-  pool?: string;
-  providerId?: string;
-  tags?: string[];
-  meta?: any;
-  disabled?: boolean;
-}
-
-export interface UpdateProxy {
-  pool?: string;
-  providerId?: string;
-  tags?: string[];
-  meta?: any;
-  disabled?: boolean;
-}
-
-export interface Lease {
-  leaseId: string;
-  proxy: string; // http://user:pass@host:port
-  protocol: string;
-  expiresAt: string;
-  meta: {
-    providerId?: string;
-    score: number;
-    country?: string;
-    sticky: boolean;
-  };
-}
-
-export async function createProxy(
-  proxy: CreateProxy
-): Promise<Proxy> {
+export async function createProxy(proxy: CreateProxy): Promise<Proxy> {
   return apiRequest("/v1/proxy", {
     method: "POST",
     body: JSON.stringify(proxy),
   });
 }
 
-export async function getProxy(
-  id: string
-): Promise<Proxy> {
+export async function getProxy(id: string): Promise<Proxy> {
   return apiRequest(`/v1/proxy/${id}`, {
     method: "GET",
   });
@@ -185,36 +189,34 @@ export async function updateProxy(
   });
 }
 
-export async function deleteProxy(
-  id: string
-): Promise<void> {
+export async function deleteProxy(id: string): Promise<void> {
   await apiRequest(`/v1/proxy/${id}`, {
     method: "DELETE",
   });
 }
 
-export async function testProxy(
-  id: string
-): Promise<{
+export async function testProxy(id: string): Promise<{
   success: boolean;
   httpStatus?: number;
   latencyMs?: number;
   error?: string;
+  body?: string;
+  host?: string;
+  port?: number;
+  testUrl?: string;
 }> {
   return apiRequest(`/v1/proxy/${id}/test`, {
     method: "GET",
   });
 }
 
-export async function issueLease(
-  params: {
+export async function issueLease(params: {
   project: string;
   pool?: string;
   sticky?: boolean;
   country?: string;
   proxy?: Proxy;
-}
-): Promise<Lease | { error: string }> {
+}): Promise<Lease | { error: string }> {
   const query = new URLSearchParams({
     project: params.project,
     ...(params.pool && { pool: params.pool }),
@@ -222,6 +224,22 @@ export async function issueLease(
     ...(params.country && { country: params.country }),
   });
   return apiRequest(`/v1/proxy?${query}`);
+}
+
+export async function importProxies(params: {
+  proxies: any[];
+  pool?: string;
+  providerId?: string;
+}): Promise<{ imported: number; skipped: number }> {
+  const formData = new FormData();
+  if (params.pool) formData.append('pool', params.pool);
+  if (params.providerId) formData.append('providerId', params.providerId);
+  formData.append('proxies', JSON.stringify(params.proxies));
+
+  return apiRequest('/v1/proxies/import', {
+    method: 'POST',
+    body: formData,
+  });
 }
 
 // Add more as needed for other endpoints

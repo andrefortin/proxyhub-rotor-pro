@@ -1,4 +1,5 @@
-import { Controller, Get, Query, BadRequestException } from '@nestjs/common';
+import { Controller, Get, Post, Query, Body, BadRequestException, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { ProxyService } from './proxies.service';
 import { validatePagination, PaginationParams } from '../../common/pagination';
 import { ApiTags, ApiOperation, ApiQuery, ApiParam, ApiBody, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
@@ -46,5 +47,15 @@ export class ProxiesController {
   @ApiResponse({ status: 200, description: 'Random proxies', type: PaginatedProxiesDto })
   async sample() {
     return await this.service.getSample();
+  }
+
+  @Post('import')
+  @ApiOperation({ summary: 'Import proxies from CSV data' })
+  @UseInterceptors(FileInterceptor('file'))
+  @ApiResponse({ status: 200, description: 'Import results', schema: { properties: { imported: { type: 'number' }, skipped: { type: 'number' } } } })
+  async import(@Body() body: any) {
+    const { proxies, pool, providerId } = body;
+    const parsedProxies = typeof proxies === 'string' ? JSON.parse(proxies) : proxies;
+    return await this.service.importProxies(parsedProxies, pool, providerId);
   }
 }

@@ -83,4 +83,49 @@ export class ProxyService {
     );
     return { items: rows };
   }
+
+  async importProxies(proxies: any[], pool?: string, providerId?: string): Promise<{ imported: number; skipped: number }> {
+    let imported = 0;
+    let skipped = 0;
+
+    for (const proxy of proxies) {
+      try {
+        // Check if proxy already exists (same host, port, username, password)
+        const existing = await this.prisma.proxy.findFirst({
+          where: {
+            host: proxy.host,
+            port: proxy.port || 8080,
+            username: proxy.username || null,
+            password: proxy.password || null,
+          },
+        });
+
+        if (existing) {
+          skipped++;
+          continue;
+        }
+
+        // Create new proxy
+        await this.prisma.proxy.create({
+          data: {
+            host: proxy.host,
+            port: proxy.port || 8080,
+            username: proxy.username || null,
+            password: proxy.password || null,
+            protocol: proxy.protocol || 'http',
+            pool: proxy.pool || pool || 'default',
+            providerId: proxy.providerId || providerId || null,
+            score: 100, // Default score
+            disabled: false,
+          },
+        });
+        imported++;
+      } catch (error) {
+        console.error('Failed to import proxy:', proxy, error);
+        skipped++;
+      }
+    }
+
+    return { imported, skipped };
+  }
 }

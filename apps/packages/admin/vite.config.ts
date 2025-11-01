@@ -1,5 +1,6 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import path from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -9,9 +10,10 @@ export default defineConfig({
     host: true,
   },
   build: {
-    outDir: 'dist',
+    outDir: "dist",
   },
   define: {
-    'process.env': process.env,
+    "process.env": process.env,
   },
-})
+  resolve: { alias: { "@": path.resolve(__dirname, "src") } },
+});

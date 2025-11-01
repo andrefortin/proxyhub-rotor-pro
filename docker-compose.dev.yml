@@ -21,6 +21,7 @@ services:
       - ./apps/packages/api/src:/app/api/src
       - ./apps/packages/api/tsconfig.json:/app/api/tsconfig.json:ro
       - ./apps/packages/api/prisma:/app/api/prisma
+      - ./geoip:/geoip
       # No host node_modules; container runs npm ci for clean dev install
     command: sh -c "apt-get update -qq && apt-get install -y -qq build-essential python3 postgresql-client && rm -rf /var/lib/apt/lists/* && if [ ! -d node_modules/.bin ]; then rm -rf node_modules && npm ci --include=dev --legacy-peer-deps; fi && export PATH=\"/app/api/node_modules/.bin:\$PATH\" && until pg_isready -h db -p 5432; do echo 'Waiting for DB...'; sleep 2; done && npx prisma generate && npm run dev"
     environment:
@@ -81,6 +82,7 @@ services:
       - ./apps/packages/workers/health/package.json:/app/package.json:ro
       - ./apps/packages/workers/health/package-lock.json:/app/package-lock.json:ro
       - ./apps/packages/workers/health/src:/app/src
+      - ./geoip:/geoip
       # No node_modules mount; npm ci installs in container for consistency
     command: sh -c "apt-get update -qq && apt-get install -y -qq build-essential python3 && rm -rf /var/lib/apt/lists/* && if [ ! -d node_modules/.bin ]; then rm -rf node_modules && npm ci --include=dev --legacy-peer-deps; fi && export PATH=\"/app/node_modules/.bin:\$PATH\" && nodemon -L src/index.js"
     environment:

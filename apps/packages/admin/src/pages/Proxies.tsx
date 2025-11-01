@@ -8,7 +8,10 @@ import { Button } from '../components/ui/button';
 import { Globe, Zap, Plus, Edit, Trash2, Filter, Search } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { getProxies, createProxy, updateProxy, deleteProxy, issueLease, getProviders, getProxy, type Proxy, type CreateProxy, type UpdateProxy, type Provider, testProxy } from '../lib/api';
+import toast from 'react-hot-toast';
 import { DeleteConfirmModal } from '../components/DeleteConfirmModal';
+import { ProxyImportModal } from '../pages/ProxyImportModal';
+import { Upload } from 'lucide-react';
 
 const LIMIT = 10;
 
@@ -31,6 +34,9 @@ interface TestResult {
   httpStatus?: number | undefined;
   latencyMs?: number | undefined;
   error?: string | undefined;
+  host: string | undefined;
+  port: number | undefined;
+  testUrl: string | undefined;
 }
 
 export default function Proxies() {
@@ -55,6 +61,9 @@ export default function Proxies() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [pendingDeleteId, setPendingDeleteId] = useState<string | null>(null);
   const [rememberChoice, setRememberChoice] = useState(false);
+  const [showImport, setShowImport] = useState(false);
+  const [selectedProxies, setSelectedProxies] = useState<Set<string>>(new Set());
+  const [selectAll, setSelectAll] = useState(false);
 
   // Fetch providers for filter dropdown
   useEffect(() => {
@@ -102,6 +111,71 @@ export default function Proxies() {
     setSelectedPool('');
     setSelectedProvider('');
     setPage(1);
+  };
+
+  const handleSelectProxy = (id: string, checked: boolean) => {
+    const newSelected = new Set(selectedProxies);
+    if (checked) {
+      newSelected.add(id);
+    } else {
+      newSelected.delete(id);
+    }
+    setSelectedProxies(newSelected);
+    setSelectAll(newSelected.size === proxies.length && proxies.length > 0);
+  };
+
+  const handleSelectAll = (checked: boolean) => {
+    if (checked) {
+      setSelectedProxies(new Set(proxies.map(p => p.id)));
+    } else {
+      setSelectedProxies(new Set());
+    }
+    setSelectAll(checked);
+  };
+
+  const handleBulkDelete = async () => {
+    if (selectedProxies.size === 0) return;
+    try {
+      await Promise.all(Array.from(selectedProxies).map(id => deleteProxy(id)));
+      fetchProxies();
+    } catch (err) {
+      setError('Failed to delete selected proxies');
+    }
+  };
+
+  const handleBulkToggle = async (disable: boolean) => {
+    if (selectedProxies.size === 0) return;
+    try {
+      await Promise.all(Array.from(selectedProxies).map(id => updateProxy(id, { disabled: disable })));
+      fetchProxies();
+    } catch (err) {
+      setError('Failed to update selected proxies');
+    }
+  };
+
+  const handleBulkTest = async () => {
+    if (selectedProxies.size === 0) return;
+    const proxyIds = Array.from(selectedProxies);
+    
+    // Test each proxy and show individual toast for each result
+    for (const id of proxyIds) {
+      try {
+        const proxy = proxies.find(p => p.id === id);
+        if (!proxy) continue;
+        
+        const result = await testProxy(id);
+        
+        // Show individual toast for each test result
+        if (result.success) {
+          toast.success(`✅ ${proxy.host}:${proxy.port} - Success (${result.latencyMs}ms)`);
+        } else {
+          toast.error(`❌ ${proxy.host}:${proxy.port} - ${result.error || 'Test failed'}`);
+        }
+      } catch (err) {
+        const proxy = proxies.find(p => p.id === id);
+        toast.error(`❌ ${proxy?.host}:${proxy?.port || 'Unknown'} - Test failed`);
+      }
+    }
   };
 
   const handleCreate = async (data: CreateProxy) => {
@@ -201,8 +275,9 @@ export default function Proxies() {
     setTestingId(id);
     setTestResult(null);
     setShowTestModal(true);
+    let proxy: any| null = null;
     try {
-      const proxy = proxies.find(p => p.id === id);
+      proxy = proxies.find(p => p.id === id);
       if (!proxy || !proxy.pool) throw new Error('Invalid proxy');
 
       console.log('proxy:', proxy);
@@ -221,6 +296,9 @@ export default function Proxies() {
         proxyId: id,
         httpStatus: testResults.httpStatus,
         latencyMs: testResults.latencyMs,
+        host: testResults.host,
+        port: testResults.port,
+        testUrl: testResults.testUrl
       });
 
       /*
@@ -248,7 +326,10 @@ export default function Proxies() {
       setTestResult({
         success: false,
         error: err instanceof Error ? err.message : 'Test failed',
-        proxyId: id
+        proxyId: id,
+        host: proxy?.host,
+        port: proxy?.port,
+        testUrl: proxy?.testUrl
       });
     } finally {
       setTestingId(null);
@@ -283,10 +364,33 @@ export default function Proxies() {
                 </Tooltip>
               </TooltipProvider>
             </CardTitle>
-            <Button onClick={() => setShowModal(true)} className="flex items-center gap-1 hover:scale-105 transition-transform">
-              <Plus className="w-4 h-4" />
-              Add Proxy
-            </Button>
+            <div className="flex items-center space-x-2">
+              {selectedProxies.size > 0 && (
+                <>
+                  <Button onClick={handleBulkTest} variant="outline" size="sm">
+                    <Zap className="w-4 h-4 mr-1" />
+                    Test ({selectedProxies.size})
+                  </Button>
+                  <Button onClick={handleBulkDelete} variant="destructive" size="sm">
+                    Delete ({selectedProxies.size})
+                  </Button>
+                  <Button onClick={() => handleBulkToggle(true)} variant="outline" size="sm">
+                    Disable ({selectedProxies.size})
+                  </Button>
+                  <Button onClick={() => handleBulkToggle(false)} variant="outline" size="sm">
+                    Enable ({selectedProxies.size})
+                  </Button>
+                </>
+              )}
+              <Button onClick={() => setShowImport(true)} variant="outline" className="flex items-center gap-1 hover:scale-105 transition-transform">
+                <Upload className="w-4 h-4" />
+                Import CSV
+              </Button>
+              <Button onClick={() => setShowModal(true)} className="flex items-center gap-1 hover:scale-105 transition-transform">
+                <Plus className="w-4 h-4" />
+                Add Proxy
+              </Button>
+            </div>
           </div>
         </CardHeader>
         <CardContent>
@@ -341,6 +445,14 @@ export default function Proxies() {
             <table className="w-full">
               <thead>
                 <tr className="border-b border-border">
+                  <th className="text-left p-3 w-12">
+                    <input
+                      type="checkbox"
+                      checked={selectAll}
+                      onChange={(e) => handleSelectAll(e.target.checked)}
+                      className="rounded"
+                    />
+                  </th>
                   <th className="text-left p-3">Host:Port</th>
                   <th className="text-left p-3">Pool</th>
                   <th className="text-left p-3">Provider</th>
@@ -353,7 +465,7 @@ export default function Proxies() {
               <tbody>
                 {proxies.length === 0 ? (
                   <tr>
-                    <td colSpan={7} className="p-8 text-center text-muted-foreground">
+                    <td colSpan={8} className="p-8 text-center text-muted-foreground">
                       No proxies found. {search || selectedPool || selectedProvider ? 'Try adjusting filters.' : 'Add one above!'}
                     </td>
                   </tr>
@@ -362,6 +474,14 @@ export default function Proxies() {
                     const provider = providers.find(p => p.id === proxy.providerId);
                     return (
                       <tr key={proxy.id} className="border-b border-border hover:bg-accent data-[state=hover]:scale-[1.01] transition-transform">
+                        <td className="p-3">
+                          <input
+                            type="checkbox"
+                            checked={selectedProxies.has(proxy.id)}
+                            onChange={(e) => handleSelectProxy(proxy.id, e.target.checked)}
+                            className="rounded"
+                          />
+                        </td>
                         <td className="p-3 font-mono">
                           <TooltipProvider>
                             <Tooltip>
@@ -478,6 +598,13 @@ export default function Proxies() {
           )}
         </CardContent>
       </Card>
+
+      <ProxyImportModal
+        open={showImport}
+        onOpenChange={setShowImport}
+        providers={providers}
+        onImportSuccess={fetchProxies}
+      />
 
       {/* Create/Edit Modal */}
       {showModal && (
@@ -704,6 +831,9 @@ export default function Proxies() {
                     )}
                     {testResult.error && <p className="text-sm mt-1">Error: {testResult.error}</p>}
                     <p>Latency: {testResult.latencyMs}ms</p>
+                    <p>Host: {testResult.host}</p>
+                    <p>Port: {testResult.port}</p>
+                    <p>URL: {testResult.testUrl}</p>
                   </div>
                   <Button onClick={() => setShowTestModal(false)} className="w-full">
                     Close

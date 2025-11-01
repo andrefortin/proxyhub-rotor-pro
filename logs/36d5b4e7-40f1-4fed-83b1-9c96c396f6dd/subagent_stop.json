@@ -1,0 +1,10 @@
+[
+  {
+    "session_id": "36d5b4e7-40f1-4fed-83b1-9c96c396f6dd",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/36d5b4e7-40f1-4fed-83b1-9c96c396f6dd.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "bypassPermissions",
+    "hook_event_name": "SubagentStop",
+    "stop_hook_active": false
+  }
+]

@@ -15,7 +15,12 @@
     "do we need to issue a lease to a proxy simply to test it?",
     "implement this simplification",
     "implement the new api endpoint for the proxy to test it.",
-    "git push"
+    "git push",
+    "error using @nestjs/axios with proxy config to view an https site : Error [ERR_TLS_CERT_ALTNAME_INVALID]: Hostname/IP does not match certificate's altnames: Host: ipv4.icanhazip.com. is not in the cert's altnames: DNS:au.proxy.iproyal.com, DNS:geo.iproyal.com, DNS:proxy.iproyal.com, DNS:sg.proxy.iproyal.com, DNS:us.proxy.iproyal.com\n              at Object.checkServerIdentity (node:tls:316:12)\n              at TLSSocket.onConnectSecure (node:_tls_wrap:1687:27)\n              at TLSSocket.emit (node:events:524:28)\n              at TLSSocket._finishInit (node:_tls_wrap:1076:8)\n              at ssl.onhandshakedone (node:_tls_wrap:862:12) {\n            code: 'ERR_TLS_CERT_ALTNAME_INVALID',\n            reason: \"Host: ipv4.icanhazip.com. is not in the cert's altnames: DNS:au.proxy.iproyal.com, DNS:geo.iproyal.com, DNS:proxy.iproyal.com, DNS:sg.proxy.iproyal.com, DNS:us.proxy.iproyal.com\",\n            host: 'ipv4.icanhazip.com',",
+    "[Nest] 3252  - 10/31/2025, 4:37:38 PM   ERROR [ExceptionsHandler] AxiosError: Hostname/IP does not match certificate's altnames: Host: ipv4.icanhazip.com. is not in the cert's altnames: DNS:au.proxy.iproyal.com, DNS:eu.proxy.iproyal.com, DNS:geo.iproyal.com, DNS:proxy.iproyal.com, DNS:sg.proxy.iproyal.com, DNS:us.proxy.iproyal.com",
+    "implement those changes to test",
+    "implement those changes to test",
+    "ERROR [ExceptionsHandler] AxiosError: Hostname/IP does not match certificate's altnames: Host: api.ipify.org. is not in the cert's altnames: DNS:au.proxy.iproyal.com, DNS:geo.iproyal.com, DNS:proxy.iproyal.com, DNS:sg.proxy.iproyal.com, DNS:us.proxy.iproyal.com"
   ],
   "agent_name": "Vortex"
 }
