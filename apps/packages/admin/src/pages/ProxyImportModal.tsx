@@ -29,19 +29,13 @@ interface ProxyImportModalProps {
 export const ProxyImportModal: React.FC<ProxyImportModalProps> = ({ onImportSuccess, providers, open = false, onOpenChange }) => {
   const [parsedRows, setParsedRows] = useState<ProxyRow[]>([]);
   const [selectedPool, setSelectedPool] = useState('isp');
-  const [selectedProviderId, setSelectedProviderId] = useState(providers.length === 1 ? providers[0].id : '');
+  const [selectedProviderId, setSelectedProviderId] = useState(providers.length === 1 ? providers[0]?.id ?? '' : '');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const toast = useToast();
 
   const handleParse = (rows: ProxyRow[]) => {
-    // Apply selected pool and provider if global
-    const updatedRows = rows.map(row => ({ 
-      ...row, 
-      pool: row.pool || selectedPool || '',
-      providerId: row.providerId || selectedProviderId || ''
-    }));
-    setParsedRows(updatedRows);
+    setParsedRows(rows);
     setError('');
   };
 
@@ -60,10 +54,13 @@ export const ProxyImportModal: React.FC<ProxyImportModalProps> = ({ onImportSucc
     setError('');
 
     try {
+      const proxiesWithDefaults = parsedRows.map(row => ({
+        ...row,
+        pool: row.pool || selectedPool,
+        providerId: row.providerId || selectedProviderId,
+      }));
       const { imported, skipped } = await importProxies({
-        proxies: parsedRows,
-        pool: selectedPool || undefined,
-        providerId: selectedProviderId || undefined,
+        proxies: proxiesWithDefaults,
       });
       toast({
         title: 'Import Successful',
