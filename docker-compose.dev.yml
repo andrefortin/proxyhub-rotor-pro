@@ -23,7 +23,7 @@ services:
       - ./apps/prisma:/app/api/prisma
       - ./geoip:/geoip
       # No host node_modules; container runs npm ci for clean dev install
-    command: sh -c "apt-get update -qq && apt-get install -y -qq build-essential python3 postgresql-client && rm -rf /var/lib/apt/lists/* && if [ ! -d node_modules/.bin ]; then rm -rf node_modules && npm ci --include=dev --legacy-peer-deps; fi && export PATH=\"/app/api/node_modules/.bin:\$PATH\" && until pg_isready -h db -p 5432; do echo 'Waiting for DB...'; sleep 2; done && npx prisma generate && npm run dev"
+    command: sh -c "apt-get update -qq && apt-get install -y -qq build-essential python3 postgresql-client && rm -rf /var/lib/apt/lists/* && if [ ! -d node_modules/.bin ]; then rm -rf node_modules && npm ci --include=dev --legacy-peer-deps; fi && export PATH=\"/app/api/node_modules/.bin:\$PATH\" && until pg_isready -h db -p 5432; do echo 'Waiting for DB...'; sleep 2; done && npx prisma migrate deploy && npx prisma generate && npm run dev"
     environment:
       - NODE_ENV=development
       - DEBUG=nest:* ,*

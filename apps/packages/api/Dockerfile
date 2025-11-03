@@ -10,4 +10,4 @@ COPY apps/packages/api/src ./src
 COPY apps/packages/api/tsconfig.json ./
 COPY apps/prisma ./prisma
 RUN npx prisma generate && npx nest build
-CMD ["sh", "-c", "npx prisma generate && npx nest start --watch"]
+CMD ["sh", "-c", "until pg_isready -h db -p 5432; do echo 'Waiting for DB...'; sleep 2; done && npx prisma migrate deploy && npx prisma generate && node dist/main.js"]

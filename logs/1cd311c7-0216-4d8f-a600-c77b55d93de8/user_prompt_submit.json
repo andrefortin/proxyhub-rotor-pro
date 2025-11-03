@@ -1,0 +1,162 @@
+[
+  {
+    "session_id": "1cd311c7-0216-4d8f-a600-c77b55d93de8",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/1cd311c7-0216-4d8f-a600-c77b55d93de8.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "default",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "/cleanup_worktrees "
+  },
+  {
+    "session_id": "1cd311c7-0216-4d8f-a600-c77b55d93de8",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/1cd311c7-0216-4d8f-a600-c77b55d93de8.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "default",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "/prime "
+  },
+  {
+    "session_id": "1cd311c7-0216-4d8f-a600-c77b55d93de8",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/1cd311c7-0216-4d8f-a600-c77b55d93de8.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "default",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "on the dashboard of the admin portal, the available proxies must list only those that are not disabled, while the total proxies lists all proxies"
+  },
+  {
+    "session_id": "1cd311c7-0216-4d8f-a600-c77b55d93de8",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/1cd311c7-0216-4d8f-a600-c77b55d93de8.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "we should probably display the proxy information in a different format, like a barchart maybe? we will show 4 items: total proxies, proxies enabled, active leases, available leases (enabled proxies - active leases). we need to update the api that provides the stats to get the data we need possibly."
+  },
+  {
+    "session_id": "1cd311c7-0216-4d8f-a600-c77b55d93de8",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/1cd311c7-0216-4d8f-a600-c77b55d93de8.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "The api docker logs have errors we need to fix our barchart feature."
+  },
+  {
+    "session_id": "1cd311c7-0216-4d8f-a600-c77b55d93de8",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/1cd311c7-0216-4d8f-a600-c77b55d93de8.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "The dashboard appears then goes to a blank screen, here are the browser console log : DashboardKPI.tsx:70 Uncaught ReferenceError: Cell is not defined\n    at DashboardKPI.tsx:70:16\n    at Array.map (<anonymous>)\n    at DashboardKPI (DashboardKPI.tsx:69:22)\nDashboardKPI.tsx:70 Uncaught ReferenceError: Cell is not defined\n    at DashboardKPI.tsx:70:16\n    at Array.map (<anonymous>)\n    at DashboardKPI (DashboardKPI.tsx:69:22)\ninstallHook.js:1 The above error occurred in the <DashboardKPI> component:\n\n    at DashboardKPI (http://localhost:4173/src/DashboardKPI.tsx:25:43)\n    at div\n    at Dashboard (http://localhost:4173/src/pages/Dashboard.tsx:26:33)\n    at RenderedRoute (http://localhost:4173/node_modules/.vite/deps/react-router-dom.js?v=91c8221d:4088:5)\n    at Routes (http://localhost:4173/node_modules/.vite/deps/react-router-dom.js?v=91c8221d:4558:5)\n    at main\n    at div\n    at div\n    at Layout (http://localhost:4173/src/components/Layout.tsx:19:34)\n    at App\n    at Router (http://localhost:4173/node_modules/.vite/deps/react-router-dom.js?v=91c8221d:4501:15)\n    at BrowserRouter (http://localhost:4173/node_modules/.vite/deps/react-router-dom.js?v=91c8221d:5247:5)\n\nConsider adding an error boundary to your tree to customize error handling behavior.\nVisit https://reactjs.org/link/error-boundaries to learn more about error boundaries.\n\nchunk-NUMECXU6.js?v=91c8221d:19413 Uncaught ReferenceError: Cell is not defined\n    at DashboardKPI.tsx:70:16\n    at Array.map (<anonymous>)\n    at DashboardKPI (DashboardKPI.tsx:69:22)\n"
+  },
+  {
+    "session_id": "1cd311c7-0216-4d8f-a600-c77b55d93de8",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/1cd311c7-0216-4d8f-a600-c77b55d93de8.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "git push"
+  },
+  {
+    "session_id": "1cd311c7-0216-4d8f-a600-c77b55d93de8",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/1cd311c7-0216-4d8f-a600-c77b55d93de8.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "clear todos"
+  },
+  {
+    "session_id": "1cd311c7-0216-4d8f-a600-c77b55d93de8",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/1cd311c7-0216-4d8f-a600-c77b55d93de8.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "allow the left side bar to collapse and a toggle button for this in the top nav bar."
+  },
+  {
+    "session_id": "1cd311c7-0216-4d8f-a600-c77b55d93de8",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/1cd311c7-0216-4d8f-a600-c77b55d93de8.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "git push"
+  },
+  {
+    "session_id": "1cd311c7-0216-4d8f-a600-c77b55d93de8",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/1cd311c7-0216-4d8f-a600-c77b55d93de8.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "the settings notifications only has an enable notifications toggle, how do we implement and configure the notification system, we also want to make any ui panels or updates we edit or create simple for non-technical users."
+  },
+  {
+    "session_id": "1cd311c7-0216-4d8f-a600-c77b55d93de8",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/1cd311c7-0216-4d8f-a600-c77b55d93de8.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "the browser console log has an error : Uncaught SyntaxError: The requested module '/src/types.ts' does not provide an export named 'NotificationConfig' (at Settings.tsx:9:10)Understand this error"
+  },
+  {
+    "session_id": "1cd311c7-0216-4d8f-a600-c77b55d93de8",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/1cd311c7-0216-4d8f-a600-c77b55d93de8.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "here are more browser console logs : api.ts:66  GET http://localhost:8080/v1/notifications/config 404 (Not Found)\napiRequest @ api.ts:66\nfetchData @ Settings.tsx:58\n(anonymous) @ Settings.tsx:68\ncommitHookEffectListMount @ chunk-NUMECXU6.js?v=56a24391:16915\ncommitPassiveMountOnFiber @ chunk-NUMECXU6.js?v=56a24391:18156\ncommitPassiveMountEffects_complete @ chunk-NUMECXU6.js?v=56a24391:18129\ncommitPassiveMountEffects_begin @ chunk-NUMECXU6.js?v=56a24391:18119\ncommitPassiveMountEffects @ chunk-NUMECXU6.js?v=56a24391:18109\nflushPassiveEffectsImpl @ chunk-NUMECXU6.js?v=56a24391:19490\nflushPassiveEffects @ chunk-NUMECXU6.js?v=56a24391:19447\n(anonymous) @ chunk-NUMECXU6.js?v=56a24391:19328\nworkLoop @ chunk-NUMECXU6.js?v=56a24391:197\nflushWork @ chunk-NUMECXU6.js?v=56a24391:176\nperformWorkUntilDeadline @ chunk-NUMECXU6.js?v=56a24391:384Understand this error\napi.ts:66  GET http://localhost:8080/v1/notifications/config 404 (Not Found)\napiRequest @ api.ts:66\nfetchData @ Settings.tsx:58\n(anonymous) @ Settings.tsx:68\ncommitHookEffectListMount @ chunk-NUMECXU6.js?v=56a24391:16915\ninvokePassiveEffectMountInDEV @ chunk-NUMECXU6.js?v=56a24391:18324\ninvokeEffectsInDev @ chunk-NUMECXU6.js?v=56a24391:19701\ncommitDoubleInvokeEffectsInDEV @ chunk-NUMECXU6.js?v=56a24391:19686\nflushPassiveEffectsImpl @ chunk-NUMECXU6.js?v=56a24391:19503\nflushPassiveEffects @ chunk-NUMECXU6.js?v=56a24391:19447\n(anonymous) @ chunk-NUMECXU6.js?v=56a24391:19328\nworkLoop @ chunk-NUMECXU6.js?v=56a24391:197\nflushWork @ chunk-NUMECXU6.js?v=56a24391:176\nperformWorkUntilDeadline @ chunk-NUMECXU6.js?v=56a24391:384Understand this error\ninstallHook.js:1 Failed to load data: Error: undefined: Cannot GET /v1/notifications/config\n    at apiRequest (api.ts:78:11)\n    at async Promise.all (index 1)\n    at async fetchData (Settings.tsx:56:33)\noverrideMethod @ installHook.js:1\nfetchData @ Settings.tsx:65\nawait in fetchData\n(anonymous) @ Settings.tsx:68\ncommitHookEffectListMount @ chunk-NUMECXU6.js?v=56a24391:16915\ncommitPassiveMountOnFiber @ chunk-NUMECXU6.js?v=56a24391:18156\ncommitPassiveMountEffects_complete @ chunk-NUMECXU6.js?v=56a24391:18129\ncommitPassiveMountEffects_begin @ chunk-NUMECXU6.js?v=56a24391:18119\ncommitPassiveMountEffects @ chunk-NUMECXU6.js?v=56a24391:18109\nflushPassiveEffectsImpl @ chunk-NUMECXU6.js?v=56a24391:19490\nflushPassiveEffects @ chunk-NUMECXU6.js?v=56a24391:19447\n(anonymous) @ chunk-NUMECXU6.js?v=56a24391:19328\nworkLoop @ chunk-NUMECXU6.js?v=56a24391:197\nflushWork @ chunk-NUMECXU6.js?v=56a24391:176\nperformWorkUntilDeadline @ chunk-NUMECXU6.js?v=56a24391:384Understand this error\ninstallHook.js:1 Failed to load data: Error: undefined: Cannot GET /v1/notifications/config\n    at apiRequest (api.ts:78:11)\n    at async Promise.all (index 1)\n    at async fetchData (Settings.tsx:56:33)"
+  },
+  {
+    "session_id": "1cd311c7-0216-4d8f-a600-c77b55d93de8",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/1cd311c7-0216-4d8f-a600-c77b55d93de8.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "continue implementing todos"
+  },
+  {
+    "session_id": "1cd311c7-0216-4d8f-a600-c77b55d93de8",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/1cd311c7-0216-4d8f-a600-c77b55d93de8.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "installHook.js:1 Failed to load data: TypeError: Failed to fetch\n    at apiRequest (api.ts:66:26)\n    at getSettings (api.ts:260:10)\n    at fetchData (Settings.tsx:57:11)\n    at Settings.tsx:68:5\n\ninstallHook.js:1 Failed to load data: TypeError: Failed to fetch\n    at apiRequest (api.ts:66:26)\n    at getSettings (api.ts:260:10)\n    at fetchData (Settings.tsx:57:11)\n    at Settings.tsx:68:5\n"
+  },
+  {
+    "session_id": "1cd311c7-0216-4d8f-a600-c77b55d93de8",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/1cd311c7-0216-4d8f-a600-c77b55d93de8.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "[Nest] 1228  - 11/02/2025, 12:26:30 AM   ERROR [ExceptionHandler] UnknownDependenciesException [Error]: Nest can't resolve dependencies of the NotificationsService (?). Please make sure that the argument PrismaService at index [0] is available in the NotificationsModule context."
+  },
+  {
+    "session_id": "1cd311c7-0216-4d8f-a600-c77b55d93de8",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/1cd311c7-0216-4d8f-a600-c77b55d93de8.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "error in the api package, here is the docker log : UnknownDependenciesException [Error]: Nest can't resolve dependencies of the NotificationsService (?). Please make sure that the argument PrismaService at index [0] is available in the NotificationsModule context.\n\nPotential solutions:\n- Is NotificationsModule a valid NestJS module?\n- If PrismaService is a provider, is it part of the current NotificationsModule?\n- If PrismaService is exported from a separate @Module, is that module imported within NotificationsModule?\n  @Module({\n    imports: [ /* the Module containing PrismaService */ ]\n  })\n"
+  },
+  {
+    "session_id": "1cd311c7-0216-4d8f-a600-c77b55d93de8",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/1cd311c7-0216-4d8f-a600-c77b55d93de8.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "check the docker log"
+  },
+  {
+    "session_id": "1cd311c7-0216-4d8f-a600-c77b55d93de8",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/1cd311c7-0216-4d8f-a600-c77b55d93de8.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "implement the other todos and verify that the api logs in docker are error free."
+  },
+  {
+    "session_id": "1cd311c7-0216-4d8f-a600-c77b55d93de8",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/1cd311c7-0216-4d8f-a600-c77b55d93de8.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "check the docker logs for errors in the api container, fix the errors."
+  }
+]

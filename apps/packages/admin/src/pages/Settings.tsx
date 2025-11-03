@@ -2,9 +2,12 @@ import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Switch } from '../components/ui/switch';
 import { Input } from '../components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
 import { Settings as SettingsIcon, Bell, Shield, Zap, Database, Globe, Clock, AlertCircle, CheckCircle2, Save, RefreshCw } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { getSettings, updateSettings as apiUpdateSettings } from '../lib/api';
+import type { NotificationConfig } from '../types';
+import { apiRequest } from '../lib/api';
 
 const SettingItem = ({ icon: Icon, title, description, children }: any) => (
   <motion.div
@@ -43,38 +46,48 @@ export default function Settings() {
     geoipIplocation: true,
     geoipIpapi: true,
   });
+  const [notificationConfigs, setNotificationConfigs] = useState<NotificationConfig[]>([]);
 
   const [saved, setSaved] = useState(false);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchSettings = async () => {
+    const fetchData = async () => {
       try {
-        const data = await getSettings();
+        const [data, configs] = await Promise.all([
+          getSettings(),
+          apiRequest<{ items: NotificationConfig[] }>('/v1/notifications/config')
+        ]);
         if (Object.keys(data).length > 0) {
           setSettings(prev => ({ ...prev, ...data }));
         }
+        setNotificationConfigs(configs.items || []);
       } catch (error) {
-        console.error('Failed to load settings:', error);
-      } finally {
-        setLoading(false);
+        console.error('Failed to load data:', error);
       }
     };
-    fetchSettings();
+    fetchData();
   }, []);
 
   const updateSetting = (key: string, value: any) => {
     const newSettings = { ...settings, [key]: value };
-    
+
     // If all GeoIP sources are disabled, disable GeoIP enrichment
-    if (['geoipMaxmind', 'geoipIplocation', 'geoipIpapi'].includes(key)) {
-      if (!newSettings.geoipMaxmind && !newSettings.geoipIplocation && !newSettings.geoipIpapi) {
-        newSettings.geoEnrichment = false;
-      }
-    }
-    
+    if (['geoipMaxmind', 'geoipIplocation', 'geoipIpapi'].includes(key) && !newSettings.geoipMaxmind && !newSettings.geoipIplocation && !newSettings.geoipIpapi) newSettings.geoEnrichment = false;
+
     setSettings(newSettings);
     setSaved(false);
+  };
+
+  const updateNotification = async (method: string, updates: Partial<NotificationConfig>) => {
+    try {
+      const updated = await apiRequest(`/v1/notifications/${method}`, {
+        method: 'PATCH',
+        body: JSON.stringify(updates)
+      });
+      setNotificationConfigs(prev => prev.map(c => c.method === method ? { ...c, ...(updated as Partial<NotificationConfig>) } : c));
+    } catch (error) {
+      console.error('Failed to update notification:', error);
+    }
   };
 
   const handleSave = async () => {
@@ -288,13 +301,29 @@ export default function Settings() {
               title="Health Check URL"
               description="URL used to test proxy connectivity"
             >
-              <Input
-                type="url"
-                value={settings.healthCheckUrl}
-                onChange={(e) => updateSetting('healthCheckUrl', e.target.value)}
-                className="w-full"
-                placeholder="https://ipv4.icanhazip.com/?format=json"
-              />
+              <div className="flex items-center gap-2">
+                <Input
+                  type="url"
+                  value={settings.healthCheckUrl}
+                  onChange={(e) => updateSetting('healthCheckUrl', e.target.value)}
+                  className="flex-1"
+                  placeholder="https://ipv4.icanhazip.com/?format=json"
+                />
+                <button
+                  onClick={() => window.open(settings.healthCheckUrl, '_blank')}
+                  className="px-3 py-2 text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 rounded border border-gray-300 transition-colors"
+                  title="Open URL"
+                >
+                  <Globe className="h-4 w-4" />
+                </button>
+                <button
+                  onClick={() => updateSetting('healthCheckUrl', 'https://ipv4.icanhazip.com/?format=json')}
+                  className="px-3 py-2 text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 rounded border border-gray-300 transition-colors"
+                  title="Reset to default"
+                >
+                  <RefreshCw className="h-4 w-4" />
+                </button>
+              </div>
             </SettingItem>
           </CardContent>
         </Card>

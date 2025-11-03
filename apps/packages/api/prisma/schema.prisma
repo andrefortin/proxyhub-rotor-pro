@@ -8,14 +8,14 @@ datasource db {
 }
 
 model Provider {
-  id        String         @id @default(uuid())
-  name      String         @unique
+  id        String             @id @default(uuid())
+  name      String             @unique
   type      ProviderType
   config    Json
   logoUrl   String?
-  active    Boolean        @default(true)
-  createdAt DateTime       @default(now())
-  updatedAt DateTime       @updatedAt
+  active    Boolean            @default(true)
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
   imports   ProviderImport[]
   proxies   Proxy[]
 }
@@ -27,33 +27,32 @@ enum ProviderType {
 }
 
 model Proxy {
-  id           String     @id @default(uuid())
-  provider     Provider?  @relation(fields: [providerId], references: [id])
-  providerId   String?
-  pool         String
-  host         String
-  port         Int
-  username     String?
-  password     String?
-  protocol     String     @default("http")
-  country      String?
-  region       String?
-  city         String?
-  latitude     Float?
-  longitude    Float?
-  asn          Int?
-  org          String?
-  lastChecked  DateTime?
-  lastUsed     DateTime?
-  failedCount  Int        @default(0)
-  score        Float      @default(100)
-  tags         String[]
-  meta         Json?
-  disabled     Boolean    @default(false)
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
-
-  leases       Lease[]
+  id          String    @id @default(uuid())
+  provider    Provider? @relation(fields: [providerId], references: [id])
+  providerId  String?
+  pool        String
+  host        String
+  port        Int
+  username    String?
+  password    String?
+  protocol    String    @default("http")
+  country     String?
+  region      String?
+  city        String?
+  latitude    Float?
+  longitude   Float?
+  asn         Int?
+  org         String?
+  lastChecked DateTime?
+  lastUsed    DateTime?
+  failedCount Int       @default(0)
+  score       Float     @default(100)
+  tags        String[]
+  meta        Json?
+  disabled    Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  leases      Lease[]
 
   @@index([pool])
   @@index([providerId])
@@ -161,4 +160,12 @@ model NotificationConfig {
   updatedAt     DateTime @updatedAt
 
   @@unique([method])  // One config per method
+}
+
+model AppSettings {
+  id        String   @id @default(uuid())
+  key       String   @unique
+  value     Json
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
 }

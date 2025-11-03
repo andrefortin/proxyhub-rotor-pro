@@ -1,12 +1,12 @@
 import { Injectable, Inject, forwardRef } from "@nestjs/common";
-import { PrismaClient } from "@prisma/client";
+import { PrismaService } from "../../common/prisma/prisma.service";
 import { PaginatedResponse } from "../../common/pagination";
 import { ProxyService as ProxyTestService } from "../proxy/proxy.service";
 
 @Injectable()
 export class ProxyService {
   constructor(
-    private prisma: PrismaClient,
+    private prisma: PrismaService,
     @Inject(forwardRef(() => ProxyTestService)) private proxyTestService: ProxyTestService
   ) {}
 
@@ -130,7 +130,6 @@ export class ProxyService {
         meta: true,
         disabled: true,
         lastChecked: true,
-        latencyMs: true,
         provider: {
           select: {
             name: true,
@@ -154,6 +153,12 @@ export class ProxyService {
       `SELECT id, host, pool, "providerId", country, city, region, latitude, longitude, asn, org, score FROM "Proxy" ORDER BY random() LIMIT 200`
     );
     return { items: rows };
+  }
+
+  async getProxyCounts() {
+    const total = await this.prisma.proxy.count({});
+    const available = await this.prisma.proxy.count({ where: { disabled: false } });
+    return { total, available };
   }
 
   async importProxies(proxies: any[], pool?: string, providerId?: string): Promise<{ imported: number; skipped: number }> {

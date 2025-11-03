@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { PrismaClient } from "@prisma/client";
+import { PrismaService } from "../../common/prisma/prisma.service";
 import {
   validatePagination,
   PaginatedResponse,
@@ -8,7 +8,7 @@ import {
 
 @Injectable()
 export class ProviderService {
-  constructor(private prisma: PrismaClient) {}
+  constructor(private prisma: PrismaService) {}
 
   async getProviderById(id: string, mock?: boolean): Promise<any | null> {
     if (mock) {

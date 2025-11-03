@@ -1,15 +1,15 @@
 import { Injectable } from "@nestjs/common";
-import { Prisma } from "@prisma/client";
-import { PrismaClient } from "@prisma/client";
+import { Prisma, Provider } from "@prisma/client";
+import { PrismaService } from "../../common/prisma/prisma.service";
 import {
   validatePagination,
   PaginatedResponse,
   PaginationParams,
-} from "../../common/pagination";
+} from "../../common/pagination"; // Assuming this path is correct
 
 @Injectable()
 export class ProvidersService {
-  constructor(private prisma: PrismaClient) {}
+  constructor(private prisma: PrismaService) {}
 
   async findAll(
     params?: PaginationParams,
@@ -25,6 +25,7 @@ export class ProvidersService {
           name: "IPRoyal API",
           type: "api",
           active: true,
+          logoUrl: "https://iproyal.com/static/favicons/apple-touch-icon.png",
           config: { kind: "iproyal", access_token: "mock_token" },
         },
         {
@@ -32,6 +33,7 @@ export class ProvidersService {
           name: "File Import",
           type: "file",
           active: false,
+          logoUrl: null,
           config: { path: "/path/to/proxies.txt" },
         },
         {
@@ -39,6 +41,7 @@ export class ProvidersService {
           name: "Manual Provider",
           type: "manual",
           active: true,
+          logoUrl: null,
           config: {},
         },
       ];
@@ -73,5 +76,16 @@ export class ProvidersService {
     });
 
     return { items, total, page, limit };
+  }
+
+  async update(id: string, data: Partial<Provider>): Promise<Provider> {
+    const { active } = data;
+    if (typeof active === "boolean") {
+      await this.prisma.proxy.updateMany({
+        where: { providerId: id },
+        data: { disabled: !active },
+      });
+    }
+    return this.prisma.provider.update({ where: { id }, data });
   }
 }

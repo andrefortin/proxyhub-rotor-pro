@@ -3,7 +3,7 @@ import { Injectable, Inject, HttpException, HttpStatus } from "@nestjs/common";
 import { AxiosRequestConfig } from "axios";
 import { HttpsProxyAgent } from "https-proxy-agent"; // npm i https-proxy-agent
 import { HttpService } from "@nestjs/axios";
-import { PrismaClient } from "@prisma/client";
+import { PrismaService } from "../../common/prisma/prisma.service";
 import { v4 as uuid } from "uuid";
 import Redis from "ioredis";
 import { catchError, firstValueFrom, lastValueFrom } from "rxjs";
@@ -97,7 +97,7 @@ export class ProxyService {
   
   constructor(
     private readonly httpService: HttpService,
-    private prisma: PrismaClient,
+    private prisma: PrismaService,
     @Inject("REDIS") private redis: Redis,
     private cacheService: CacheClearService
   ) {

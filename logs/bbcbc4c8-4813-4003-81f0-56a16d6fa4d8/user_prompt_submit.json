@@ -1,0 +1,10 @@
+[
+  {
+    "session_id": "bbcbc4c8-4813-4003-81f0-56a16d6fa4d8",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/bbcbc4c8-4813-4003-81f0-56a16d6fa4d8.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "default",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "<ide_opened_file>The user opened the file /home/andre/batcave/proxyhub-rotor-pro/apps/packages/api/src/modules/providers/providers.service.ts in the IDE. This may or may not be related to the current task.</ide_opened_file>\nclear auto-compact buffer"
+  }
+]

@@ -33,7 +33,11 @@ export class ProvidersController {
     }
   }})
   async list(@Query() q: any) {
-    // Simple list without advanced filters for now, matching original findAll
-    return await this.service.findAll(); // Use service which includes logoUrl
+    const { page, limit, search, mock } = q;
+    return await this.service.findAll(
+      { page, limit },
+      search,
+      mock !== undefined
+    );
   }
 }

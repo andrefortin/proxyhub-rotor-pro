@@ -1,0 +1,14 @@
+[
+  {
+    "session_id": "9517765e-c478-48d8-87b3-9e06b2abf2fc",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/9517765e-c478-48d8-87b3-9e06b2abf2fc.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "default",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "clear",
+      "description": "Clear the terminal screen"
+    }
+  }
+]

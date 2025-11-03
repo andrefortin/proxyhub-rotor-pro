@@ -43,3 +43,13 @@ export interface ResponseCodeData {
   name: string;
   value: number;
 }
+
+export interface NotificationConfig {
+  id: string;
+  method: 'discord' | 'telegram' | 'webhook';
+  enabled: boolean;
+  config: any;
+  eventTypes: string[];
+  createdAt: string;
+  updatedAt: string;
+}

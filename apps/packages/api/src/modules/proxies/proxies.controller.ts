@@ -63,4 +63,11 @@ export class ProxiesController {
     const parsedProxies = typeof proxies === 'string' ? JSON.parse(proxies) : proxies;
     return await this.service.importProxies(parsedProxies, pool, providerId);
   }
+
+  @Get('counts')
+  @ApiOperation({ summary: 'Get total and available proxy counts' })
+  @ApiResponse({ status: 200, description: 'Proxy counts', schema: { properties: { total: { type: 'number' }, available: { type: 'number' } } } })
+  async getCounts() {
+    return await this.service.getProxyCounts();
+  }
 }

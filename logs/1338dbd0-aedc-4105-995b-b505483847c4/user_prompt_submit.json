@@ -1,0 +1,18 @@
+[
+  {
+    "session_id": "1338dbd0-aedc-4105-995b-b505483847c4",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/1338dbd0-aedc-4105-995b-b505483847c4.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "default",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "<ide_opened_file>The user opened the file /home/andre/batcave/proxyhub-rotor-pro/apps/packages/api/src/modules/providers/providers.service.ts in the IDE. This may or may not be related to the current task.</ide_opened_file>\nwhy is my token context so high? how do I reduct the autocompact buffer to 0"
+  },
+  {
+    "session_id": "1338dbd0-aedc-4105-995b-b505483847c4",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/1338dbd0-aedc-4105-995b-b505483847c4.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "default",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "<ide_opened_file>The user opened the file /home/andre/batcave/proxyhub-rotor-pro/.claude/settings.json in the IDE. This may or may not be related to the current task.</ide_opened_file>\nyes disable it for me"
+  }
+]

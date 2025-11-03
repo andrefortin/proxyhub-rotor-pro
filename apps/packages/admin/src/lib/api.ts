@@ -152,8 +152,8 @@ export async function deleteProvider(id: string): Promise<void> {
   });
 }
 
-export async function getProxiesCount(): Promise<{ count: number }> {
-  return apiRequest("/v1/proxies/count");
+export async function getProxyCounts(): Promise<{ total: number; available: number }> {
+  return apiRequest("/v1/proxies/counts");
 }
 
 export async function getProxiesStats(): Promise<{ avgScore: number }> {

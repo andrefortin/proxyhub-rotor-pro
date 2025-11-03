@@ -1,0 +1,20 @@
+[
+  {
+    "session_id": "bd801c8b-0740-475f-9926-9861a1ef1ccb",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/bd801c8b-0740-475f-9926-9861a1ef1ccb.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "default",
+    "hook_event_name": "PostToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "git push",
+      "description": "Push changes to remote repository"
+    },
+    "tool_response": {
+      "stdout": "Everything up-to-date",
+      "stderr": "",
+      "interrupted": false,
+      "isImage": false
+    }
+  }
+]

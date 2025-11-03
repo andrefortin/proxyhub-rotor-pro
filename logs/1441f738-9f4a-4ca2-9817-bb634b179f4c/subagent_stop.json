@@ -1,0 +1,18 @@
+[
+  {
+    "session_id": "1441f738-9f4a-4ca2-9817-bb634b179f4c",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/1441f738-9f4a-4ca2-9817-bb634b179f4c.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "default",
+    "hook_event_name": "SubagentStop",
+    "stop_hook_active": false
+  },
+  {
+    "session_id": "1441f738-9f4a-4ca2-9817-bb634b179f4c",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/1441f738-9f4a-4ca2-9817-bb634b179f4c.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "default",
+    "hook_event_name": "SubagentStop",
+    "stop_hook_active": false
+  }
+]

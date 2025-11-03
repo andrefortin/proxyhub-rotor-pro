@@ -1,0 +1,23 @@
+[
+  {
+    "session_id": "1338dbd0-aedc-4105-995b-b505483847c4",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/1338dbd0-aedc-4105-995b-b505483847c4.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "default",
+    "hook_event_name": "PostToolUse",
+    "tool_name": "Read",
+    "tool_input": {
+      "file_path": "/home/andre/batcave/proxyhub-rotor-pro/.claude/settings.json"
+    },
+    "tool_response": {
+      "type": "text",
+      "file": {
+        "filePath": "/home/andre/batcave/proxyhub-rotor-pro/.claude/settings.json",
+        "content": "{\n  \"statusLine\": {\n    \"type\": \"command\",\n    \"command\": \"uv run $CLAUDE_PROJECT_DIR/.claude/status_lines/status_line_v3.py\",\n    \"padding\": 0\n  },\n  \"permissions\": {\n    \"allow\": [\n      \"Bash(mkdir:*)\",\n      \"Bash(uv:*)\",\n      \"Bash(find:*)\",\n      \"Bash(mv:*)\",\n      \"Bash(grep:*)\",\n      \"Bash(npm:*)\",\n      \"Bash(ls:*)\",\n      \"Bash(cp:*)\",\n      \"Write\",\n      \"Bash(./scripts/copy_dot_env.sh:*)\",\n      \"Bash(chmod:*)\",\n      \"Bash(touch:*)\"\n    ],\n    \"deny\": [\n      \"Bash(git push --force:*)\",\n      \"Bash(git push -f:*)\",\n      \"Bash(rm -rf:*)\"\n    ]\n  }, \n  \"hooks\": {\n    \"PreToolUse\": [\n      {\n        \"matcher\": \"\",\n        \"hooks\": [\n          {\n            \"type\": \"command\",\n            \"command\": \"uv run $CLAUDE_PROJECT_DIR/.claude/hooks/pre_tool_use.py\"\n          },\n          {\n            \"type\": \"command\",\n            \"command\": \"uv run $CLAUDE_PROJECT_DIR/.claude/hooks/send_event.py --source-app big-3-super-agent --event-type PreToolUse --summarize\"\n          }\n        ]\n      }\n    ],\n    \"PostToolUse\": [\n      {\n        \"matcher\": \"\",\n        \"hooks\": [\n          {\n            \"type\": \"command\",\n            \"command\": \"uv run $CLAUDE_PROJECT_DIR/.claude/hooks/post_tool_use.py\"\n          },\n          {\n            \"type\": \"command\",\n            \"command\": \"uv run $CLAUDE_PROJECT_DIR/.claude/hooks/send_event.py --source-app big-3-super-agent --event-type PostToolUse --summarize\"\n          }\n        ]\n      }\n    ],\n    \"Notification\": [\n      {\n        \"matcher\": \"\",\n        \"hooks\": [\n          {\n            \"type\": \"command\",\n            \"command\": \"uv run $CLAUDE_PROJECT_DIR/.claude/hooks/notification.py --notify\"\n          },\n          {\n            \"type\": \"command\",\n            \"command\": \"uv run $CLAUDE_PROJECT_DIR/.claude/hooks/send_event.py --source-app big-3-super-agent --event-type Notification --summarize\"\n          }\n        ]\n      }\n    ],\n    \"Stop\": [\n      {\n        \"matcher\": \"\",\n        \"hooks\": [\n          {\n            \"type\": \"command\",\n            \"command\": \"uv run $CLAUDE_PROJECT_DIR/.claude/hooks/stop.py --chat\"\n          },\n          {\n            \"type\": \"command\",\n            \"command\": \"uv run $CLAUDE_PROJECT_DIR/.claude/hooks/send_event.py --source-app big-3-super-agent --event-type Stop --add-chat\"\n          }\n        ]\n      }\n    ],\n    \"SubagentStop\": [\n      {\n        \"matcher\": \"\",\n        \"hooks\": [\n          {\n            \"type\": \"command\",\n            \"command\": \"uv run $CLAUDE_PROJECT_DIR/.claude/hooks/subagent_stop.py\"\n          },\n          {\n            \"type\": \"command\",\n            \"command\": \"uv run $CLAUDE_PROJECT_DIR/.claude/hooks/send_event.py --source-app big-3-super-agent --event-type SubagentStop\"\n          }\n        ]\n      }\n    ],\n    \"PreCompact\": [\n      {\n        \"matcher\": \"\",\n        \"hooks\": [\n          {\n            \"type\": \"command\",\n            \"command\": \"uv run $CLAUDE_PROJECT_DIR/.claude/hooks/send_event.py --source-app big-3-super-agent --event-type PreCompact\"\n          }\n        ]\n      }\n    ],\n    \"UserPromptSubmit\": [\n      {\n        \"hooks\": [\n          {\n            \"type\": \"command\",\n            \"command\": \"uv run $CLAUDE_PROJECT_DIR/.claude/hooks/user_prompt_submit.py --log-only --store-last-prompt --name-agent\"\n          },\n          {\n            \"type\": \"command\",\n            \"command\": \"uv run $CLAUDE_PROJECT_DIR/.claude/hooks/send_event.py --source-app big-3-super-agent --event-type UserPromptSubmit --summarize\"\n          }\n        ]\n      }\n    ]\n  }\n}",
+        "numLines": 130,
+        "startLine": 1,
+        "totalLines": 130
+      }
+    }
+  }
+]

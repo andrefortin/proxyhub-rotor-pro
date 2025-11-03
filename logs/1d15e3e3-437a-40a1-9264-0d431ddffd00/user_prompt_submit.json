@@ -1,0 +1,26 @@
+[
+  {
+    "session_id": "1d15e3e3-437a-40a1-9264-0d431ddffd00",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/1d15e3e3-437a-40a1-9264-0d431ddffd00.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "default",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "/cleanup_worktrees"
+  },
+  {
+    "session_id": "1d15e3e3-437a-40a1-9264-0d431ddffd00",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/1d15e3e3-437a-40a1-9264-0d431ddffd00.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "default",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "<ide_opened_file>The user opened the file /home/andre/batcave/proxyhub-rotor-pro/apps/packages/api/src/modules/providers/providers.service.ts in the IDE. This may or may not be related to the current task.</ide_opened_file>\nfix the error with the prisma schemas not synched with the docker conatiner in dev mode and production mode"
+  },
+  {
+    "session_id": "1d15e3e3-437a-40a1-9264-0d431ddffd00",
+    "transcript_path": "/home/andre/.claude/projects/-home-andre-batcave-proxyhub-rotor-pro/1d15e3e3-437a-40a1-9264-0d431ddffd00.jsonl",
+    "cwd": "/home/andre/batcave/proxyhub-rotor-pro",
+    "permission_mode": "acceptEdits",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "<ide_opened_file>The user opened the file /home/andre/batcave/proxyhub-rotor-pro/apps/packages/api/src/modules/providers/providers.service.ts in the IDE. This may or may not be related to the current task.</ide_opened_file>\nwe need to verify in the docker-compose.dev.yml mode since we are doing development work."
+  }
+]
